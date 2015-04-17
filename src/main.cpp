@@ -66,7 +66,6 @@ int main(int argc, char* argv[]) {
 			cout << wordVec.at(i) << endl;
 		}	
 		cout << endl;
-
 	}
 	return 0;
 }
