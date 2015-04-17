@@ -4,13 +4,26 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-#include <cstring>
-#include <string.h>	
+// #include <cstring>
+// #include <string.h>	
 #include <errno.h>
 #include <pwd.h>
-#include <vector>
+// #include <vector>
+#include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
+// #include <boost/foreach.hpp>
 
 using namespace std;
+using namespace boost;
+
+// function prints the prompt to look like this:
+// [userName]@[hostName] $
+void prompt() {
+	string userName = getlogin();
+	char hostName[64];
+	gethostname(hostName, sizeof(hostName));		
+	cout << userName << "@" << hostName  << " $ ";
+}
 
 // function removes comments in string& userInput
 // comments are denoted by a "#"
@@ -24,27 +37,17 @@ void removeComments(string& s) {
 // function parses string userInput by ";", " ", "&", and "|"
 // this separates the userInput into the individual commands
 // returns these commands as a vector<char*>
-vector<char*> splitEverything(string userInput) {
-	char* charInput = (char*)userInput.c_str();
-	vector <char*> tokenVec;		
-	char* token;
-
-	token = strtok(charInput, "; &|");
-
-	while(token != NULL) {
-		tokenVec.push_back(token);
-		token = strtok(NULL, "; &|");
-	}
-	return tokenVec;
+vector<string> splitSemicolons(string userInput) {
+	vector<string> commandsVec;
+	split(commandsVec, userInput, is_any_of(";"), token_compress_on);
+	return commandsVec;
 }
 
 int main(int argc, char* argv[]) {
 
 	while(1) {
-		
-		string userName = getlogin();
-//		string hostName = gethostname(stuffhere);		
-		cout << userName << "@" << "[hostName]"  << " $ ";
+
+		prompt();
 
 		string userInput;
 		getline(cin, userInput);
@@ -53,12 +56,12 @@ int main(int argc, char* argv[]) {
 			exit(0);
 		}
 
-		cout << "User Input: " << endl << userInput << endl;
+		cout << "User Input: " << endl << userInput << endl << endl;
 		removeComments(userInput);
-		cout << "User Input W/O Comments: " << endl << userInput << endl;
+		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
 
-		vector<char*> wordVec  = splitEverything(userInput);
-		cout << "userInput split by everything: " << endl;
+		vector<string> wordVec  = splitSemicolons(userInput);
+		cout << "userInput split by semicolons: " << endl;
 		for (int i = 0; i < wordVec.size(); i++) {
 			cout << wordVec.at(i) << endl;
 		}	
