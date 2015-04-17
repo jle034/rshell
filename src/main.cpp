@@ -1,13 +1,13 @@
 #include <iostream>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <stdlib.h>
+// #include <stdio.h>
+// #include <unistd.h>
+// #include <sys/types.h>
+// #include <sys/wait.h>
+// #include <stdlib.h>
 // #include <cstring>
 // #include <string.h>	
-#include <errno.h>
-#include <pwd.h>
+// #include <errno.h>
+// #include <pwd.h>
 // #include <vector>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
@@ -25,7 +25,7 @@ void prompt() {
 	cout << userName << "@" << hostName  << " $ ";
 }
 
-// function removes comments in string& userInput
+// function removes comments in string& s
 // comments are denoted by a "#"
 void removeComments(string& s) {
 	size_t start = s.find("#");
@@ -34,41 +34,132 @@ void removeComments(string& s) {
 	}
 }
 
-// function parses string userInput by ";", " ", "&", and "|"
-// this separates the userInput into the individual commands
-// returns these commands as a vector<char*>
+// function parses string userInput by ";"
+// returns these commands in a vector<string>
 vector<string> splitSemicolons(string userInput) {
-	vector<string> commandsVec;
-	split(commandsVec, userInput, is_any_of(";"), token_compress_on);
-	return commandsVec;
+	vector<string> tokenVec;
+	split(tokenVec, userInput, is_any_of(";"), token_compress_on);
+	return tokenVec;
 }
+
+// function parses string userInput by "&&"
+// returns these commands in a vector<string>
+vector<string> splitAnds(string userInput) {
+	vector<string> tokenVec;
+	split(tokenVec, userInput, is_any_of("&&"), token_compress_on);
+	return tokenVec;
+}
+
+// function parses string userInput by "||"
+// return these commands in a vector<string>
+vector<string> splitOrs(string userInput) {
+	vector<string> tokenVec;
+	split(tokenVec, userInput, is_any_of("||"), token_compress_on);
+	return tokenVec;
+}
+
+void removeSpaces(string& blurb) {
+	string temp = blurb;
+
+	// remove spaces from beginning
+	int i = 0;
+	int begin = 0;
+	if(temp.at(0) != ' ') {
+		begin = 0;
+	}	
+	else {
+		while(temp.at(i) == ' ') {
+			i++;	
+		}
+		begin = i;
+	}
+
+	// remove spaces from end
+	int end = 0;
+	i = temp.size() - 1;
+	if(temp.at(temp.size()-1) != ' ') {
+		end = temp.size()-1;
+	}
+	else {
+		while(temp.at(i) == ' ') {
+			i--;
+		}
+		end = i;
+	}
+
+	// cut substring from begin to end
+	temp = temp.substr(begin, end - begin + 1);
+
+	/*********************************************************
+  		REMOVE WHITESPACE FROM INSIDE STRING HERE!!!
+  	*********************************************************/		
+
+	blurb = temp;
+}
+
 
 int main(int argc, char* argv[]) {
 
 	while(1) {
 
+		// outputs the prompt
 		prompt();
 
+		// gets input and stores in userInput
 		string userInput;
 		getline(cin, userInput);
 
+		// exits program if user inputs "exit"
 		if (userInput == "exit") {
 			exit(0);
 		}
-
+		
+/*
+		cout << "User Input: " << '|' << userInput << '|' << endl << endl;
+		removeSpaces(userInput);
+		cout << "User Input: " << '|' << userInput << '|' <<  endl << endl;
+*/
+	
+		// remove comments found after "#"
 		cout << "User Input: " << endl << userInput << endl << endl;
 		removeComments(userInput);
 		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
 
-		vector<string> wordVec  = splitSemicolons(userInput);
-		cout << "userInput split by semicolons: " << endl;
-		for (int i = 0; i < wordVec.size(); i++) {
-			cout << wordVec.at(i) << endl;
+		// parse userInput by semicolons
+		// store in wordVec
+		vector<string> semicolonVec  = splitSemicolons(userInput);
+
+		for (int i = 0; i < semicolonVec.size(); i++) {
+				
+			cout << semicolonVec.at(i) << endl;
 		}	
 		cout << endl;
 	}
+
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 
