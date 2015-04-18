@@ -236,7 +236,52 @@ vector<char> getConnectors(char* blurb) {
 	return v;	
 }
 
-/*
+// function takes in a command (already parsed by spaces)
+// and executes the command using execvp
+// returns true if command executes
+// returns false if command is invalid or does not execute
+bool executeCommand(vector<char*> command) {
+
+	int pid = fork();
+
+	// if fork produces an error
+	if(pid == -1) {
+		perror("fork");
+		exit(1);
+	}
+	
+	// if child
+	else if(pid == 0) {
+		char* argv[sizeof(command) + 1];
+		unsigned i = 0;
+
+		for(i = 0; i < command.size(); i++) {
+			argv[i] = new char[command.size() + 1];
+			strcpy(argv[i], command[i]);
+		}
+		argv[i] = 0;
+		execvp(argv[0], argv);
+		exit(1);
+	}
+
+	// if parent
+	else {
+		wait(NULL);
+		/*
+		int status;
+
+		if(waitpid(pid, &status, 0) == -1) {
+			perror("waitpid");
+			exit(1);
+		}
+		if(status == 0) {
+			return true;
+		}
+		*/
+	}
+	return false;
+}
+
 bool executeBlurb(vector<char*> commands, vector<char> connectors) {
 	
 	int i = 0;
@@ -247,54 +292,18 @@ bool executeBlurb(vector<char*> commands, vector<char> connectors) {
 
 	if(commands.size() == 1) {
 		vector<char*> parsedCommand = splitSpace(commands.at(0));
-//		executeCommand(parsedCommand);
+		cout << "Parsed Command: ";
+		for(int i = 0; i < parsedCommand.size(); i++) {
+			cout << parsedCommand.at(i) << " "; 
+		}
+		cout << endl;
+		executeCommand(parsedCommand);
 	}	
 
 	for(int i = 0; i < commands.size(); i++) {
 		vector<char*> command = splitSpace(commands.at(i));
 			
 	}
-}
-*/
-
-bool executeCommand(vector<char*> command) {
-
-	int pid = fork();
-
-	// if fork produces an error
-	if(pid == -1) {
-		perror("fork");
-	}
-	
-	// if child
-	else if(pid == 0) {
-		for(int i = 0; i < command.size(); i++) {
-			if(execvp(command[i]) == -1) {
-				perror("execvp");
-			}
-		}
-	}
-
-	// if parent
-	else {
-		int status;
-
-		if(waitpid(pid, &status, 0) == -1) {
-			perror("waitpid");
-			exit(1);
-		}
-		if(status == 0) {
-			return true;
-		}
-	}
-	return false;
-
-
-
-
-
-
-
 }
 
 int main(int argc, char* argv[]) {
@@ -351,7 +360,10 @@ int main(int argc, char* argv[]) {
 				}
 			}
 			cout << endl << endl;
+			cout << "EXECUTING HERE!" << endl;
+			executeBlurb(commandVec, connectorVec);
 		}
+		
 /*	
 		for (int i = 0; i < scVec.size(); i++) {
 			removeSpaces(scVec.at(i));
