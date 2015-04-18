@@ -1,12 +1,12 @@
 #include <iostream>
-// #include <stdio.h>
+#include <stdio.h>
 // #include <unistd.h>
 // #include <sys/types.h>
-// #include <sys/wait.h>
+#include <sys/wait.h>
 // #include <stdlib.h>
 // #include <cstring>
 // #include <string.h>	
-// #include <errno.h>
+//  #include <errno.h>
 // #include <pwd.h>
 // #include <vector>
 #include <boost/tokenizer.hpp>
@@ -36,6 +36,7 @@ void removeComments(string& s) {
 	}
 }
 
+/*
 // function parses string userInput by ";"
 // returns these commands in a vector<string>
 vector<string> splitSemicolons(string userInput) {
@@ -43,7 +44,9 @@ vector<string> splitSemicolons(string userInput) {
 	split(tokenVec, userInput, is_any_of(";"), token_compress_on);
 	return tokenVec;
 }
+*/
 
+/*
 // function parses string userInput by "&&"
 // returns these commands in a vector<string>
 vector<string> splitAnds(string userInput) {
@@ -67,6 +70,7 @@ vector<string> splitAnds(string userInput) {
 	split(tokenVec, temp, is_any_of("*"), token_compress_on);
 	return tokenVec;
 }
+*/
 
 /*
 // function parses string userInput by "||"
@@ -101,6 +105,21 @@ vector<string> splitOrsAnds(string userInput) {
 }
 */
 
+vector<char*> splitSemicolon(string userInput) {
+	string s  = userInput;
+	char* charInput = (char*)s.c_str();
+	vector<char*> wordVec;
+
+	char* currToken;
+	currToken = strtok(charInput, ";");
+
+	while(currToken != NULL) {
+		wordVec.push_back(currToken);
+		currToken = strtok(NULL, ";");
+	}
+	return wordVec;
+}
+
 // function parses string userInput by " "
 // returns these as a vector<char*>
 vector<char*> splitSpace(string userInput) {
@@ -119,10 +138,12 @@ vector<char*> splitSpace(string userInput) {
 }
 
 // function uses strtok() to parse string blurb
-vector<char*> olderParseBlurb(string blurb) {
+vector<char*> getCommands(char* charBlurb) {
+	char* temp = charBlurb;	
+	string blurb(temp);
 
-	string repAnd = "* ";
-	string repOr = "! ";	
+	string repAnd = " * ";
+	string repOr = " ! ";	
 	vector<char*> semicolonVec;
 	string trueString = "true";
 	char* trueChar = (char*)trueString.c_str();
@@ -138,30 +159,34 @@ vector<char*> olderParseBlurb(string blurb) {
 	for(int i = 0; i < blurb.size() - 1; i++) {
 		if(blurb.at(i) == '|') {
 			if(blurb.at(i + 1) == '|') {
-				blurb.replace(i, 2, repAnd);
+				blurb.replace(i, 2, repOr);
 			}
 		}
 		else if(blurb.at(i) == '&') {
 			if(blurb.at(i + 1) == '&') {
-				blurb.replace(i, 2, repOr);
+				blurb.replace(i, 2, repAnd);
 			}
 		}
 	}
 
-	string semicolonString = blurb;
-	char* semicolonInput = (char*)semicolonString.c_str();
+//	string temp = blurb;
+//	char* charBlurb = (char*)temp.c_str();
 
-	char* semicolonToken;
-	semicolonToken = strtok(semicolonInput, "!*");
+	char* charTemp = new char[blurb.length() + 1];   //blurb.c_str();
+	strcpy(charTemp, blurb.c_str());
+//	delete [] blurb;
 
-	while(semicolonToken != NULL) {
-		string str = string(semicolonToken);
-		semicolonVec.push_back(semicolonToken);
+	char* token;
+	token = strtok(charTemp, "!*");
+
+	while(token != NULL) {
+		string str = string(token);
+		semicolonVec.push_back(token);
 		if(str.size() == 0) {
 			cout << "EMPTY" << endl;
 			semicolonVec.push_back(trueChar);
 		}
-		semicolonToken = strtok(NULL, "!*");
+		token = strtok(NULL, "!*");
 	}
 	return semicolonVec;
 }
@@ -194,21 +219,83 @@ void removeSpaces(string& blurb) {
 
 // function parses string blurb
 // returns vector of ANDs and ORs in order of appearance
-vector<string> parseBlurb(string blurb) {
-	vector<string> v;
-	for(int i = 0; i < blurb.size() - 1; i++) {
-		if((blurb.at(i) == '&') && (blurb.at(i + 1) == '&')) {
+vector<char> getConnectors(char* blurb) {
+	char* temp = blurb;
+	string str(temp);
+	vector<char> v;
+	for(int i = 0; i < str.size() - 1; i++) {
+		if((str.at(i) == '&') && (str.at(i + 1) == '&')) {
 			i++;
-			v.push_back("&");
+			v.push_back('&');
 		}
-		else if((blurb.at(i) == '|') && (blurb.at(i + 1) == '|')) {
+		else if((str.at(i) == '|') && (str.at(i + 1) == '|')) {
 			i++;
-			v.push_back("|");
+			v.push_back('|');
 		}
 	}
 	return v;	
 }
 
+/*
+bool executeBlurb(vector<char*> commands, vector<char> connectors) {
+	
+	int i = 0;
+	
+	if(commands.size() == 0) {
+		return true;
+	}
+
+	if(commands.size() == 1) {
+		vector<char*> parsedCommand = splitSpace(commands.at(0));
+//		executeCommand(parsedCommand);
+	}	
+
+	for(int i = 0; i < commands.size(); i++) {
+		vector<char*> command = splitSpace(commands.at(i));
+			
+	}
+}
+*/
+
+bool executeCommand(vector<char*> command) {
+
+	int pid = fork();
+
+	// if fork produces an error
+	if(pid == -1) {
+		perror("fork");
+	}
+	
+	// if child
+	else if(pid == 0) {
+		for(int i = 0; i < command.size(); i++) {
+			if(execvp(command[i]) == -1) {
+				perror("execvp");
+			}
+		}
+	}
+
+	// if parent
+	else {
+		int status;
+
+		if(waitpid(pid, &status, 0) == -1) {
+			perror("waitpid");
+			exit(1);
+		}
+		if(status == 0) {
+			return true;
+		}
+	}
+	return false;
+
+
+
+
+
+
+
+}
 
 int main(int argc, char* argv[]) {
 
@@ -234,7 +321,7 @@ int main(int argc, char* argv[]) {
 		// parse userInput by semicolons
 		// store in wordVec
 		cout << "User Input split by semicolons: " << endl;
-		vector<string> scVec  = splitSemicolons(userInput);
+		vector<char*> scVec  = splitSemicolon(userInput);
 		cout << "scVec.size() = " << scVec.size() << endl;
 		if(scVec.size() != 0) {
 			for(int i = 0; i < scVec.size(); i++) {
@@ -246,13 +333,24 @@ int main(int argc, char* argv[]) {
 		// testing olderParseBlurb Function
 		cout << "Testing olderParseBlurb Function: " << endl;
 		for(int j = 0; j < scVec.size(); j++) {
-			cout << "Blurb " << j << ": ";
-			vector<char*> blurbVec = olderParseBlurb(scVec.at(j));
-			cout << "blurbVec.size() = " <<  blurbVec.size() << endl;	
-			for(int i = 0; i < blurbVec.size(); i++) {
-				cout << "<" << blurbVec.at(i) << "> ";
+			cout << "Blurb " << j << ": " << endl;
+			vector<char*> commandVec = getCommands(scVec.at(j));
+			vector<char> connectorVec = getConnectors(scVec[j]);
+			cout << "commandVec.size() = " << commandVec.size() << endl;
+			cout << "COMMANDS: ";
+			if(commandVec.size() != 0) {	
+				for(int i = 0; i < commandVec.size(); i++) {
+					cout << "<" << commandVec.at(i) << "> ";
+				}
 			}
-			cout << endl;	
+			cout << endl;
+			cout << "CONNECTORS: ";
+			if(connectorVec.size() != 0) {
+				for(int i = 0; i < connectorVec.size(); i++) {
+					cout << connectorVec.at(i) << " ";
+				}
+			}
+			cout << endl << endl;
 		}
 /*	
 		for (int i = 0; i < scVec.size(); i++) {
