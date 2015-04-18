@@ -18,6 +18,7 @@ using namespace boost;
 
 // function prints the prompt to look like this:
 // [userName]@[hostName] $
+// returns nothing
 void prompt() {
 	string userName = getlogin();
 	char hostName[64];
@@ -27,8 +28,9 @@ void prompt() {
 
 // function removes comments in string& s
 // comments are denoted by a "#"
+// returns nothing
 void removeComments(string& s) {
-	size_t start = s.find("#");
+	size_t start = s.find_first_of("#");
 	if (start != string::npos) {
 		s.erase(start);
 	}
@@ -45,56 +47,166 @@ vector<string> splitSemicolons(string userInput) {
 // function parses string userInput by "&&"
 // returns these commands in a vector<string>
 vector<string> splitAnds(string userInput) {
+
+	string temp = userInput;
+	string rep = "*";
 	vector<string> tokenVec;
-	split(tokenVec, userInput, is_any_of("&&"), token_compress_on);
+
+	// if userInput is empty,
+	// return an empty vector
+	if(userInput.size() == 0) {
+		return tokenVec;
+	}
+	for(int i = 0; i < temp.size() - 1; i++) {
+		if(temp.at(i) == '&') {
+			if(temp.at(i+1) == '&') {
+				temp.replace(i, 2, rep);
+			}
+		}
+	}
+	split(tokenVec, temp, is_any_of("*"), token_compress_on);
 	return tokenVec;
 }
 
+/*
 // function parses string userInput by "||"
 // return these commands in a vector<string>
-vector<string> splitOrs(string userInput) {
+vector<string> splitOrsAnds(string userInput) {
+	
+	string temp = userInput;
+	string repOr = "!";
+	string repAnd = "*";
 	vector<string> tokenVec;
-	split(tokenVec, userInput, is_any_of("||"), token_compress_on);
+	
+	// if userInput is empty,
+	// return an empty vector
+	if(userInput.size() == 0) {
+		return tokenVec;
+	}
+
+	for(int i = 0; i < temp.size() - 1; i++) {
+		if(temp.at(i) == '|') {
+			if(temp.at(i + 1) == '|') {
+				temp.replace(i, 2, repAnd);
+			}
+		}
+		else if(temp.at(i) == '&') {
+			if(temp.at(i + 1) == '&') {
+				temp.replace(i, 2, repOr);
+			}
+		}
+	}
+	split(tokenVec, temp, is_any_of("*!"), token_compress_on);
 	return tokenVec;
 }
+*/
 
+// function parses string userInput by " "
+// returns these as a vector<char*>
+vector<char*> splitSpace(string userInput) {
+	string s  = userInput;
+	char* charInput = (char*)s.c_str();
+	vector<char*> wordVec;
+
+	char* currToken;
+	currToken = strtok(charInput, " ");
+
+	while(currToken != NULL) {
+		wordVec.push_back(currToken);
+		currToken = strtok(NULL, " ");
+	}
+	return wordVec;
+}
+
+// function uses strtok() to parse string blurb
+vector<char*> olderParseBlurb(string blurb) {
+
+	string repAnd = "* ";
+	string repOr = "! ";	
+	vector<char*> semicolonVec;
+	string trueString = "true";
+	char* trueChar = (char*)trueString.c_str();
+
+	// if blurb is empty
+	// returns empty vector
+	if(blurb.size() == 0) {
+		return semicolonVec;
+	}
+
+	// changes all instances of "||" into "!"
+	// changes al instances of "&&" into "*"
+	for(int i = 0; i < blurb.size() - 1; i++) {
+		if(blurb.at(i) == '|') {
+			if(blurb.at(i + 1) == '|') {
+				blurb.replace(i, 2, repAnd);
+			}
+		}
+		else if(blurb.at(i) == '&') {
+			if(blurb.at(i + 1) == '&') {
+				blurb.replace(i, 2, repOr);
+			}
+		}
+	}
+
+	string semicolonString = blurb;
+	char* semicolonInput = (char*)semicolonString.c_str();
+
+	char* semicolonToken;
+	semicolonToken = strtok(semicolonInput, "!*");
+
+	while(semicolonToken != NULL) {
+		string str = string(semicolonToken);
+		semicolonVec.push_back(semicolonToken);
+		if(str.size() == 0) {
+			cout << "EMPTY" << endl;
+			semicolonVec.push_back(trueChar);
+		}
+		semicolonToken = strtok(NULL, "!*");
+	}
+	return semicolonVec;
+}
+
+/*
+// function removes white space from beginning and end of string& blurb
+// returns nothing
 void removeSpaces(string& blurb) {
+	
 	string temp = blurb;
 
-	// remove spaces from beginning
-	int i = 0;
-	int begin = 0;
-	if(temp.at(0) != ' ') {
-		begin = 0;
-	}	
-	else {
-		while(temp.at(i) == ' ') {
-			i++;	
-		}
-		begin = i;
-	}
+	size_t begin = temp.find_first_not_of(" \t");
+	size_t end = temp.find_last_not_of(" \t");
 
-	// remove spaces from end
-	int end = 0;
-	i = temp.size() - 1;
-	if(temp.at(temp.size()-1) != ' ') {
-		end = temp.size()-1;
+	if((begin == string::npos) || (end == string::npos)) {
+		temp.clear();
 	}
 	else {
-		while(temp.at(i) == ' ') {
-			i--;
-		}
-		end = i;
+		// cut substring from begin to end
+		temp = temp.substr(begin, end - begin + 1);
 	}
 
-	// cut substring from begin to end
-	temp = temp.substr(begin, end - begin + 1);
-
-	/*********************************************************
-  		REMOVE WHITESPACE FROM INSIDE STRING HERE!!!
-  	*********************************************************/		
+/////// *********************************************************
+  		REMOVE WHITESPACE FROM INSIDE STRING!!!
+////// 	*********************************************************
 
 	blurb = temp;
+}
+*/
+
+// function parses string blurb
+// returns vector of ANDs and ORs in order of appearance
+vector<string> parseBlurb(string blurb) {
+	vector<string> v;
+	for(int i = 0; i < blurb.size() - 1; i++) {
+		if((blurb.at(i) == '&') && (blurb.at(i + 1) == '&')) {
+			i++;
+			v.push_back("&");
+		}
+		else if((blurb.at(i) == '|') && (blurb.at(i + 1) == '|')) {
+			i++;
+			v.push_back("|");
+		}
+	}
+	return v;	
 }
 
 
@@ -110,30 +222,59 @@ int main(int argc, char* argv[]) {
 		getline(cin, userInput);
 
 		// exits program if user inputs "exit"
-		if (userInput == "exit") {
+		if(userInput == "exit") {
 			exit(0);
 		}
 		
-/*
-		cout << "User Input: " << '|' << userInput << '|' << endl << endl;
-		removeSpaces(userInput);
-		cout << "User Input: " << '|' << userInput << '|' <<  endl << endl;
-*/
-	
-		// remove comments found after "#"
+		// remove comments from userInput (found after "#")
 		cout << "User Input: " << endl << userInput << endl << endl;
 		removeComments(userInput);
 		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
-
+	
 		// parse userInput by semicolons
 		// store in wordVec
-		vector<string> semicolonVec  = splitSemicolons(userInput);
+		cout << "User Input split by semicolons: " << endl;
+		vector<string> scVec  = splitSemicolons(userInput);
+		cout << "scVec.size() = " << scVec.size() << endl;
+		if(scVec.size() != 0) {
+			for(int i = 0; i < scVec.size(); i++) {
+				cout << scVec.at(i) << endl;
+			}
+			cout << endl;
+		}	
 
-		for (int i = 0; i < semicolonVec.size(); i++) {
-				
-			cout << semicolonVec.at(i) << endl;
+		// testing olderParseBlurb Function
+		cout << "Testing olderParseBlurb Function: " << endl;
+		for(int j = 0; j < scVec.size(); j++) {
+			cout << "Blurb " << j << ": ";
+			vector<char*> blurbVec = olderParseBlurb(scVec.at(j));
+			cout << "blurbVec.size() = " <<  blurbVec.size() << endl;	
+			for(int i = 0; i < blurbVec.size(); i++) {
+				cout << "<" << blurbVec.at(i) << "> ";
+			}
+			cout << endl;	
+		}
+/*	
+		for (int i = 0; i < scVec.size(); i++) {
+			removeSpaces(scVec.at(i));
+			cout << scVec.at(i) << endl;
 		}	
 		cout << endl;
+
+		cout << "User Input split by ORs and ANDs: " << endl;
+		vector<string> orVec = splitOrsAnds(userInput);
+		for(int i = 0; i < orVec.size(); i++) {
+			cout << orVec.at(i) << endl;
+		} 
+		cout << endl;
+
+		cout << "Vector of ANDs and ORs: " << endl;
+		vector<string> temp = parseBlurb(userInput);
+		for(int i = 0; i < temp.size(); i++) {
+			cout << temp.at(i) << endl;
+		}
+		cout << endl;
+*/
 	}
 
 	return 0;
