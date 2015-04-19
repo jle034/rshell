@@ -1,4 +1,4 @@
-# rshell
+### rshell
 Rshell imitates the functionality of a terminal. Rshell performs the following steps:
 
 1. Print the command prompt
@@ -12,7 +12,7 @@ Connectors include `&&`, `||`, and `;`.
 	- If a command is empty, it returns false. Rshell does not output an error. 
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
-## How To Run rshell
+### How To Run rshell
 ```
 $ git clone https://github.com/jle034/rshell.git
 $ cd rshell
@@ -22,5 +22,5 @@ $ bin/rshell
 ```
 
 ### Bugs/Limitations
-- Commands with more than 2 but less than 7 flags will not execute.
-- Echo with quotes will include quotes in output.
+1. Commands with more than 2 but less than 7 flags will not execute.
+2. Echo with quotes will include quotes in output.
