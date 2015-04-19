@@ -1,131 +1,124 @@
-Script started on Sat 18 Apr 2015 09:47:21 PM PDT
+Script started on Sun 19 Apr 2015 11:25:11 AM PDT
 ~
-jle034@hammer $ cd Desktop
-~/Desktop
-jle034@hammer $ ls
-assn4 notes
-~/Desktop
-jle034@hammer $ ls .
-assn4 notes
-~/Desktop
-jle034@hammer $ ls -a
-[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
-[m~/Desktop
-jle034@hammer $ ls -a -r -d -f -g -h -i -m -o q-[K[K-q -s
-11365691 4.0K drwx------ 2 4.0K Apr 18 21:20 ./
-~/Desktop
-jle034@hammer $ ls -a -a -a -a -a -a -a -a -a -a -a
-[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
-[m~/Desktop
-jle034@hammer $ ls -aaaaaaaaaaa
-[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
-[m~/Desktop
-jle034@hammer $ lsa
-bash: lsa: command not found
-~/Desktop
-jle034@hammer $       ls
-assn4 notes
-~/Desktop
-jle034@hammer $      ls    
-assn4 notes
-~/Desktop
-jle034@hammer $ ls      -a
-[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
-[m~/Desktop
-jle034@hammer $ ls    -a      -r
-assn4 notes  [0m[01;34m..[0m/  [01;34m.[0m/
-[m~/Desktop
-jle034@hammer $        ls -[K   -a    -r
-assn4 notes  [0m[01;34m..[0m/  [01;34m.[0m/
-[m~/Desktop
-jle034@hammer $ ;
-bash: syntax error near unexpected token `;'
-~/Desktop
-jle034@hammer $ ;;;;
-bash: syntax error near unexpected token `;;'
-~/Desktop
-jle034@hammer $ ;;&&;;;||
-bash: syntax error near unexpected token `;;&'
-~/Desktop
-jle034@hammer $ &
-bash: syntax error near unexpected token `&'
-~/Desktop
-jle034@hammer $ ls; ls;ls ; ls;ls;ls;ls;ls;ls;ls;ls
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-assn4 notes
-~/Desktop
-jle034@hammer $ ls;;;;;;;;;;;;;
-bash: syntax error near unexpected token `;;'
-~/Desktop
-jle034@hammer $ ls  *[K[K& ls
-[1] 19772
-assn4 notes
-assn4 notes
-[1]+  Done                    ls -F --color=tty -T 0
-~/Desktop
-jle034@hammer $ ls && s[Kls
-assn4 notes
-assn4 notes
-~/Desktop
-jle034@hammer $ ls&&ls
-assn4 notes
-assn4 notes
-~/Desktop
-jle034@hammer $ true && ls
-assn4 notes
-~/Desktop
-jle034@hammer $ false && ls
-~/Desktop
-jle034@hammer $ true[K[K[K[Krue[K[K[Ktrue || ls
-~/Desktop
-jle034@hammer $ false || ls
-assn4 notes
-~/Desktop
-jle034@hammer $ true&&true&&true&&true&&false||false||false||false||false||false ||ls
-assn4 notes
-~/Desktop
-jle034@hammer $ true
-~/Desktop
-jle034@hammer $ true &&
-loop $ ^C
-~/Desktop
-jle034@hammer $ && true
-bash: syntax error near unexpected token `&&'
-~/Desktop
-jle034@hammer $ ls # comment
-assn4 notes
-~/Desktop
-jle034@hammer $ ls#comment
-bash: ls#comment: command not found
-~/Desktop
-jle034@hammer $ ls#     comment
-bash: ls#: command not found
-~/Desktop
-jle034@hammer $ #   comment
-~/Desktop
-jle034@hammer $ ls # comment; ls
-assn4 notes
-~/Desktop
-jle034@hammer $ bin[K[K[K.. [K/rshell/bin/rshell
+jle034@hammer $ cd rshell
+~/rshell
+jle034@hammer $ bin/rshell
+jle034@hammer.cs.ucr.edu $ # one command
+jle034@hammer.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # a command in the current directory
+jle034@hammer.cs.ucr.edu $ ls .
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # a command with one parameter
+jle034@hammer.cs.ucr.edu $ ls -a
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+jle034@hammer.cs.ucr.edu $ # a command with more than 10 parameters
+jle034@hammer.cs.ucr.edu $ ls -a -r -d -f -g -h -i -m -o -q -s
+8813491 4.0K drwx------ 6 4.0K Apr 18 22:27 .
+jle034@hammer.cs.ucr.edu $ #j  a command with more than 10 of the same parameter
+jle034@hammer.cs.ucr.edu $ ls -a -a -a -a -a -a -a -a -a -a -a
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+jle034@hammer.cs.ucr.edu $ # a command with the same parameter more than 10 times
+jle034@hammer.cs.ucr.edu $ ls -aaaaaaaaaaaa
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+jle034@hammer.cs.ucr.edu $ # an incorrect command               valid command
+jle034@hammer.cs.ucr.edu $ lsa
+execvp: No such file or directory
+jle034@hammer.cs.ucr.edu $ # whitespae ce before a command
+jle034@hammer.cs.ucr.edu $       ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # whitespace before and after a command
+jle034@hammer.cs.ucr.edu $       ls        
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # whitespace between a command and a parameter
+jle034@hammer.cs.ucr.edu $ ls     -a
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+jle034@hammer.cs.ucr.edu $ # whitespace between a command and multiple parameters
+jle034@hammer.cs.ucr.edu $ ls      -a      -r      -d
+.
+jle034@hammer.cs.ucr.edu $ # one connector alone      
+jle034@hammer.cs.ucr.edu $ ;
+jle034@hammer.cs.ucr.edu $ # multiple connectors of the same kind
+jle034@hammer.cs.ucr.edu $ ;;;;;;;;;;;;
+jle034@hammer.cs.ucr.edu $ # multiple different connectors
+jle034@hammer.cs.ucr.edu $ ;;;&&;;;||&&;;&&
+jle034@hammer.cs.ucr.edu $ more than 1           # more than 10 commands separated by ; and whitespace
+jle034@hammer.cs.ucr.edu $ ls;ls;ls;ls; ls; ls; ls ; ls ; ls ; ls ;ls   ls
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # one command with many connectors
+jle034@hammer.cs.ucr.edu $ ls;;;;;;;;;;;;
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # invalid connector
+jle034@hammer.cs.ucr.edu $ ls & ls
+ls: cannot access &: No such file or directory
+ls: cannot access ls: No such file or directory
+jle034@hammer.cs.ucr.edu $ # && connector with whitespace                              && c    # && connector with whitespace
+jle034@hammer.cs.ucr.edu $ ls && ls
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # && connector without shi   whitespae ce
+jle034@hammer.cs.ucr.edu $ ls&&ls
+bin  LICENSE  Makefile	README.md  src	tests
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # && logic
+jle034@hammer.cs.ucr.edu $ true && ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ false && ls
+jle034@hammer.cs.ucr.edu $ # || logic
+jle034@hammer.cs.ucr.edu $ true || ls
+jle034@hammer.cs.ucr.edu $ false || ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # more than 10 commands separated by different connectors (testing logic)
+jle034@hammer.cs.ucr.edu $ true&&true&&true&&true&&true&&true&&false||false||false||false||ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # empty command afer    ter a connector
+jle034@hammer.cs.ucr.edu $ true && 
+jle034@hammer.cs.ucr.edu $ # empty command before a connector
+jle034@hammer.cs.ucr.edu $  && ls
+jle034@hammer.cs.ucr.edu $ # comments with whitespace                          comments after a command with sh  whitespace
+jle034@hammer.cs.ucr.edu $ ls   #   comment
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # comments after  a  a command without whitespace
+jle034@hammer.cs.ucr.edu $ ls#comment
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # comments of commands and connectors
+jle034@hammer.cs.ucr.edu $ ls # comment; ls && ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # exit functionality alone
 jle034@hammer.cs.ucr.edu $ exit
-~/Desktop
-jle034@hammer $ ../rshell/bin/rshell
-jle034@hammer.cs.ucr.edu $ ls; exit
-assn4 notes
-~/Desktop
-jle034@hammer $ echo exit
+~/rshell
+jle034@hammer $ ls[K[Kcd rshell
+bash: cd: rshell: No such file or directory
+~/rshell
+jle034@hammer $ ls
+[0m[01;34mbin[0m/  LICENSE  Makefile  README.md  [01;34msrc[0m/  [01;34mtests[0m/
+[m~/rshell
+jle034@hammer $ bin/rshell
+jle034@hammer.cs.ucr.edu $ # exit functionality in a line of commands
+jle034@hammer.cs.ucr.edu $ ls; false || ls -a && exit
+bin  LICENSE  Makefile	README.md  src	tests
+.  ..  bin  .git  LICENSE  Makefile  README.md	src  tests
+~/rshell
+jle034@hammer $ bin/rshell
+jle034@hammer.cs.ucr.edu $ # exit as a comment ls # exit
+jle034@hammer.cs.ucr.edu $ ls # exit
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # exit as a parameter to something else
+jle034@hammer.cs.ucr.edu $ exho es      cho exit
 exit
-~/Desktop
-jle034@hammer $ exit 0
+jle034@hammer.cs.ucr.edu $ exit
+~/rshell
+jle034@hammer $ exit
 exit
 
-Script done on Sat 18 Apr 2015 09:53:34 PM PDT
+Script done on Sun 19 Apr 2015 11:35:14 AM PDT
