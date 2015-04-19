@@ -156,7 +156,7 @@ vector<char*> getCommands(char* charBlurb) {
 
 	// changes all instances of "||" into "!"
 	// changes al instances of "&&" into "*"
-	for(int i = 0; i < blurb.size() - 1; i++) {
+	for(unsigned i = 0; i < blurb.size() - 1; i++) {
 		if(blurb.at(i) == '|') {
 			if(blurb.at(i + 1) == '|') {
 				blurb.replace(i, 2, repOr);
@@ -223,7 +223,7 @@ vector<char> getConnectors(char* blurb) {
 	char* temp = blurb;
 	string str(temp);
 	vector<char> v;
-	for(int i = 0; i < str.size() - 1; i++) {
+	for(unsigned i = 0; i < str.size() - 1; i++) {
 		if((str.at(i) == '&') && (str.at(i + 1) == '&')) {
 			i++;
 			v.push_back('&');
@@ -313,7 +313,6 @@ bool executeCommand(vector<char*> command) {
 
 void executeBlurb(vector<char*> commands, vector<char> connectors) {
 	
-	int i = 0;
 
 /*
 	if(commands.size() == 0) {
@@ -347,7 +346,7 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 //		cout << "HERE2" << endl;
 		previous = executeCommand(parsedCommand);		
 
-		for(int i = 1; i < commands.size(); i++) {
+		for(unsigned i = 1; i < commands.size(); i++) {
 			if(connectors.at(count) == '&') {
 				if(previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
@@ -403,7 +402,7 @@ int main(int argc, char* argv[]) {
 
 		// testing olderParseBlurb Function
 //		cout << "Testing olderParseBlurb Function: " << endl;
-		for(int j = 0; j < scVec.size(); j++) {
+		for(unsigned j = 0; j < scVec.size(); j++) {
 //			cout << "Blurb " << j << ": " << endl;
 			vector<char*> commandVec = getCommands(scVec.at(j));
 			vector<char> connectorVec = getConnectors(scVec[j]);

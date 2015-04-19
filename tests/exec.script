@@ -1,0 +1,131 @@
+Script started on Sat 18 Apr 2015 09:47:21 PM PDT
+~
+jle034@hammer $ cd Desktop
+~/Desktop
+jle034@hammer $ ls
+assn4 notes
+~/Desktop
+jle034@hammer $ ls .
+assn4 notes
+~/Desktop
+jle034@hammer $ ls -a
+[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
+[m~/Desktop
+jle034@hammer $ ls -a -r -d -f -g -h -i -m -o q-[K[K-q -s
+11365691 4.0K drwx------ 2 4.0K Apr 18 21:20 ./
+~/Desktop
+jle034@hammer $ ls -a -a -a -a -a -a -a -a -a -a -a
+[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
+[m~/Desktop
+jle034@hammer $ ls -aaaaaaaaaaa
+[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
+[m~/Desktop
+jle034@hammer $ lsa
+bash: lsa: command not found
+~/Desktop
+jle034@hammer $       ls
+assn4 notes
+~/Desktop
+jle034@hammer $      ls    
+assn4 notes
+~/Desktop
+jle034@hammer $ ls      -a
+[0m[01;34m.[0m/  [01;34m..[0m/  assn4 notes
+[m~/Desktop
+jle034@hammer $ ls    -a      -r
+assn4 notes  [0m[01;34m..[0m/  [01;34m.[0m/
+[m~/Desktop
+jle034@hammer $        ls -[K   -a    -r
+assn4 notes  [0m[01;34m..[0m/  [01;34m.[0m/
+[m~/Desktop
+jle034@hammer $ ;
+bash: syntax error near unexpected token `;'
+~/Desktop
+jle034@hammer $ ;;;;
+bash: syntax error near unexpected token `;;'
+~/Desktop
+jle034@hammer $ ;;&&;;;||
+bash: syntax error near unexpected token `;;&'
+~/Desktop
+jle034@hammer $ &
+bash: syntax error near unexpected token `&'
+~/Desktop
+jle034@hammer $ ls; ls;ls ; ls;ls;ls;ls;ls;ls;ls;ls
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+assn4 notes
+~/Desktop
+jle034@hammer $ ls;;;;;;;;;;;;;
+bash: syntax error near unexpected token `;;'
+~/Desktop
+jle034@hammer $ ls  *[K[K& ls
+[1] 19772
+assn4 notes
+assn4 notes
+[1]+  Done                    ls -F --color=tty -T 0
+~/Desktop
+jle034@hammer $ ls && s[Kls
+assn4 notes
+assn4 notes
+~/Desktop
+jle034@hammer $ ls&&ls
+assn4 notes
+assn4 notes
+~/Desktop
+jle034@hammer $ true && ls
+assn4 notes
+~/Desktop
+jle034@hammer $ false && ls
+~/Desktop
+jle034@hammer $ true[K[K[K[Krue[K[K[Ktrue || ls
+~/Desktop
+jle034@hammer $ false || ls
+assn4 notes
+~/Desktop
+jle034@hammer $ true&&true&&true&&true&&false||false||false||false||false||false ||ls
+assn4 notes
+~/Desktop
+jle034@hammer $ true
+~/Desktop
+jle034@hammer $ true &&
+loop $ ^C
+~/Desktop
+jle034@hammer $ && true
+bash: syntax error near unexpected token `&&'
+~/Desktop
+jle034@hammer $ ls # comment
+assn4 notes
+~/Desktop
+jle034@hammer $ ls#comment
+bash: ls#comment: command not found
+~/Desktop
+jle034@hammer $ ls#     comment
+bash: ls#: command not found
+~/Desktop
+jle034@hammer $ #   comment
+~/Desktop
+jle034@hammer $ ls # comment; ls
+assn4 notes
+~/Desktop
+jle034@hammer $ bin[K[K[K.. [K/rshell/bin/rshell
+jle034@hammer.cs.ucr.edu $ exit
+~/Desktop
+jle034@hammer $ ../rshell/bin/rshell
+jle034@hammer.cs.ucr.edu $ ls; exit
+assn4 notes
+~/Desktop
+jle034@hammer $ echo exit
+exit
+~/Desktop
+jle034@hammer $ exit 0
+exit
+
+Script done on Sat 18 Apr 2015 09:53:34 PM PDT
