@@ -1,5 +1,8 @@
 //#include <sys/types.h>
 //#include <dirent.h>
+//#include <stdio.h>
+//#include <sys/wait.h>
+#include <stdlib.h>
 #include <iostream>
 
 using namespace std;
@@ -39,36 +42,39 @@ int main(int argc, char* argv[]) {
 
 	// for loop checks for flags
 	for(int i = 0; i < argc; i++) {
-		if(argv[i] == a) {
-			aFlag = 1;
-		}
-		else if(argv[i] == l) {
-			lFlag = 1;
-		}
-		else if(argv[i] == R) {
-			RFlag = 1;
-		}
-		else if((argv[i] == al) || (argv[i] == la)) {
-			aFlag = 1;
-			lFlag = 1;
-		}
-		else if((argv[i] == lR) || (argv[i] == Rl)) {
-			lFlag = 1;
-			RFlag = 1;
-		}
-		else if((argv[i] == aR) || (argv[i] == Ra)) {
-			aFlag = 1;
-			RFlag = 1;
-		}
-		else if((argv[i] == alR) || (argv[i] == aRl) ||
-			(argv[i] == laR) || (argv[i] == lRa) ||
-			(argv[i] == Ral) || (argv[i] == Rla)) {
+		if(argv[i][0] == '-') {
+			
+			string temp(argv[i]);
 
-			aFlag = 1;
-			lFlag = 1;
-			RFlag = 1;
+			if(temp.size() == 1) {
+				cout << "Error: Invalid flag." << endl;
+				exit(1);
+			}
+			
+			for(unsigned j = 1; j < temp.length();  j++) {
+				
+				if(temp.at(j) == 'a') {
+					aFlag = 1;
+				}
+				else if(temp.at(j) == 'l') {
+					lFlag = 1;
+				}
+				else if(temp.at(j) == 'R') {
+					RFlag = 1;
+				}
+				// if user inputs a flag that is not a, l, or R
+				// output error and exit(1)
+				else {
+					cout << "Error: Flag(s) cannot be handled." << endl;
+					exit(1);
+				}
+			}
 		}
 	}
+
+	cout << "aFlag: " << aFlag << endl;
+	cout << "lFlag: " << lFlag << endl;
+	cout << "RFlag: " << RFlag << endl;
 	
 	return 0;
 
