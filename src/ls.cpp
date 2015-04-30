@@ -17,12 +17,12 @@ int main(int argc, char* argv[]) {
 	int aFlag = 0;
 	int lFlag = 0;
 	int RFlag = 0;
-	vector<string> filesVec;
+	vector<string> dirVec;
 
 	// for loop checks for flags and stores files and directories
 	// begin at 1, so search doesn't include initial bin/ls argument
 	// if flag is found, set appropriate flag to 1
-	// if file or directory is found, push back onto filesVec
+	// if file or directory is found, push back onto dirVec
 	for(int i = 1; i < argc; i++) {
 		
 		string currArg(argv[i]);
@@ -60,17 +60,23 @@ int main(int argc, char* argv[]) {
 		// do the following
 		else {
 			
-			filesVec.push_back(currArg);
+			dirVec.push_back(currArg);
 		}
+	}
+	
+	// if user does not specify any directories, assume current directory
+	// push back "." to indicate current directory
+	if(dirVec.size() == 0) {
+		dirVec.push_back(".");
 	}
 
 	cout << "aFlag: " << aFlag << endl;
 	cout << "lFlag: " << lFlag << endl;
 	cout << "RFlag: " << RFlag << endl;
 
-	cout << "filesVec: ";
-	for(unsigned i = 0; i < filesVec.size(); i++) {
-		cout << '<' << filesVec.at(i) << "> ";
+	cout << "dirVec: ";
+	for(unsigned i = 0; i < dirVec.size(); i++) {
+		cout << '<' << dirVec.at(i) << "> ";
 	}
 	cout << endl;
 	
