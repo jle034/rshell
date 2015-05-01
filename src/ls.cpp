@@ -1,13 +1,16 @@
 //#include <sys/types.h>
 //#include <dirent.h>
-//#include <stdio.h>
 //#include <sys/wait.h>
 #include <stdlib.h>
 #include <iostream>
 #include <vector>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <algorithm>
 
 using namespace std;
 
+void print(vector<string> fdVec, int aFlag, int lFlag, int RFlag);
 
 int main(int argc, char* argv[]) {
 	
@@ -17,12 +20,12 @@ int main(int argc, char* argv[]) {
 	int aFlag = 0;
 	int lFlag = 0;
 	int RFlag = 0;
-	vector<string> dirVec;
+	vector<string> fdVec;
 
-	// for loop checks for flags and stores files and directories
+	// for loop checks for flags and stores files/directories
 	// begin at 1, so search doesn't include initial bin/ls argument
 	// if flag is found, set appropriate flag to 1
-	// if file or directory is found, push back onto dirVec
+	// if a file/directory is found, push back onto fdVec
 	for(int i = 1; i < argc; i++) {
 		
 		string currArg(argv[i]);
@@ -60,43 +63,51 @@ int main(int argc, char* argv[]) {
 		// do the following
 		else {
 			
-			dirVec.push_back(currArg);
+			fdVec.push_back(currArg);
 		}
 	}
 	
-	// if user does not specify any directories, assume current directory
+	// if user does not specify any files/directories, assume current directory
 	// push back "." to indicate current directory
-	if(dirVec.size() == 0) {
-		dirVec.push_back(".");
+	if(fdVec.size() == 0) {
+		fdVec.push_back(".");
 	}
+
+	sort (fdVec.begin(), fdVec.end(), locale("en_US.UTF-8"));
 
 	cout << "aFlag: " << aFlag << endl;
 	cout << "lFlag: " << lFlag << endl;
 	cout << "RFlag: " << RFlag << endl;
 
-	cout << "dirVec: ";
-	for(unsigned i = 0; i < dirVec.size(); i++) {
-		cout << '<' << dirVec.at(i) << "> ";
+	cout << "fdVec: ";
+
+	for(unsigned i = 0; i < fdVec.size(); i++) {
+		cout << '<' << fdVec.at(i) << "> ";
 	}
 	cout << endl;
+
+	for(unsigned i = 0; i < fdVec.size(); i++) {
+		print(fdVec, aFlag, lFlag, RFlag);
+	}
 	
 	return 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+void print(vector<string> fdVec, int aFlag, int lFlag, int RFlag) {
+	struct stat s;
+
+	// if error with stat
+	// perror("stat")
+	if(lstat((fdVec.at(0)).c_str(), &s) == -1) {
+		perror("stat");
+	}
+	
+	// if regular file
+	// do the following
+	if(S_ISREG(s.st_mode)) {
+
+	}
+	
+}
+
+
