@@ -21,6 +21,10 @@ using namespace std;
 void printSingleFile(struct stat s);
 void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize);
 void printl(struct stat s, vector<string>fdVec);
+void printNolFlag(struct stat s, string fdName); 
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize);
+bool isIncluded(vector<string> v, string s);
+
 
 int main(int argc, char* argv[]) {
 	
@@ -85,38 +89,63 @@ int main(int argc, char* argv[]) {
 
 	sort (fdVec.begin(), fdVec.end(), locale("en_US.UTF-8"));
 
+/*
 	cout << "aFlag: " << aFlag << endl;
 	cout << "lFlag: " << lFlag << endl;
 	cout << "RFlag: " << RFlag << endl;
 
 	cout << "fdVec: ";
 
-	int fdOriginalSize = fdVec.size();
-
 	for(unsigned i = 0; i < fdVec.size(); i++) {
 		cout << '<' << fdVec.at(i) << "> ";
 	}
 	cout << endl;
+*/
 
-	while(fdVec.size()) {
-		printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
-		fdVec.erase(fdVec.begin());
-	}	
+	int fdOriginalSize = fdVec.size();
+
+	if(RFlag) {
+		vector<string> dVec(fdVec);
+		fdOriginalSize = 2;
+		sort(dVec.begin(), dVec.end(), locale("en_US.UTF-8"));
+		printR(dVec, aFlag, lFlag, RFlag, fdOriginalSize);
+	}
+	else {
+		while(fdVec.size()) {
+			printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
+			fdVec.erase(fdVec.begin());
+		}	
+	}
 
 	cout << endl;
 
 	return 0;
 }
 
-void printSingleFile(struct stat s) {
+bool isIncluded(vector<string> v, string s) {
+	bool included = false;
+	for(unsigned i = 0; i < v.size(); i++) {
+		if(v.at(i) == s) {
+			included = true;
+		}
+	}
+	return included;
+}
 
+void printNolFlag(struct stat s, string fdName) {
+	cout << fdName << "  ";
 }
 
 void printl(struct stat s, string fdName) {
 	
 	string normal = "\033[0;00m";
-	string blueOnGray = "\033[1;100;36m";
-	
+	string blue = "\033[1;34m";
+	string green = "\033[1;32m";
+
+	string whiteOnGray = "\033[1;100;37m";
+	string blueOnGray = "\033[1;100;34m";
+	string greenOnGray = "\033[1;100;32m";
+
 	// if link
 	// print 'l'
 	if(S_ISLNK(s.st_mode)) {
@@ -259,10 +288,84 @@ void printl(struct stat s, string fdName) {
 
 }
 
-void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
-	struct stat s;
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
 
+	struct stat s;
+	string temp;
+
+	if(fdVec.size() == 0) {
+		return ;
+	}
+
+	if(lstat(fdVec.at(0).c_str(), &s) == -1) {
+		perror("lstat");
+		exit(1);
+	}
+	
+	if(S_ISDIR(s.st_mode)) {
+		DIR* currDir = opendir((fdVec.at(0)).c_str());
+		if(currDir == NULL) {
+			perror("opendir");
+			exit(1);
+		}
+
+		dirent* currDirEnt;
+		while((currDirEnt = readdir(currDir))) {
+			if(currDirEnt == NULL) {
+				perror("readdir");
+				exit(1);
+			}
+			if((currDirEnt->d_name)[0] == '.' && (currDirEnt->d_name)[1] == '.') {
+				continue;
+			}
+		
+			temp = fdVec.at(0);
+			temp += "/";
+			temp += currDirEnt->d_name;
+	
+			if(temp == "./.") {
+				temp = ".";
+			}
+			
+			if((currDirEnt->d_name[0] == '.') && !aFlag) {
+				continue;
+			}
+			
+			if(lstat(temp.c_str(), &s) == -1) {
+				perror("lstat");
+				exit(1);
+			}
+			
+			if(S_ISREG(s.st_mode)) {
+				string name = currDirEnt->d_name;
+				if(isIncluded(fdVec, temp) || (name == ".") || (name == "..")) {
+					continue;
+					cout << "made it past isIncluded" << endl;
+				}
+				cout << "made it here" << endl;
+				fdVec.push_back(temp);
+			}
+		}
+		if(closedir(currDir) == -1) {
+			perror("closedir");
+			exit(1);
+		}
+	
+		sort(fdVec.begin(), fdVec.end(), locale("en_US.UTF-8"));
+
+		cout << "Made it to printEverything" << endl;
+		printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
+		cout << endl;
+	}
+
+	fdVec.erase(fdVec.begin());
+	printR(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
 	cout << "HERE" << endl;
+}
+
+void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
+
+	struct stat s;
 
 	// if error with stat
 	// perror("stat")
@@ -274,8 +377,6 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 	// do the following
 	if(S_ISREG(s.st_mode)) {
 		
-		cout << "IS REGULAR FILE" << endl;
-
 		// if lFlag is included
 		// do the following
 		if(lFlag) {
@@ -287,8 +388,6 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 
 		int total = 0;
 		vector<string> newDirEntVec;
-		
-		cout << "IS DIRECTORY" << endl;
 	
 		DIR *currDir = opendir((fdVec.at(0)).c_str());
 		if(currDir == NULL) {
@@ -302,39 +401,6 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 		
 		dirent* currDirEnt;
 
-	/*
-		while((currDirEnt = readdir(currDir))) {
-			if(currDirEnt == NULL) {
-				perror("readdir");
-				exit(1);
-			}
-			char temp[512];
-			strcpy(temp, (fdVec.at(0)).c_str());
-			strcat(temp, "/");
-			strcat(temp, currDirEnt->d_name);
-
-			if(lstat(temp, &s) == -1) {
-				perror("stat");
-				exit(1);	
-			}
-
-			// if lFlag
-			// do the following
-			if(lFlag) {
-				// if aFlag
-				// printl like normal	
-				if(aFlag) {
-					printl(s, currDirEnt->d_name);
-				}	
-				// else no aFlag
-				// check for hidden files
-				// only print l on files nonhidden files
-				else if((currDirEnt->d_name[0] != '.')) {
-					printl(s, currDirEnt->d_name);
-				}
-			}	
-		}
-	*/
 		while((currDirEnt = readdir(currDir))) {
 			if(currDirEnt == NULL) {
 				perror("readdir");
@@ -350,15 +416,13 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 				exit(1);
 			}
 			
-			if(lFlag) {
-				if(aFlag) {
-					total += s.st_blocks;
-					newDirEntVec.push_back(temp);
-				}
-				else if((currDirEnt->d_name[0] != '.')) {
-					total += s.st_blocks;
-					newDirEntVec.push_back(temp);
-				}
+			if(aFlag) {
+				total += s.st_blocks;
+				newDirEntVec.push_back(currDirEnt->d_name);
+			}
+			else if((currDirEnt->d_name[0] != '.')) {
+				total += s.st_blocks;
+				newDirEntVec.push_back(currDirEnt->d_name);
 			}
 		}
 
@@ -370,9 +434,24 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 				if(lstat(newDirEntVec.at(i).c_str(), &s) == -1) {
 					perror("lstat");
 				}
+				// edit so that temp does not include directory/
 				string temp;
 				printl(s, newDirEntVec.at(i));
 			}
+		}
+		else {
+			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
+				if(lstat(newDirEntVec.at(i).c_str(), &s) == -1) {
+					perror("lstat");
+				}
+				// edit so that temp does not include directory/
+				string temp;
+				printNolFlag(s, newDirEntVec.at(i));
+			}
+		}
+		if(closedir(currDir) == -1) {
+			perror("closedir");
+			exit(1);
 		}
 	}	
 }
