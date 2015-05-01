@@ -127,8 +127,6 @@ int main(int argc, char* argv[]) {
 		}	
 	}
 
-	cout << endl;
-
 	return 0;
 }
 
@@ -290,7 +288,7 @@ void printl(struct stat s, string fdName, unsigned &width) {
 	}
 	
 	cout << ' ';
-	cout << setw(5) << right << s.st_size;
+	cout << setw(7) << right << s.st_size;
 
 	cout << ' ';
 
