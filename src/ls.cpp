@@ -158,7 +158,7 @@ void printNolFlag(struct stat s, string fdName, unsigned &width) {
 		cout << green;
 	}
 		
-	cout <<  fdName << normal << "  ";
+	cout << setw(width) << fdName << normal << "  ";
 
 }
 
@@ -292,14 +292,38 @@ void printl(struct stat s, string fdName, unsigned &width) {
 
 	cout << ' ';
 
+	// print time
+	// if created in a different year, print year
+	// else print time
 	time_t time = s.st_mtime;
 	struct tm *thisTime = localtime(&time);
-	char printTime[100];
-	strftime(printTime, 100, "%b %e %H:%M", thisTime);
-	cout << printTime;
+	char printMD[100];
+	char printYorT[100];
+	char temp[100];
+	string tempString;
+	string year = "2015";
+	strftime(temp, 100, "%G", thisTime);
+	int tempWidth = 4;
+	for(unsigned i = 0; temp[i] != '\0'; i++) {
+		tempString += temp[i];
+	}
+	strftime(printMD, 100, "%b %e ", thisTime);
+	cout << printMD;
+	if(tempString == year) {
+		strftime(printYorT, 100, "%H:%M", thisTime);
+	}
+	else {
+		strftime(printYorT, 100, "%G", thisTime);
+		tempWidth = 5;
+	}
+
+	cout << setw(tempWidth) << right << printYorT << setw(0);
 
 	cout << ' ';
 
+	// print file name
+	// color code accordingly
+	// blue(directories), green(executables), grayBack(hidden)
 	if((fdName.at(0) == '.') && (s.st_mode & S_IFDIR)) {
 		cout << blueOnGray;
 	}
@@ -470,6 +494,14 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 
 		sort(newDirEntVec.begin(), newDirEntVec.end(), locale("en_US.UTF-8"));
 		sort(oldDirEntVec.begin(), oldDirEntVec.end(), locale("en_US.UTF-8"));
+		
+		width = newDirEntVec.at(0).length();
+
+		for(unsigned i = 1; i < newDirEntVec.size(); i++) {
+			if(newDirEntVec.at(i).length() > width) {
+				width = newDirEntVec.at(i).length();
+			}	
+		}
 
 		if(lFlag) {
 			cout << "total " << total/2 << endl;
