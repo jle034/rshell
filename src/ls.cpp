@@ -13,16 +13,25 @@
 #include <grp.h>
 #include <dirent.h>
 #include <string.h>
+#include <iomanip>
 
 using namespace std;
+
+string normal = "\033[0;00m";
+string blue = "\033[1;34m";
+string green = "\033[1;32m";
+
+string whiteOnGray = "\033[1;100;37m";
+string blueOnGray = "\033[1;100;34m";
+string greenOnGray = "\033[1;100;32m";
 
 
 // helper functions :]
 void printSingleFile(struct stat s);
-void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize);
+void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width);
 void printl(struct stat s, vector<string>fdVec);
 void printNolFlag(struct stat s, string fdName); 
-void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize);
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width);
 bool isIncluded(vector<string> v, string s);
 
 
@@ -34,6 +43,7 @@ int main(int argc, char* argv[]) {
 	int aFlag = 0;
 	int lFlag = 0;
 	int RFlag = 0;
+	int width = 0;
 	vector<string> fdVec;
 
 	// for loop checks for flags and stores files/directories
@@ -108,11 +118,11 @@ int main(int argc, char* argv[]) {
 		vector<string> dVec(fdVec);
 		fdOriginalSize = 2;
 		sort(dVec.begin(), dVec.end(), locale("en_US.UTF-8"));
-		printR(dVec, aFlag, lFlag, RFlag, fdOriginalSize);
+		printR(dVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 	}
 	else {
 		while(fdVec.size()) {
-			printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
+			printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 			fdVec.erase(fdVec.begin());
 		}	
 	}
@@ -132,19 +142,30 @@ bool isIncluded(vector<string> v, string s) {
 	return included;
 }
 
-void printNolFlag(struct stat s, string fdName) {
-	cout << fdName << "  ";
+void printNolFlag(struct stat s, string fdName, int &width) {
+	if(width < 50) {
+		if((fdName.at(0) == '.') && (s.st_mode & S_IFDIR)) {
+			cout << blueOnGray;
+		}
+		else if((fdName.at(0) == '.') && (s.st_mode & S_IXUSR)) {
+			cout << greenOnGray;
+		}
+		else if(fdName.at(0) == '.') {
+			cout << whiteOnGray;
+		}
+		else if(s.st_mode & S_IFDIR) {
+			cout << blue;
+		}
+		else if(s.st_mode & S_IXUSR) {
+			cout << green;
+		}
+		
+		cout << setw(20) << left << fdName << normal << "  ";
+		width += 20;
+	}
 }
 
 void printl(struct stat s, string fdName) {
-	
-	string normal = "\033[0;00m";
-	string blue = "\033[1;34m";
-	string green = "\033[1;32m";
-
-	string whiteOnGray = "\033[1;100;37m";
-	string blueOnGray = "\033[1;100;34m";
-	string greenOnGray = "\033[1;100;32m";
 
 	// if link
 	// print 'l'
@@ -283,12 +304,28 @@ void printl(struct stat s, string fdName) {
 
 	cout << ' ';
 
-	cout << fdName << endl;
+	if((fdName.at(0) == '.') && (s.st_mode & S_IFDIR)) {
+		cout << blueOnGray;
+	}
+	else if((fdName.at(0) == '.') && (s.st_mode & S_IXUSR)) {
+		cout << greenOnGray;
+	}
+	else if(fdName.at(0) == '.') {
+		cout << whiteOnGray;
+	}
+	else if(s.st_mode & S_IFDIR) {
+		cout << blue;
+	}
+	else if(s.st_mode & S_IXUSR) {
+		cout << green;
+	}
+	
+	cout << fdName << normal << endl;
 
 
 }
 
-void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width) {
 
 	struct stat s;
 	string temp;
@@ -363,14 +400,14 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 	
 		sort(fdVec.begin(), fdVec.end());
 		
-		printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
+		printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 		cout << endl;
 
 	fdVec.erase(fdVec.begin());
-	printR(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
+	printR(fdVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 }
 
-void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
+void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width) {
 
 	struct stat s;
 
@@ -455,7 +492,7 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 					perror("lstat");
 					cout << "third perror";
 				}
-				printNolFlag(s, oldDirEntVec.at(i));
+				printNolFlag(s, oldDirEntVec.at(i), width);
 			}
 		}
 		if(closedir(currDir) == -1) {
