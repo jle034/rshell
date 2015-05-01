@@ -28,10 +28,10 @@ string greenOnGray = "\033[1;100;32m";
 
 // helper functions :]
 void printSingleFile(struct stat s);
-void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width);
-void printl(struct stat s, vector<string>fdVec);
-void printNolFlag(struct stat s, string fdName); 
-void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width);
+void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, unsigned width);
+void printl(struct stat s, vector<string>fdVec, unsigned &width);
+void printNolFlag(struct stat s, string fdName, unsigned &width); 
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, unsigned width);
 bool isIncluded(vector<string> v, string s);
 
 
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
 	int aFlag = 0;
 	int lFlag = 0;
 	int RFlag = 0;
-	int width = 0;
+	unsigned width = 0;
 	vector<string> fdVec;
 
 	// for loop checks for flags and stores files/directories
@@ -142,30 +142,29 @@ bool isIncluded(vector<string> v, string s) {
 	return included;
 }
 
-void printNolFlag(struct stat s, string fdName, int &width) {
-	if(width < 50) {
-		if((fdName.at(0) == '.') && (s.st_mode & S_IFDIR)) {
-			cout << blueOnGray;
-		}
-		else if((fdName.at(0) == '.') && (s.st_mode & S_IXUSR)) {
-			cout << greenOnGray;
-		}
-		else if(fdName.at(0) == '.') {
-			cout << whiteOnGray;
-		}
-		else if(s.st_mode & S_IFDIR) {
-			cout << blue;
-		}
-		else if(s.st_mode & S_IXUSR) {
-			cout << green;
-		}
-		
-		cout << setw(20) << left << fdName << normal << "  ";
-		width += 20;
+void printNolFlag(struct stat s, string fdName, unsigned &width) {
+
+	if((fdName.at(0) == '.') && (s.st_mode & S_IFDIR)) {
+		cout << blueOnGray;
 	}
+	else if((fdName.at(0) == '.') && (s.st_mode & S_IXUSR)) {
+		cout << greenOnGray;
+	}
+	else if(fdName.at(0) == '.') {
+		cout << whiteOnGray;
+	}
+	else if(s.st_mode & S_IFDIR) {
+		cout << blue;
+	}
+	else if(s.st_mode & S_IXUSR) {
+		cout << green;
+	}
+		
+	cout <<  fdName << normal << "  ";
+
 }
 
-void printl(struct stat s, string fdName) {
+void printl(struct stat s, string fdName, unsigned &width) {
 
 	// if link
 	// print 'l'
@@ -291,8 +290,7 @@ void printl(struct stat s, string fdName) {
 	}
 	
 	cout << ' ';
-
-	cout << s.st_size;
+	cout << setw(5) << right << s.st_size;
 
 	cout << ' ';
 
@@ -322,10 +320,9 @@ void printl(struct stat s, string fdName) {
 	
 	cout << fdName << normal << endl;
 
-
 }
 
-void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width) {
+void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, unsigned width) {
 
 	struct stat s;
 	string temp;
@@ -407,7 +404,7 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 	printR(fdVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 }
 
-void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, int width) {
+void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize, unsigned width) {
 
 	struct stat s;
 
@@ -424,7 +421,7 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 		// if lFlag is included
 		// do the following
 		if(lFlag) {
-			printl(s, fdVec.at(0));
+			printl(s, fdVec.at(0), width);
 		}
 		
 	}
@@ -483,14 +480,13 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 					perror("lstat");
 					cout << "second perror";
 				}
-				printl(s, oldDirEntVec.at(i));
+				printl(s, oldDirEntVec.at(i), width);
 			}
 		}
 		else {
 			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
 				if(lstat(newDirEntVec.at(i).c_str(), &s) == -1) {
 					perror("lstat");
-					cout << "third perror";
 				}
 				printNolFlag(s, oldDirEntVec.at(i), width);
 			}
