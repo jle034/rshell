@@ -293,7 +293,7 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 	struct stat s;
 	string temp;
 
-	if(fdVec.size() == 0) {
+	if(fdVec.empty()) {
 		return ;
 	}
 
@@ -301,8 +301,12 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 		perror("lstat");
 		exit(1);
 	}
+
+	if(S_ISREG(s.st_mode)) {
+		cout << fdVec.at(0) << endl;
+		return;
+	}
 	
-	if(S_ISDIR(s.st_mode)) {
 		DIR* currDir = opendir((fdVec.at(0)).c_str());
 		if(currDir == NULL) {
 			perror("opendir");
@@ -320,8 +324,7 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 			}
 		
 			temp = fdVec.at(0);
-			temp += "/";
-			temp += currDirEnt->d_name;
+			temp = temp + "/" + currDirEnt->d_name;
 	
 			if(temp == "./.") {
 				temp = ".";
@@ -337,12 +340,19 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 			}
 			
 			if(S_ISREG(s.st_mode)) {
+				continue;
+	//			string name = currDirEnt->d_name;
+	//			if(isIncluded(fdVec, temp) || (name == ".") || (name == "..")) {
+	//				continue;
+	//			}
+	//			cout << "made it here" << endl;
+	//			newVec.push_back(temp);
+			}
+			else if(S_ISDIR(s.st_mode)) {
 				string name = currDirEnt->d_name;
 				if(isIncluded(fdVec, temp) || (name == ".") || (name == "..")) {
 					continue;
-					cout << "made it past isIncluded" << endl;
 				}
-				cout << "made it here" << endl;
 				fdVec.push_back(temp);
 			}
 		}
@@ -351,16 +361,13 @@ void printR(vector<string> &fdVec, int aFlag, int lFlag, int RFlag, int fdOrigin
 			exit(1);
 		}
 	
-		sort(fdVec.begin(), fdVec.end(), locale("en_US.UTF-8"));
-
-		cout << "Made it to printEverything" << endl;
+		sort(fdVec.begin(), fdVec.end());
+		
 		printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
 		cout << endl;
-	}
 
 	fdVec.erase(fdVec.begin());
 	printR(fdVec, aFlag, lFlag, RFlag, fdOriginalSize);
-	cout << "HERE" << endl;
 }
 
 void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int fdOriginalSize) {
@@ -388,6 +395,7 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 
 		int total = 0;
 		vector<string> newDirEntVec;
+		vector<string> oldDirEntVec;
 	
 		DIR *currDir = opendir((fdVec.at(0)).c_str());
 		if(currDir == NULL) {
@@ -418,35 +426,36 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 			
 			if(aFlag) {
 				total += s.st_blocks;
-				newDirEntVec.push_back(currDirEnt->d_name);
+				newDirEntVec.push_back(temp);
+				oldDirEntVec.push_back(currDirEnt->d_name);
 			}
 			else if((currDirEnt->d_name[0] != '.')) {
 				total += s.st_blocks;
-				newDirEntVec.push_back(currDirEnt->d_name);
+				newDirEntVec.push_back(temp);
+				oldDirEntVec.push_back(currDirEnt->d_name);
 			}
 		}
 
-		sort (newDirEntVec.begin(), newDirEntVec.end(), locale("en_US.UTF-8"));
+		sort(newDirEntVec.begin(), newDirEntVec.end(), locale("en_US.UTF-8"));
+		sort(oldDirEntVec.begin(), oldDirEntVec.end(), locale("en_US.UTF-8"));
 
 		if(lFlag) {
 			cout << "total " << total/2 << endl;
 			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
 				if(lstat(newDirEntVec.at(i).c_str(), &s) == -1) {
 					perror("lstat");
+					cout << "second perror";
 				}
-				// edit so that temp does not include directory/
-				string temp;
-				printl(s, newDirEntVec.at(i));
+				printl(s, oldDirEntVec.at(i));
 			}
 		}
 		else {
 			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
 				if(lstat(newDirEntVec.at(i).c_str(), &s) == -1) {
 					perror("lstat");
+					cout << "third perror";
 				}
-				// edit so that temp does not include directory/
-				string temp;
-				printNolFlag(s, newDirEntVec.at(i));
+				printNolFlag(s, oldDirEntVec.at(i));
 			}
 		}
 		if(closedir(currDir) == -1) {
@@ -454,6 +463,7 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 			exit(1);
 		}
 	}	
+	cout << endl;
 }
 
 
