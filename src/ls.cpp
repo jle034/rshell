@@ -8,12 +8,13 @@
 //#include <sys/types.h>
 #include <stdio.h>
 #include <algorithm>
-//#include <unistd.h>
+#include <unistd.h>
 #include <pwd.h>
 #include <grp.h>
 #include <dirent.h>
 #include <string.h>
 #include <iomanip>
+#include <sys/ioctl.h>
 
 using namespace std;
 
@@ -158,7 +159,7 @@ void printNolFlag(struct stat s, string fdName, unsigned &width) {
 		cout << green;
 	}
 		
-	cout << setw(width) << fdName << normal << "  ";
+	cout << setw(width) << left << fdName << normal << "  ";
 
 }
 
@@ -445,6 +446,9 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 		if(lFlag) {
 			printl(s, fdVec.at(0), width);
 		}
+		else {
+			printNolFlag(s, fdVec.at(0), width);
+		}
 		
 	}
 	else if(S_ISDIR(s.st_mode)) {
@@ -503,6 +507,10 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 			}	
 		}
 
+		struct winsize w;
+		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+		
+		int numColumns = w.ws_col / (width+2);
 		if(lFlag) {
 			cout << "total " << total/2 << endl;
 			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
@@ -519,6 +527,11 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 					perror("lstat");
 				}
 				printNolFlag(s, oldDirEntVec.at(i), width);
+				numColumns --;
+				if(numColumns == 0) {
+					cout << endl;
+					numColumns = w.ws_col / (width + 2);
+				}
 			}
 		}
 		if(closedir(currDir) == -1) {
