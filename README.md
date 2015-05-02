@@ -12,9 +12,9 @@ Connectors include `&&`, `||`, and `;`.
 	- If a command is empty, it returns false. `rshell` does not output an error. 
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
-Known Bugs:
-	1. Commands with more than 2 but less than 7 flags will not execute.
-	2. `echo` with quotes will include quotes in output.
+	Known Bugs:
+		- Commands with more than 2 but less than 7 flags will not execute.
+		- `echo` with quotes will include quotes in output.
 
 ### ls
 `ls` implements a subset of the GNU `ls` command. 
@@ -24,10 +24,9 @@ It also displays different types of files in different colors that can be combin
 	- executables are green
 	- hidden files have a gray background
 
-Known Bugs: 
-	1. Files are listed in alphabetical order from left to right, then top to bottom.
-	2. Columns are all of equal width.
-	
+	Known Bugs: 
+		- Files are listed in alphabetical order from left to right, then top to bottom.
+		- Columns are all of equal width.	
 
 ### How To Run rshell
 ```
