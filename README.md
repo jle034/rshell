@@ -11,19 +11,19 @@ Connectors include `&&`, `||`, and `;`.
 	- If a command is empty, it returns false. `rshell` does not output an error. 
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
-Known Bugs:
+Known Bugs
 	- Commands with more than 2 but less than 7 flags will not execute.
 	- `echo` with quotes will include quotes in output.
 
 ### ls
 `ls` implements a subset of the GNU `ls` command. 
 It can support the -a, -l, and -R optional flags; and the ability to pass in one or many files optional. 
-It also displays different types of files in different colors that can be combinable:
+It also displays different types of files in different colors that can be combinable
 	- directories are blue
 	- executables are green
 	- hidden files have a gray background
 
-Known Bugs: 
+Known Bugs 
 	- Files are listed in alphabetical order from left to right, then top to bottom.
 	- Columns are all of equal width.	
 
