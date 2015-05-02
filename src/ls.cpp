@@ -262,7 +262,7 @@ void printl(struct stat s, string fdName, unsigned &width) {
 	cout << ' ';
 
 	// print number of hard links
-	cout << s.st_nlink;
+	cout << setw(5) << right << s.st_nlink;
 
 	cout << ' ';
 
@@ -289,7 +289,7 @@ void printl(struct stat s, string fdName, unsigned &width) {
 	}
 	
 	cout << ' ';
-	cout << setw(7) << right << s.st_size;
+	cout << setw(8) << right << s.st_size;
 
 	cout << ' ';
 
@@ -510,7 +510,7 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 		struct winsize w;
 		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 		
-		int numColumns = w.ws_col / (width+2);
+		int numColumns = w.ws_col / (width + 2);
 		if(lFlag) {
 			cout << "total " << total/2 << endl;
 			for(unsigned i = 0; i < newDirEntVec.size(); i++) {
