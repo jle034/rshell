@@ -11,7 +11,7 @@ Connectors include `&&`, `||`, and `;`.
 	- If a command is empty, it returns false. `rshell` does not output an error. 
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
-Known Bugs
+##### Known Bugs
 	1. Commands with more than 2 but less than 7 flags will not execute.
 	2. `echo` with quotes will include quotes in output.
 
@@ -23,7 +23,7 @@ Known Bugs
 	- executables are green
 	- hidden files have a gray background
 
-Known Bugs 
+##### Known Bugs 
 	1. Files are listed in alphabetical order from left to right, then top to bottom.
 	2. Columns are all of equal width.	
 
