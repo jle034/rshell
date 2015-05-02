@@ -12,8 +12,8 @@ Connectors include `&&`, `||`, and `;`.
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
 ##### Known Bugs
-	1. Commands with more than 2 but less than 7 flags will not execute.
-	2. `echo` with quotes will include quotes in output.
+	- Commands with more than 2 but less than 7 flags will not execute.
+	- `echo` with quotes will include quotes in output.
 
 ### ls
 `ls` implements a subset of the GNU `ls` command. 
@@ -24,8 +24,9 @@ Connectors include `&&`, `||`, and `;`.
 	- hidden files have a gray background
 
 ##### Known Bugs 
-	1. Files are listed in alphabetical order from left to right, then top to bottom.
-	2. Columns are all of equal width.	
+	- Files are listed in alphabetical order from left to right, then top to bottom.
+	- Columns are all of equal width.	
+	- Sometimes outputs an unnecessary endl.
 
 ### How To Run rshell
 ```

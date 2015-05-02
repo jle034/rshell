@@ -125,6 +125,7 @@ int main(int argc, char* argv[]) {
 		while(fdVec.size()) {
 			printEverything(fdVec, aFlag, lFlag, RFlag, fdOriginalSize, width);
 			fdVec.erase(fdVec.begin());
+			cout << endl;
 		}	
 	}
 
