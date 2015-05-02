@@ -1,0 +1,2486 @@
+Script started on Fri 01 May 2015 07:01:36 PM PDT
+~
+jle034@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # no flags or files
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls
+[1;32ma.out      [0;00m  [1;34mbin        [0;00m  LICENSE    [0;00m  Makefile   [0;00m  README.md  [0;00m  [1;34msrc        [0;00m  [1;34mtests      [0;00m  
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m ## -a flag alone
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls a[K-a
+[1;100;34m.          [0;00m  [1;100;34m..         [0;00m  [1;32ma.out      [0;00m  [1;34mbin        [0;00m  [1;100;34m.git       [0;00m  LICENSE    [0;00m  Makefile   [0;00m  
+README.md  [0;00m  [1;34msrc        [0;00m  [1;34mtests      [0;00m  
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # -l flag alone
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -l
+total 176
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # -R flag alone
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -R
+.:
+[1;32ma.out      [0;00m  [1;34mbin        [0;00m  LICENSE    [0;00m  Makefile   [0;00m  README.md  [0;00m  [1;34msrc        [0;00m  [1;34mtests      [0;00m  
+
+
+./bin:
+[1;32mls          [0;00m  [1;32mrshell      [0;00m  
+
+./src:
+cp.cpp        [0;00m  ls.cpp        [0;00m  main.cpp      [0;00m  
+
+./tests:
+exec.script        [0;00m  ls.script          [0;00m  
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m #-al two flags together
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -al
+total 200
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.git[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # -a -l two flags separate
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -a -l
+total 200
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.git[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m #-alR all flags together
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -alR
+.:
+total 200
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.git[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+./.git:
+total 56
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mbranches[0;00m
+-rw-------     1 jle034 classes       30 May  1 18:16 COMMIT_EDITMSG[0;00m
+-rw-------     1 jle034 classes      267 Apr 16 19:06 config[0;00m
+-rw-------     1 jle034 classes       73 Apr  9 21:03 description[0;00m
+-rw-------     1 jle034 classes       94 May  1 17:56 FETCH_HEAD[0;00m
+-rw-------     1 jle034 classes       23 May  1 18:02 HEAD[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mhooks[0;00m
+-rw-------     1 jle034 classes      568 May  1 18:16 index[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;34mlogs[0;00m
+-rw-------     1 jle034 classes      266 Apr 16 19:30 #MERGE_MSG#[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;34mobjects[0;00m
+-rw-------     1 jle034 classes       41 May  1 17:50 ORIG_HEAD[0;00m
+drwx------     5 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/branches:
+total 8
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+
+
+./.git/hooks:
+total 48
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes      452 Apr  9 21:03 [1;32mapplypatch-msg.sample[0;00m
+-rwx------     1 jle034 classes      896 Apr  9 21:03 [1;32mcommit-msg.sample[0;00m
+-rwx------     1 jle034 classes      189 Apr  9 21:03 [1;32mpost-update.sample[0;00m
+-rwx------     1 jle034 classes      398 Apr  9 21:03 [1;32mpre-applypatch.sample[0;00m
+-rwx------     1 jle034 classes     1635 Apr  9 21:03 [1;32mpre-commit.sample[0;00m
+-rwx------     1 jle034 classes     1239 Apr  9 21:03 [1;32mprepare-commit-msg.sample[0;00m
+-rwx------     1 jle034 classes     1348 Apr  9 21:03 [1;32mpre-push.sample[0;00m
+-rwx------     1 jle034 classes     4951 Apr  9 21:03 [1;32mpre-rebase.sample[0;00m
+-rwx------     1 jle034 classes     3611 Apr  9 21:03 [1;32mupdate.sample[0;00m
+
+
+./.git/info:
+total 12
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      240 Apr  9 21:03 exclude[0;00m
+
+
+./.git/logs:
+total 32
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes    16567 May  1 18:16 HEAD[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/logs/refs:
+total 16
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;34mheads[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;34mremotes[0;00m
+
+
+./.git/logs/refs/heads:
+total 24
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      710 Apr 19 11:32 exec[0;00m
+-rw-------     1 jle034 classes     3349 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     6738 May  1 18:16 master[0;00m
+
+
+./.git/logs/refs/remotes:
+total 12
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34morigin[0;00m
+
+
+./.git/logs/refs/remotes/origin:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      153 Apr 19 12:04 exec[0;00m
+-rw-------     1 jle034 classes      153 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     2302 May  1 18:16 master[0;00m
+
+
+./.git/objects:
+total 572
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m02[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m04[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;34m07[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;34m08[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m0b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;34m0c[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;34m0e[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m0f[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m13[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m15[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m17[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m1b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m1c[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m1d[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;34m1e[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m20[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m21[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;34m24[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;34m25[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m26[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34m28[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34m2a[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:07 [1;34m2b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m2c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m2d[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m2f[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m30[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m31[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m32[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m33[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m37[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m38[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34m39[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3a[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34m3b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m3c[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3d[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m3f[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:28 [1;34m41[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m43[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m44[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:06 [1;34m46[0;00m
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m48[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m4a[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m4c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34m4d[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34m4e[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m4f[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:51 [1;34m52[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:57 [1;34m53[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34m54[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m55[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34m57[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m58[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:47 [1;34m5a[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34m5b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:23 [1;34m5d[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m5e[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:19 [1;34m60[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m62[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m63[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:46 [1;34m65[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m6a[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:09 [1;34m6b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m6f[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m70[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m71[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m73[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m75[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34m76[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m77[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m78[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34m79[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m7c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34m80[0;00m
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34m83[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m85[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:13 [1;34m86[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m88[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m8a[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m8c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m91[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m94[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m97[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34m98[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 19:26 [1;34m99[0;00m
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m9b[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m9c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m9f[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:31 [1;34ma0[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34ma1[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:45 [1;34ma3[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34ma4[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34ma6[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34ma7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34ma8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34ma9[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34mac[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mad[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34mae[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:24 [1;34mb1[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:12 [1;34mb3[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mb4[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb5[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34mb7[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb8[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34mb9[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mbc[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mbe[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mc0[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34mc4[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mc8[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34mca[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md3[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34md6[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mdb[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34mdd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34mde[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34mdf[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:33 [1;34me0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:52 [1;34me3[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34me4[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34me6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34me9[0;00m
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34mea[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34med[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 18:44 [1;34mf0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mf1[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mf3[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34mf4[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:58 [1;34mf6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34mf8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34mfa[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mfc[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34mfd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mfe[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mff[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mpack[0;00m
+
+
+./.git/objects/02:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      189 Apr 18 15:47 e1278b1f24b4b4175c37e4161f71326306facc[0;00m
+
+
+./.git/objects/04:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      813 May  1 18:16 94b937e6c6b8d764a43e81d203de248b9e082c[0;00m
+-r--------     1 jle034 classes       80 May  1 17:46 cffb7a896e9f24d68b481ebf096733a0f73997[0;00m
+
+
+./.git/objects/07:
+total 12
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes       52 Apr 16 23:10 2dd4ecb8810562d881f3159b2ccc8ac14c5966[0;00m
+
+
+./.git/objects/08:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      113 Apr 13 21:59 ab458637f186065ccec93ac06b710b44a0a437[0;00m
+
+
+./.git/objects/0b:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      173 May  1 17:46 b2319b225914cb117d6d84fe9c80818b8e5a29[0;00m
+
+
+./.git/objects/0c:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      210 Apr 18 22:28 bf49e05b562bb268c0e74c24e298a8ee04773b[0;00m
+
+
+./.git/objects/0e:
+total 16
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 06:29 562484bfa40101b5f08c89f8cf7fa93cac81d9[0;00m
+
+
+./.git/objects/0f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 18:09 b807a464cd46eba14193222c977cb6413e10b0[0;00m
+
+
+./.git/objects/13:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      177 Apr 17 23:20 1d56b54b73c06947b9ce0d2087e5710061e5b2[0;00m
+
+
+./.git/objects/15:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      806 May  1 18:13 499fbbe20922822261e33a73cb0803aed2dab8[0;00m
+
+
+./.git/objects/17:
+total 12
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 15 14:32 0ddd220f4ce0b62c7d16ad85a0ace9caf263bf[0;00m
+
+
+./.git/objects/1b:
+total 12
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 17 23:20 5319e357eb6e916506c9f55c22080743f373c8[0;00m
+
+
+./.git/objects/1c:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 May  1 05:51 7ffa15ecb9f447f7acb0681b86b6ad7dd7525a[0;00m
+
+
+./.git/objects/1d:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      183 May  1 18:15 6c7d1c1eeda1c017fcde29ae7467104a537dc0[0;00m
+-r--------     1 jle034 classes       79 May  1 10:21 8c9963cda97f1c808f1ab35bc9e03b31d17228[0;00m
+
+
+./.git/objects/1e:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       84 Apr 13 21:20 c0c3fd481b90b3e8567b3cdb9b7b6921261be7[0;00m
+
+
+./.git/objects/20:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 05:51 7727f68165a859f228c695cd4803e899d9297a[0;00m
+
+
+./.git/objects/21:
+total 24
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 May  1 15:53 213b4029566890746a1b9de56211c89276984f[0;00m
+-r--------     1 jle034 classes       79 May  1 06:29 36adb888469d6fb96f77b468a3ae547963de8e[0;00m
+-r--------     1 jle034 classes       53 Apr 16 19:26 7edb9b237e8c6ecc172df782b943ee7ac985c9[0;00m
+-r--------     1 jle034 classes      801 May  1 18:09 e7ec3a034b22366b676e57fec4f329540d34a5[0;00m
+
+
+./.git/objects/24:
+total 16
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1159 Apr 19 11:31 89d1277d0148ac547fd2162b329fb73f0853e8[0;00m
+
+
+./.git/objects/25:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2820 May  1 05:23 32f41867ac6d72eb0160b4b795445d9e248d64[0;00m
+
+
+./.git/objects/26:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      227 Apr 18 22:01 b7e18ed7d8e1cfc11aecaf69e5d981d3d4a33a[0;00m
+
+
+./.git/objects/28:
+total 20
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 03:59 b8eb8adc50b1fefcdccecad6cf4358b9dd4fc3[0;00m
+-r--------     1 jle034 classes      554 Apr 18 21:49 c7ec88e34d94cfa5484117a924b8f9c6832b36[0;00m
+
+
+./.git/objects/2a:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+getgrgid: Success
+drwx------     2 jle034 [s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # -a -l -R all flags separate
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -a -l -R
+.:
+total 200
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.git[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+./.git:
+total 56
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mbranches[0;00m
+-rw-------     1 jle034 classes       30 May  1 18:16 COMMIT_EDITMSG[0;00m
+-rw-------     1 jle034 classes      267 Apr 16 19:06 config[0;00m
+-rw-------     1 jle034 classes       73 Apr  9 21:03 description[0;00m
+-rw-------     1 jle034 classes       94 May  1 17:56 FETCH_HEAD[0;00m
+-rw-------     1 jle034 classes       23 May  1 18:02 HEAD[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mhooks[0;00m
+-rw-------     1 jle034 classes      568 May  1 18:16 index[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;34mlogs[0;00m
+-rw-------     1 jle034 classes      266 Apr 16 19:30 #MERGE_MSG#[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;34mobjects[0;00m
+-rw-------     1 jle034 classes       41 May  1 17:50 ORIG_HEAD[0;00m
+drwx------     5 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/branches:
+total 8
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+
+
+./.git/hooks:
+total 48
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes      452 Apr  9 21:03 [1;32mapplypatch-msg.sample[0;00m
+-rwx------     1 jle034 classes      896 Apr  9 21:03 [1;32mcommit-msg.sample[0;00m
+-rwx------     1 jle034 classes      189 Apr  9 21:03 [1;32mpost-update.sample[0;00m
+-rwx------     1 jle034 classes      398 Apr  9 21:03 [1;32mpre-applypatch.sample[0;00m
+-rwx------     1 jle034 classes     1635 Apr  9 21:03 [1;32mpre-commit.sample[0;00m
+-rwx------     1 jle034 classes     1239 Apr  9 21:03 [1;32mprepare-commit-msg.sample[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes     1348 Apr  9 21:03 [1;32mpre-push.sample[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes     4951 Apr  9 21:03 [1;32mpre-rebase.sample[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes     3611 Apr  9 21:03 [1;32mupdate.sample[0;00m
+
+
+./.git/info:
+total 12
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      240 Apr  9 21:03 exclude[0;00m
+
+
+./.git/logs:
+total 32
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes    16567 May  1 18:16 HEAD[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/logs/refs:
+total 16
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;34mheads[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;34mremotes[0;00m
+
+
+./.git/logs/refs/heads:
+total 24
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      710 Apr 19 11:32 exec[0;00m
+-rw-------     1 jle034 classes     3349 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     6738 May  1 18:16 master[0;00m
+
+
+./.git/logs/refs/remotes:
+total 12
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34morigin[0;00m
+
+
+./.git/logs/refs/remotes/origin:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      153 Apr 19 12:04 exec[0;00m
+-rw-------     1 jle034 classes      153 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     2302 May  1 18:16 master[0;00m
+
+
+./.git/objects:
+total 572
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m02[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m04[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;34m07[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;34m08[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m0b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;34m0c[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;34m0e[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m0f[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m13[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m15[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m17[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m1b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m1c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m1d[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;34m1e[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m20[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m21[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;34m24[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;34m25[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m26[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34m28[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34m2a[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:07 [1;34m2b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m2c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m2d[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m2f[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m30[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m31[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m32[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m33[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m37[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m38[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34m39[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3a[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34m3b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m3c[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3d[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m3f[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:28 [1;34m41[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m43[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m44[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:06 [1;34m46[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m48[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m4a[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m4c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34m4d[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34m4e[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m4f[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:51 [1;34m52[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:57 [1;34m53[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34m54[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m55[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34m57[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m58[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:47 [1;34m5a[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34m5b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:23 [1;34m5d[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m5e[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:19 [1;34m60[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m62[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m63[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:46 [1;34m65[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m6a[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 17:09 [1;34m6b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m6f[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m70[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m71[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m73[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m75[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34m76[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m77[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m78[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34m79[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m7c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34m80[0;00m
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34m83[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m85[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:13 [1;34m86[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m88[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m8a[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m8c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m91[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m94[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m97[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34m98[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 19:26 [1;34m99[0;00m
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m9b[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m9c[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m9f[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:31 [1;34ma0[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34ma1[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:45 [1;34ma3[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34ma4[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34ma6[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34ma7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34ma8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34ma9[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34mac[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mad[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34mae[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:24 [1;34mb1[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:12 [1;34mb3[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mb4[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb5[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34mb7[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb8[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34mb9[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mbc[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mbe[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mc0[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34mc4[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mc8[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34mca[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md3[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34md6[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mdb[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34mdd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34mde[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34mdf[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:33 [1;34me0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:52 [1;34me3[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34me4[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34me6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34me9[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34mea[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34med[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 18:44 [1;34mf0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mf1[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mf3[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34mf4[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:58 [1;34mf6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34mf8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34mfa[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mfc[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34mfd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mfe[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mff[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mpack[0;00m
+
+
+./.git/objects/02:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      189 Apr 18 15:47 e1278b1f24b4b4175c37e4161f71326306facc[0;00m
+
+
+./.git/objects/04:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      813 May  1 18:16 94b937e6c6b8d764a43e81d203de248b9e082c[0;00m
+-r--------     1 jle034 classes       80 May  1 17:46 cffb7a896e9f24d68b481ebf096733a0f73997[0;00m
+
+
+./.git/objects/07:
+total 12
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       52 Apr 16 23:10 2dd4ecb8810562d881f3159b2ccc8ac14c5966[0;00m
+
+
+./.git/objects/08:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      113 Apr 13 21:59 ab458637f186065ccec93ac06b710b44a0a437[0;00m
+
+
+./.git/objects/0b:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      173 May  1 17:46 b2319b225914cb117d6d84fe9c80818b8e5a29[0;00m
+
+
+./.git/objects/0c:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      210 Apr 18 22:28 bf49e05b562bb268c0e74c24e298a8ee04773b[0;00m
+
+
+./.git/objects/0e:
+total 16
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 06:29 562484bfa40101b5f08c89f8cf7fa93cac81d9[0;00m
+
+
+./.git/objects/0f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 May  1 18:09 b807a464cd46eba14193222c977cb6413e10b0[0;00m
+
+
+./.git/objects/13:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      177 Apr 17 23:20 1d56b54b73c06947b9ce0d2087e5710061e5b2[0;00m
+
+
+./.git/objects/15:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      806 May  1 18:13 499fbbe20922822261e33a73cb0803aed2dab8[0;00m
+
+
+./.git/objects/17:
+total 12
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 15 14:32 0ddd220f4ce0b62c7d16ad85a0ace9caf263bf[0;00m
+
+
+./.git/objects/1b:
+total 12
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes       53 Apr 17 23:20 5319e357eb6e916506c9f55c22080743f373c8[0;00m
+
+
+./.git/objects/1c:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 May  1 05:51 7ffa15ecb9f447f7acb0681b86b6ad7dd7525a[0;00m
+
+
+./.git/objects/1d:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      183 May  1 18:15 6c7d1c1eeda1c017fcde29ae7467104a537dc0[0;00m
+-r--------     1 jle034 classes       79 May  1 10:21 8c9963cda97f1c808f1ab35bc9e03b31d17228[0;00m
+
+
+./.git/objects/1e:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes       84 Apr 13 21:20 c0c3fd481b90b3e8567b3cdb9b7b6921261be7[0;00m
+
+
+./.git/objects/20:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 05:51 7727f68165a859f228c695cd4803e899d9297a[0;00m
+
+
+./.git/objects/21:
+total 24
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 15:53 213b4029566890746a1b9de56211c89276984f[0;00m
+-r--------     1 jle034 classes       79 May  1 06:29 36adb888469d6fb96f77b468a3ae547963de8e[0;00m
+-r--------     1 jle034 classes       53 Apr 16 19:26 7edb9b237e8c6ecc172df782b943ee7ac985c9[0;00m
+-r--------     1 jle034 classes      801 May  1 18:09 e7ec3a034b22366b676e57fec4f329540d34a5[0;00m
+
+
+./.git/objects/24:
+total 16
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1159 Apr 19 11:31 89d1277d0148ac547fd2162b329fb73f0853e8[0;00m
+
+
+./.git/objects/25:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes     2820 May  1 05:23 32f41867ac6d72eb0160b4b795445d9e248d64[0;00m
+
+
+./.git/objects/26:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      227 Apr 18 22:01 b7e18ed7d8e1cfc11aecaf69e5d981d3d4a33a[0;00m
+
+
+./.git/objects/28:
+total 20
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+getgrgid: Success
+-r--------     1 jle034 [s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # all flags multiple times
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -allllR -aaaaaaaal -RRRRRRRRRLS[K[Kla
+.:
+total 200
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes   117970 Apr 30 20:59 [1;32ma.out[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34mbin[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.git[0;00m
+-rw-------     1 jle034 classes    35142 Apr 16 19:08 LICENSE[0;00m
+-rw-------     1 jle034 classes      325 May  1 18:03 Makefile[0;00m
+-rw-------     1 jle034 classes     1723 May  1 18:40 README.md[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;34msrc[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:55 [1;34mtests[0;00m
+
+
+./.git:
+total 56
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m.[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mbranches[0;00m
+-rw-------     1 jle034 classes       30 May  1 18:16 COMMIT_EDITMSG[0;00m
+-rw-------     1 jle034 classes      267 Apr 16 19:06 config[0;00m
+-rw-------     1 jle034 classes       73 Apr  9 21:03 description[0;00m
+-rw-------     1 jle034 classes       94 May  1 17:56 FETCH_HEAD[0;00m
+-rw-------     1 jle034 classes       23 May  1 18:02 HEAD[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mhooks[0;00m
+-rw-------     1 jle034 classes      568 May  1 18:16 index[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;34mlogs[0;00m
+-rw-------     1 jle034 classes      266 Apr 16 19:30 #MERGE_MSG#[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;34mobjects[0;00m
+-rw-------     1 jle034 classes       41 May  1 17:50 ORIG_HEAD[0;00m
+drwx------     5 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/branches:
+total 8
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+
+
+./.git/hooks:
+total 48
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes      452 Apr  9 21:03 [1;32mapplypatch-msg.sample[0;00m
+-rwx------     1 jle034 classes      896 Apr  9 21:03 [1;32mcommit-msg.sample[0;00m
+-rwx------     1 jle034 classes      189 Apr  9 21:03 [1;32mpost-update.sample[0;00m
+-rwx------     1 jle034 classes      398 Apr  9 21:03 [1;32mpre-applypatch.sample[0;00m
+-rwx------     1 jle034 classes     1635 Apr  9 21:03 [1;32mpre-commit.sample[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes     1239 Apr  9 21:03 [1;32mprepare-commit-msg.sample[0;00m
+-rwx------     1 jle034 classes     1348 Apr  9 21:03 [1;32mpre-push.sample[0;00m
+-rwx------     1 jle034 classes     4951 Apr  9 21:03 [1;32mpre-rebase.sample[0;00m
+-rwx------     1 jle034 classes     3611 Apr  9 21:03 [1;32mupdate.sample[0;00m
+
+
+./.git/info:
+total 12
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      240 Apr  9 21:03 exclude[0;00m
+
+
+./.git/logs:
+total 32
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes    16567 May  1 18:16 HEAD[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;34mrefs[0;00m
+
+
+./.git/logs/refs:
+total 16
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr  9 21:07 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;34mheads[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;34mremotes[0;00m
+
+
+./.git/logs/refs/heads:
+total 24
+drwx------     2 jle034 classes     4096 Apr 26 09:39 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      710 Apr 19 11:32 exec[0;00m
+-rw-------     1 jle034 classes     3349 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     6738 May  1 18:16 master[0;00m
+
+
+./.git/logs/refs/remotes:
+total 12
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m.[0;00m
+drwx------     4 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34morigin[0;00m
+
+
+./.git/logs/refs/remotes/origin:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------     3 jle034 classes     4096 Apr 16 19:27 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes      153 Apr 19 12:04 exec[0;00m
+-rw-------     1 jle034 classes      153 May  1 17:46 ls[0;00m
+-rw-------     1 jle034 classes     2302 May  1 18:16 master[0;00m
+
+
+./.git/objects:
+total 572
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m.[0;00m
+drwx------     8 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m02[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m04[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;34m07[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;34m08[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m0b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;34m0c[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;34m0e[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m0f[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m13[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m15[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m17[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m1b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m1c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m1d[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;34m1e[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m20[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;34m21[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;34m24[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;34m25[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m26[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34m28[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34m2a[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:07 [1;34m2b[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m2c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m2d[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m2f[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34m30[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m31[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m32[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;34m33[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m37[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m38[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34m39[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3a[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34m3b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m3c[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;34m3d[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34m3f[0;00m
+drwx------     2 jle034 classes     4096 May  1 06:28 [1;34m41[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34m43[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m44[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:06 [1;34m46[0;00m
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m48[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m4a[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m4c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34m4d[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34m4e[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m4f[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:51 [1;34m52[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:57 [1;34m53[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34m54[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;34m55[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34m57[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m58[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:47 [1;34m5a[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34m5b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:23 [1;34m5d[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34m5e[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:19 [1;34m60[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;34m62[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m63[0;00m
+drwx------     2 jle034 classes     4096 Apr 13 21:46 [1;34m65[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;34m6a[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:09 [1;34m6b[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;34m6f[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34m70[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m71[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;34m73[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m75[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34m76[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34m77[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;34m78[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34m79[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m7c[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34m80[0;00m
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34m83[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;34m85[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:13 [1;34m86[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m88[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;34m8a[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;34m8c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34m91[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;34m94[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;34m97[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34m98[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 19:26 [1;34m99[0;00m
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;34m9b[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34m9c[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34m9f[0;00m
+drwx------     2 jle034 classes     4096 Apr 15 14:31 [1;34ma0[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34ma1[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 17:45 [1;34ma3[0;00m
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;34ma4[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34ma6[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34ma7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34ma8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;34ma9[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;34mac[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mad[0;00m
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;34mae[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:24 [1;34mb1[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:12 [1;34mb3[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mb4[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb5[0;00m
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;34mb7[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;34mb8[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34mb9[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mbc[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mbe[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mc0[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;34mc4[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;34mc8[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;34mca[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md3[0;00m
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;34md6[0;00m
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;34md7[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;34mdb[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;34mdd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;34mde[0;00m
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;34mdf[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:33 [1;34me0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:52 [1;34me3[0;00m
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;34me4[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;34me6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;34me9[0;00m
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;34mea[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34med[0;00m
+drwx------     2 jle034 classes     4096 Apr 16 18:44 [1;34mf0[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mf1[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;34mf3[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;34mf4[0;00m
+drwx------     2 jle034 classes     4096 Apr 26 09:58 [1;34mf6[0;00m
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;34mf8[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;34mfa[0;00m
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;34mfc[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;34mfd[0;00m
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;34mfe[0;00m
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;34mff[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34minfo[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 21:03 [1;34mpack[0;00m
+
+
+./.git/objects/02:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      189 Apr 18 15:47 e1278b1f24b4b4175c37e4161f71326306facc[0;00m
+
+
+./.git/objects/04:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      813 May  1 18:16 94b937e6c6b8d764a43e81d203de248b9e082c[0;00m
+-r--------     1 jle034 classes       80 May  1 17:46 cffb7a896e9f24d68b481ebf096733a0f73997[0;00m
+
+
+./.git/objects/07:
+total 12
+drwx------     2 jle034 classes     4096 Apr 16 23:10 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       52 Apr 16 23:10 2dd4ecb8810562d881f3159b2ccc8ac14c5966[0;00m
+
+
+./.git/objects/08:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:59 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      113 Apr 13 21:59 ab458637f186065ccec93ac06b710b44a0a437[0;00m
+
+
+./.git/objects/0b:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      173 May  1 17:46 b2319b225914cb117d6d84fe9c80818b8e5a29[0;00m
+
+
+./.git/objects/0c:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      210 Apr 18 22:28 bf49e05b562bb268c0e74c24e298a8ee04773b[0;00m
+
+
+./.git/objects/0e:
+total 16
+drwx------     2 jle034 classes     4096 May  1 06:29 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 06:29 562484bfa40101b5f08c89f8cf7fa93cac81d9[0;00m
+
+
+./.git/objects/0f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 18:09 b807a464cd46eba14193222c977cb6413e10b0[0;00m
+
+
+./.git/objects/13:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      177 Apr 17 23:20 1d56b54b73c06947b9ce0d2087e5710061e5b2[0;00m
+
+
+./.git/objects/15:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      806 May  1 18:13 499fbbe20922822261e33a73cb0803aed2dab8[0;00m
+
+
+./.git/objects/17:
+total 12
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 15 14:32 0ddd220f4ce0b62c7d16ad85a0ace9caf263bf[0;00m
+
+
+./.git/objects/1b:
+total 12
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 17 23:20 5319e357eb6e916506c9f55c22080743f373c8[0;00m
+
+
+./.git/objects/1c:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 May  1 05:51 7ffa15ecb9f447f7acb0681b86b6ad7dd7525a[0;00m
+
+
+./.git/objects/1d:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      183 May  1 18:15 6c7d1c1eeda1c017fcde29ae7467104a537dc0[0;00m
+-r--------     1 jle034 classes       79 May  1 10:21 8c9963cda97f1c808f1ab35bc9e03b31d17228[0;00m
+
+
+./.git/objects/1e:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       84 Apr 13 21:20 c0c3fd481b90b3e8567b3cdb9b7b6921261be7[0;00m
+
+
+./.git/objects/20:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 05:51 7727f68165a859f228c695cd4803e899d9297a[0;00m
+
+
+./.git/objects/21:
+total 24
+drwx------     2 jle034 classes     4096 May  1 18:09 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 15:53 213b4029566890746a1b9de56211c89276984f[0;00m
+-r--------     1 jle034 classes       79 May  1 06:29 36adb888469d6fb96f77b468a3ae547963de8e[0;00m
+-r--------     1 jle034 classes       53 Apr 16 19:26 7edb9b237e8c6ecc172df782b943ee7ac985c9[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      801 May  1 18:09 e7ec3a034b22366b676e57fec4f329540d34a5[0;00m
+
+
+./.git/objects/24:
+total 16
+drwx------     2 jle034 classes     4096 Apr 19 11:31 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1159 Apr 19 11:31 89d1277d0148ac547fd2162b329fb73f0853e8[0;00m
+
+
+./.git/objects/25:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:23 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2820 May  1 05:23 32f41867ac6d72eb0160b4b795445d9e248d64[0;00m
+
+
+./.git/objects/26:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      227 Apr 18 22:01 b7e18ed7d8e1cfc11aecaf69e5d981d3d4a33a[0;00m
+
+
+./.git/objects/28:
+total 20
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 03:59 b8eb8adc50b1fefcdccecad6cf4358b9dd4fc3[0;00m
+-r--------     1 jle034 classes      554 Apr 18 21:49 c7ec88e34d94cfa5484117a924b8f9c6832b36[0;00m
+
+
+./.git/objects/2a:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      111 Apr 16 20:55 48ca18cdc0246fd1abc4186db3bb0dc6e9505e[0;00m
+
+
+./.git/objects/2b:
+total 16
+drwx------     2 jle034 classes     4096 Apr  9 21:07 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      131 Apr  9 21:07 146764c1210d4b39e7ea7c5a7ef0d2830dbccb[0;00m
+
+
+./.git/objects/2c:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 05:24 0e05bcd7e9c3bd39f6c394dc6176122d330fd1[0;00m
+
+
+./.git/objects/2d:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 Apr 30 15:53 863101a113b067976638a3e980468dc96c5e84[0;00m
+
+
+./.git/objects/2f:
+total 24
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes     1613 Apr 16 23:07 272da3749b058954e46b1b888fbf21be43855d[0;00m
+-r--------     1 jle034 classes      176 Apr 30 15:49 80e7fdc475b33d978d5867b9ab7e82e9e20595[0;00m
+-r--------     1 jle034 classes     1094 Apr 16 19:26 d0d47e97c7994dd1852aba167b45d607b00eb9[0;00m
+
+
+./.git/objects/30:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 05:51 bf10860ea86a938eca7dcd1fb2480d2a3aab98[0;00m
+
+
+./.git/objects/31:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      166 May  1 17:51 dee57fc127e0a79da0532f5a0a85297a43c313[0;00m
+
+
+./.git/objects/32:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 00:48 0f06d203598efbddae0a5e77e8df8ae8a3216d[0;00m
+-r--------     1 jle034 classes      176 May  1 18:04 c335ed8f59a79510847a1b0d537f01ad706022[0;00m
+
+
+./.git/objects/33:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:46 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      200 May  1 16:38 2fc5f4420f05142dba0a5b312f4a520b4499e1[0;00m
+-r--------     1 jle034 classes      176 May  1 17:46 d0a84a1ca7e34901e008c3762802262b46d60e[0;00m
+
+
+./.git/objects/37:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 Apr 18 22:18 fcf7d847aeb83cd19f615f19367f14cb263782[0;00m
+
+
+./.git/objects/38:
+total 16
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      133 Apr 26 10:00 15819be32001aea0a552c9467f9dc919066fc8[0;00m
+
+
+./.git/objects/39:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 02:11 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 Apr 30 02:11 e854e735f411f9d6b465a88e18608eb5fe9d06[0;00m
+
+
+./.git/objects/3a:
+total 12
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       63 Apr 18 16:12 cc978903bbb3c4f704933c021844d3001a09fc[0;00m
+
+
+./.git/objects/3b:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      112 Apr 17 20:14 aeeaab47c6ce26ea4bc5975bee903705cdae22[0;00m
+
+
+./.git/objects/3c:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      111 Apr 18 15:47 29ae9efbb356bfd710396c6434052f2bf509b3[0;00m
+
+
+./.git/objects/3d:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 16:12 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      144 Apr 18 16:12 22db4c8ebec01c50eff7f97c36c589621e0e1f[0;00m
+
+
+./.git/objects/3f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 05:24 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       79 May  1 05:24 c1ef05646659c0dfdd0dfd4f055279085cf545[0;00m
+
+
+./.git/objects/41:
+total 16
+drwx------     2 jle034 classes     4096 May  1 06:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes     2960 May  1 06:28 753af1a17b16797c022190aa8b1f0aaa46f1a1[0;00m
+
+
+./.git/objects/43:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      189 Apr 13 21:59 1c51d938964caf204095706e8a28f8f2b7ae90[0;00m
+-r--------     1 jle034 classes       55 Apr 18 22:01 492782407bd09c6b683c10136157e5aea0ed91[0;00m
+
+
+./.git/objects/44:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      202 Apr 18 13:04 a0e08e377595376707ca19be3ad0405bed7416[0;00m
+
+
+./.git/objects/46:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:06 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 16 20:55 7d066f30d838929eae782c90002540c731cbc1[0;00m
+-r--------     1 jle034 classes      808 May  1 18:06 8db8f3a7c0b0c76643201b173db4285c1b56ac[0;00m
+-r--------     1 jle034 classes      161 Apr 30 02:11 b2676e587eb1e7728518bc7d98de42b16fe328[0;00m
+
+
+./.git/objects/48:
+total 12
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 14 20:28 02e9dd6f8936ce50690fd8dcd581ae2acb51c9[0;00m
+
+
+./.git/objects/4a:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      180 May  1 18:13 41abee64574d41e873ff293e273d87bd3fc858[0;00m
+-r--------     1 jle034 classes      175 May  1 18:09 4d74b43f545348bf1f0630d751fdbe8c9b59f0[0;00m
+
+
+./.git/objects/4c:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      192 Apr 18 22:14 2a885ac28916a7a7e3fa539d7ee6ba72e207a5[0;00m
+
+
+./.git/objects/4d:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 May  1 18:07 1337a303603bc6339992e72745fe1068e6f052[0;00m
+
+
+./.git/objects/4e:
+total 20
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     3375 May  1 16:38 8b25e00ce61b27d6882a9a32ce335ee8e9ca34[0;00m
+-r--------     1 jle034 classes      140 Apr 19 12:10 c4ef65362dac22237cab5aa2b59566fffb83cb[0;00m
+
+
+./.git/objects/4f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 18:04 daf67cdecc147370c30a1bb2e607ba508cc3e7[0;00m
+-r--------     1 jle034 classes       53 Apr 18 00:39 e3762b471757a7f8dbb96176da97307a355427[0;00m
+
+
+./.git/objects/52:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1183 Apr 16 20:51 3131391aa0cef2d16395690cabddcd534efb87[0;00m
+
+
+./.git/objects/53:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:57 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      226 May  1 17:57 0dc0ec4e9cc75c5e7559631b0167d9de45b546[0;00m
+
+
+./.git/objects/54:
+total 12
+drwx------     2 jle034 classes     4096 Apr  9 21:06 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       51 Apr  9 21:06 3b9bebdc6bd5c4b22136034a95dd097a57d3dd[0;00m
+
+
+./.git/objects/55:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:14 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 Apr 18 22:14 9a4ef3565ac2847bfe7fa9b8e70522189c55b6[0;00m
+
+
+./.git/objects/57:
+total 16
+drwx------     2 jle034 classes     4096 Apr 26 09:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      175 Apr 26 09:59 7c7fe131da308ddb043bb4b063301016c91db2[0;00m
+
+
+./.git/objects/58:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      792 Apr 30 15:49 3ec230647fbd86ca68b72cb55790c9c92d1c9d[0;00m
+
+
+./.git/objects/5a:
+total 16
+drwx------     2 jle034 classes     4096 May  1 00:47 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2374 May  1 00:47 7642f3bf86840cd9522bb71ddd90ca49a38025[0;00m
+
+
+./.git/objects/5b:
+total 16
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      192 Apr 19 11:32 f23c362c3efdaa7e33f71da12dce6390fbdcb2[0;00m
+
+
+./.git/objects/5d:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 18 22:23 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      547 Apr 18 22:23 34c7f81f4f491334b0e4db3fe973cf1c27fe32[0;00m
+
+
+./.git/objects/5e:
+total 24
+drwx------     2 jle034 classes     4096 May  1 18:15 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     3717 Apr 18 15:39 51ba598898aee6d07a58cd72a104591961dda7[0;00m
+-r--------     1 jle034 classes      172 May  1 06:29 63fc2d43862ed727c7fa4dc732884b1011b54a[0;00m
+-r--------     1 jle034 classes      176 May  1 18:15 9d5aa62938d03b551ca05f619435632879ee20[0;00m
+
+
+./.git/objects/60:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:19 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      553 Apr 13 21:19 4bbd6474a35be3ac0cfd9791a2c2deccbbe7a3[0;00m
+
+
+./.git/objects/62:
+total 16
+drwx------     2 jle034 classes     4096 Apr 26 10:00 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 Apr 26 10:00 29b7553ded0c7d31a8fa901693192dafef9726[0;00m
+
+
+./.git/objects/63:
+total 20
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      171 Apr 16 19:10 4e5dfdfd86dbc8052e6f1d4408b12fc1307439[0;00m
+-r--------     1 jle034 classes      218 Apr 30 15:49 e0fe470a58ef12eb0a8da6e873d1c6bc54c38a[0;00m
+
+
+./.git/objects/65:
+total 16
+drwx------     2 jle034 classes     4096 Apr 13 21:46 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      186 Apr 13 21:46 6f126b73479fb37aba3b95a5f8d90860adb02e[0;00m
+
+
+./.git/objects/6a:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:04 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      808 May  1 18:04 9a3be49ac18932bcc2317b28a6893aee40bb9b[0;00m
+
+
+./.git/objects/6b:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:09 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      802 May  1 17:09 2fa6324e3fa2ed2fa506fb9f32dce12d9e216f[0;00m
+
+
+./.git/objects/6f:
+total 12
+drwx------     2 jle034 classes     4096 Apr 18 15:47 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 18 15:47 c74b9f291c3e39c693f4e45acd256e779a8098[0;00m
+
+
+./.git/objects/70:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 13:04 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      111 Apr 18 13:04 974b1838d08c4f817f7b0b3b8cf3d0d4efc9c4[0;00m
+
+
+./.git/objects/71:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1051 Apr 30 16:56 c1a56f55433a9bb8490fa4dc8d78dcf1b01c6f[0;00m
+
+
+./.git/objects/73:
+total 36
+drwx------     2 jle034 classes     4096 Apr 30 15:53 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes    14236 Apr 16 18:44 3c072369ca77331f392c40da7404c85c36542c[0;00m
+-r--------     1 jle034 classes       80 Apr 30 15:53 d93e51f7d543e30de98239846bc4fd6d7ad528[0;00m
+-r--------     1 jle034 classes      176 Apr 26 10:00 f9565d1501362baf01faf0f8992d58d0b9f839[0;00m
+
+
+./.git/objects/75:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      200 Apr 16 20:52 a23b75a16a421c7742c1d9d3c6283e209be3e3[0;00m
+
+
+./.git/objects/76:
+total 24
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      145 Apr 16 18:44 25805f74b74120ccce3fa9a8e7f76fdafb5f0b[0;00m
+-r--------     1 jle034 classes      111 Apr 17 23:20 aa91ada13a74acca16db72eb1433b45c3c2a9d[0;00m
+-r--------     1 jle034 classes      195 Apr 18 00:39 dbc6121ee9c133fd526979f5255682d54cb83f[0;00m
+
+
+./.git/objects/77:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 Apr 30 16:56 ee0e4fefba3ff53b49419004793f54f1a6273c[0;00m
+
+
+./.git/objects/78:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 15:49 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 Apr 30 15:49 bb15adca062a87eaedf0f1d9376e58d075aec8[0;00m
+
+
+./.git/objects/79:
+total 16
+drwx------     2 jle034 classes     4096 Apr 24 21:34 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      164 Apr 24 21:34 51bb850e9e029594c76aabdc6f666fcc3d5efe[0;00m
+
+
+./.git/objects/7c:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      804 May  1 18:11 0aaf93ceaf7b5e94c5be824e50693cdaf1f7bf[0;00m
+
+
+./.git/objects/80:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 15:34 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 Apr 30 15:34 21f9f614ede1b4c88a2796859220bb31def483[0;00m
+
+
+./.git/objects/83:
+total 16
+drwx------     2 jle034 classes     4096 May  1 15:53 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     3253 May  1 15:53 4b162c514ef15bbf7310c723423cab64adcfca[0;00m
+
+
+./.git/objects/85:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 23:20 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     3080 Apr 17 23:20 0bdcdd6c3abba2bc23a42854b98b0e619ecd24[0;00m
+
+
+./.git/objects/86:
+total 24
+drwx------     2 jle034 classes     4096 Apr 18 22:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      206 Apr 16 23:10 67f08ddd1a0675d3660ff2dfdc5a256c81f1b9[0;00m
+-r--------     1 jle034 classes      171 Apr 16 18:56 86c6e69b1608d0fd8763917c08fd2314ab3515[0;00m
+-r--------     1 jle034 classes      548 Apr 18 22:13 92a3710e9689675270617014d15c003a2552cc[0;00m
+
+
+./.git/objects/88:
+total 28
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      187 Apr 17 20:14 3e34af8f270cccb9da0b470d538483c8a5f8ac[0;00m
+-r--------     1 jle034 classes      174 Apr 26 10:00 541d82a5267ff36c2fc7ceb21a8719a72759be[0;00m
+-r--------     1 jle034 classes      177 Apr 19 11:32 971212a7aad57dfbd96d2a03fb825ab7eccba3[0;00m
+-r--------     1 jle034 classes      227 May  1 17:51 9c166839e36022e3e815aed76c91837e910309[0;00m
+
+
+./.git/objects/8a:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:18 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      177 Apr 18 22:18 30bfe858577781bd0fa512fa2248e421487bde[0;00m
+
+
+./.git/objects/8c:
+total 20
+drwx------     2 jle034 classes     4096 May  1 18:13 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      205 Apr 30 15:53 da286c30d38dc879a8d31dc802d4ee166e14fc[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 May  1 18:13 ea8bbc9265868bf2402efcdb0c0c76c8cb7dc0[0;00m
+
+
+./.git/objects/91:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      181 May  1 18:11 b48a561cb7c114e0b5292c1de65f504ac42688[0;00m
+
+
+./.git/objects/94:
+total 16
+drwx------     2 jle034 classes     4096 Apr 15 14:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      113 Apr 15 14:32 8281965af28ab2c22fff8f2dbdd99833938d61[0;00m
+
+
+./.git/objects/97:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:52 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 16 20:52 4dfee1e4bf8ab94867eaee5230da9635343314[0;00m
+-r--------     1 jle034 classes      111 Apr 16 19:26 66fd04f36cb898d932280e5d88ad1fee8b6258[0;00m
+
+
+./.git/objects/98:
+total 16
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      185 May  1 00:48 f4ca806e49edabb09e8407b391e2f2861a3962[0;00m
+
+
+./.git/objects/99:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 19:26 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      185 Apr 16 19:26 0f307fc7ea5aaed3e822b19e39353485fb3810[0;00m
+-r--------     1 jle034 classes       51 Apr 16 18:44 35631d78acc1fecf797c83f36f76ae5e326d32[0;00m
+
+
+./.git/objects/9b:
+total 16
+drwx------     2 jle034 classes     4096 Apr 14 20:28 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      113 Apr 14 20:28 65e059ac720858da7c774fccf296eb076ceaaf[0;00m
+
+
+./.git/objects/9c:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 17:51 59ee8efae508670aeda48768c206fc609cccec[0;00m
+
+
+./.git/objects/9f:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:16 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      183 May  1 18:16 ebce8771d64d6139952542b451ff7e3c15bf18[0;00m
+
+
+./.git/objects/a0:
+total 16
+drwx------     2 jle034 classes     4096 Apr 15 14:31 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2597 Apr 15 14:31 0a099a510f6ee2244408c4938d263bdebd8117[0;00m
+
+
+./.git/objects/a1:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 17:56 a4028b4c7291ddd76f674b03aeab45c7a2cfad[0;00m
+
+
+./.git/objects/a3:
+total 16
+drwx------     2 jle034 classes     4096 May  1 17:45 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     3378 May  1 17:45 d733b3a11ccdde95c1199013925d94396d71e9[0;00m
+
+
+./.git/objects/a4:
+total 16
+drwx------     2 jle034 classes     4096 Apr 19 11:32 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      549 Apr 18 22:17 cc01492fbdf96e92fd70014b0e9eceaeca3b6c[0;00m
+-r--------     1 jle034 classes       55 Apr 19 11:32 d6501e01ffbc12c1f067f41828a707d279303f[0;00m
+
+
+./.git/objects/a6:
+total 16
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2803 May  1 03:59 3d5244b1037cea43fd77a8e94dba9b3dd4a264[0;00m
+
+
+./.git/objects/a7:
+total 16
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      176 May  1 16:38 a908521afbf157e0a93692dec219214ee89783[0;00m
+
+
+./.git/objects/a8:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:10 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      193 May  1 17:10 115893e9bb874d0478637f5a04d522409b779d[0;00m
+-r--------     1 jle034 classes      571 Apr 14 20:27 95f3147773d032e0670938e93b122ae7719d7a[0;00m
+
+
+./.git/objects/a9:
+total 16
+drwx------     2 jle034 classes     4096 May  1 18:11 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 18:11 a462fc3ce6f82955fb6d193233994d732a0f47[0;00m
+
+
+./.git/objects/ac:
+total 28
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 18:07 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 May  1 18:07 71885931a08756827030a1712387c8eb00a384[0;00m
+-r--------     1 jle034 classes      143 Apr 19 12:08 76e9a9423763ca6accd4565a9d23d19ff0cee6[0;00m
+-r--------     1 jle034 classes       80 Apr 24 21:34 8383581874ab9c74697413767e0ca1079a704d[0;00m
+-r--------     1 jle034 classes      111 Apr 16 20:52 9d1590f2c9e5cfc0e60873e0a9165ef652858d[0;00m
+
+
+./.git/objects/ad:
+total 20
+drwx------     2 jle034 classes     4096 May  1 17:51 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1017 May  1 17:51 2ba257dd95a9fcf4c2b2b63dbcff6140c40293[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes      647 Apr 30 15:33 747d0d4ef11adb5dfa41b762b9843a39d9ad98[0;00m
+
+
+./.git/objects/ae:
+total 20
+drwx------     2 jle034 classes     4096 May  1 16:38 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      193 Apr 14 20:28 682b80e58cbaf8ab83425980a297f3bd338982[0;00m
+-r--------     1 jle034 classes       80 May  1 16:38 fa2200e35e0be7b2ab2ec88d46f280d0fbffc5[0;00m
+
+
+./.git/objects/b1:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:24 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      601 Apr 18 22:24 8315c40326ddb797d77bf56b7f640439597810[0;00m
+
+
+./.git/objects/b3:
+total 16
+drwx------     2 jle034 classes     4096 Apr 17 20:12 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2569 Apr 17 20:12 a24b09f3914674dde08ef5f31db83841076934[0;00m
+
+
+./.git/objects/b4:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 22:01 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      201 Apr 18 22:01 178699c339dc662c45813ad7824830d94e33fd[0;00m
+
+
+./.git/objects/b5:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      194 Apr 30 16:56 2667bf8ca3abd693891562d14ce7b80075738f[0;00m
+
+
+./.git/objects/b7:
+total 16
+drwx------     2 jle034 classes     4096 May  1 00:48 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       80 May  1 00:48 3e4344760b546e522ccc5716ef5d9a978e20ba[0;00m
+
+
+./.git/objects/b8:
+total 16
+drwx------     2 jle034 classes     4096 Apr 30 16:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      176 Apr 30 16:56 9540738495e76050dbbbb8edf3447c5f26fa89[0;00m
+
+
+./.git/objects/b9:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes       53 Apr 13 21:59 30712c4b844134fea3511e6af2b7fbc687516b[0;00m
+-r--------     1 jle034 classes      176 May  1 10:21 7c08c03cf8de8c5fa669737359c3b116c348c6[0;00m
+
+
+./.git/objects/bc:
+total 16
+drwx------     2 jle034 classes     4096 May  1 03:59 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes       80 May  1 03:59 45636938951d117404b7bebf544a957143a71f[0;00m
+
+
+./.git/objects/be:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     1187 Apr 16 20:55 9ca0e6cf097f148c2b5a9d56fb99e8f9177a3d[0;00m
+
+
+./.git/objects/c0:
+total 20
+drwx------     2 jle034 classes     4096 Apr 18 21:49 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      685 Apr 18 21:49 0c3cbe710e8c2928b2965f995d75bf412d291e[0;00m
+-r--------     1 jle034 classes      168 Apr 18 16:12 ea79cc670c6d3f90a6c9d51d5278b3dc368d22[0;00m
+
+
+./.git/objects/c4:
+total 16
+drwx------     2 jle034 classes     4096 Apr 18 00:39 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      111 Apr 18 00:39 a1fa45d18959fb70f6fc4ecf9e3d6f7e21f21c[0;00m
+
+
+./.git/objects/c8:
+total 16
+drwx------     2 jle034 classes     4096 Apr 16 20:55 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      202 Apr 16 20:55 037de2418de5e2d2c560681e79eff143fdbb1e[0;00m
+
+
+./.git/objects/ca:
+total 16
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 May  1 17:56 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes      109 May  1 17:56 231903df3e1a4efb1901d42f00b93e46cfdf95[0;00m
+
+
+./.git/objects/d3:
+total 20
+drwx------     2 jle034 classes     4096 May  1 10:21 [1;100;34m.[0;00m
+drwx------   142 jle034 classes     8192 May  1 18:16 [1;100;34m..[0;00m
+-r--------     1 jle034 classes     2956 May  1 10:21 407831decb5cf17437257a2e37a0e651060718[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-r--------     1 jle034 classes     3528 Apr 18 13:02 7456fcecf327118e2eb8f556b49c079a2d4e4a[0;00m
+
+
+./.git/objects/d6:
+total 12
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Apr 17 20:14 [1;100;34m.[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+getpwuid: Success
+drwx------   142 [s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m #valid flags that are not supported
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -f
+Error: One or more of these flags cannot be handled.
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # invalid fal[K[Klags
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -
+Error: One or more of these flags is invalid.
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # one file
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls src
+cp.cpp      [0;00m  ls.cpp      [0;00m  main.cpp    [0;00m  
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # many files including . and ..
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls . .. src bin
+.:
+[1;32ma.out      [0;00m  [1;34mbin        [0;00m  LICENSE    [0;00m  Makefile   [0;00m  README.md  [0;00m  [1;34msrc        [0;00m  [1;34mtests      [0;00m  
+
+
+..:
+[1;32massn01.asm~       [0;00m  [1;32massn1.asm~        [0;00m  assn2.asm~        [0;00m  [1;34mCS61              [0;00m  
+[1;34mDesktop           [0;00m  [1;34mDocuments         [0;00m  [1;34mDownloads         [0;00m  [1;34mEE120B            [0;00m  
+[1;32mhelloworld.asm~   [0;00m  [1;32mlab1.asm~         [0;00m  [1;32mlab2_1.asm~       [0;00m  [1;32mlab2_2.asm~       [0;00m  
+[1;32mlab2_3.asm~       [0;00m  lab2_4.asm~       [0;00m  lab2_5.asm~       [0;00m  [1;32mlab2.asm~         [0;00m  
+[1;32mlab3_1.asm~       [0;00m  lab3.tgz          [0;00m  lab7.tgz          [0;00m  lab8.tgz          [0;00m  
+[1;34mMusic             [0;00m  [1;34mPictures          [0;00m  [1;34mPublic            [0;00m  [1;34mrshell            [0;00m  
+[1;34mrshell-1          [0;00m  [1;34mTemplates         [0;00m  TEST              [0;00m  [1;34mucr-cs100         [0;00m  
+[1;34mVideos            [0;00m  vimrc             [0;00m  
+
+bin:
+[1;32mls        [0;00m  [1;32mrshell    [0;00m  
+
+src:
+cp.cpp      [0;00m  ls.cpp      [0;00m  main.cpp    [0;00m  
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # files movig[Kng through directories
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls ../rshell/src
+cp.cpp                [0;00m  ls.cpp                [0;00m  main.cpp              [0;00m  
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # flags and files together
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls .. -al 
+total 3356
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m.[0;00m
+drwx--x--x  1974 root root   835584 Apr 27 15:56 [1;100;34m..[0;00m
+drwx------     4 jle034 classes     4096 Oct 15  2013 [1;100;34m.adobe[0;00m
+-rwx------     1 jle034 classes        0 Apr  2  2014 [1;32massn01.asm~[0;00m
+-rwx------     1 jle034 classes     1042 Apr  3  2014 [1;32massn1.asm~[0;00m
+-rw-r--r--     1 jle034 classes     2095 Apr 12  2014 assn2.asm~[0;00m
+-rwx------     1 jle034 classes     1128 May  1 18:55 [1;100;32m.bash_history[0;00m
+-rw-------     1 jle034 classes       24 Sep 19  2008 [1;100;37m.bash_logout[0;00m
+-rw-------     1 jle034 classes     1270 Sep 19  2008 [1;100;37m.bashrc[0;00m
+drwx------     3 jle034 classes     4096 Jan  9  2014 [1;100;34m.cache[0;00m
+drwx------     6 jle034 classes     4096 Oct  1  2013 [1;100;34m.config[0;00m
+drwx------     2 jle034 classes     8192 Nov  4  2014 [1;34mCS61[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.dbus[0;00m
+-rwx------     1 jle034 classes       66 May 28  2014 [1;100;32m.DCOPserver_alpha-13.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  2  2014 [1;100;32m.DCOPserver_alpha-15.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  3  2014 [1;100;32m.DCOPserver_alpha-18.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  9  2014 [1;100;32m.DCOPserver_alpha-24.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       64 May  7  2014 [1;100;32m.DCOPserver_alpha-25.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       66 May 21  2014 [1;100;32m.DCOPserver_alpha-30.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       65 Apr 16  2014 [1;100;32m.DCOPserver_alpha-4.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       70 May  8  2014 [1;100;32m.DCOPserver_foxtrot-37.cs.ucr.edu__0[0;00m
+-rw-------     1 jle034 classes       64 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1003[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  8  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1003[0;00m
+-rw-------     1 jle034 classes       62 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1004[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 29  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1004[0;00m
+-rw-------     1 jle034 classes       62 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1005[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 10  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1005[0;00m
+-rw-------     1 jle034 classes       64 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1006[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 29  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1006[0;00m
+-rw-------     1 jle034 classes       64 May  1  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1007[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  1  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1007[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rw-------     1 jle034 classes       62 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1008[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  8  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1008[0;00m
+-rw-------     1 jle034 classes       64 Apr  3  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1009[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr  3  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1009[0;00m
+-rw-------     1 jle034 classes       64 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1010[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  7  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1010[0;00m
+-rw-------     1 jle034 classes       64 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1011[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  6  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1011[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1013[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 25  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1013[0;00m
+-rw-------     1 jle034 classes       64 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1014[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 23  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1014[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1015[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 17  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1015[0;00m
+-rw-------     1 jle034 classes       62 May 17  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1016[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  1  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1016[0;00m
+-rw-------     1 jle034 classes       62 May 20  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1017[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 20  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1017[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1018[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1018[0;00m
+-rw-------     1 jle034 classes       64 May  2  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1019[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  2  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1019[0;00m
+-rw-------     1 jle034 classes       64 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1020[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 22  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1020[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1021[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1021[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1022[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 30  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1022[0;00m
+-rw-------     1 jle034 classes       64 Nov 14  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1024[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Nov 14  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1024[0;00m
+-rw-------     1 jle034 classes       64 May 23  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1025[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 23  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1025[0;00m
+-rw-------     1 jle034 classes       64 May 17  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1026[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 17  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1026[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1031[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1031[0;00m
+-rw-------     1 jle034 classes       62 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1032[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 31  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1032[0;00m
+-rw-------     1 jle034 classes       64 Apr 26  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1043[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 26  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1043[0;00m
+-rw-------     1 jle034 classes       64 May 10  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1045[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 10  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1045[0;00m
+-rw-------     1 jle034 classes       64 Apr 26  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1049[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 26  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1049[0;00m
+drwx------     2 jle034 classes     4096 Apr 29 19:07 [1;34mDesktop[0;00m
+-rwx------     1 jle034 classes       27 Nov 19  2013 [1;100;32m.dmrc[0;00m
+drwx------     6 jle034 classes     4096 Jan 16  2014 [1;34mDocuments[0;00m
+drwx------     3 jle034 classes     4096 Apr 23 22:45 [1;34mDownloads[0;00m
+drwx------     7 jle034 classes     4096 Apr 29 18:53 [1;34mEE120B[0;00m
+drwx------     2 jle034 classes     4096 Sep 27  2013 [1;100;34m.eggcups[0;00m
+drwx------     3 jle034 classes     4096 Jan 16  2014 [1;100;34m.emacs.d[0;00m
+-rwx------     1 jle034 classes       16 Sep 27  2013 [1;100;32m.esd_auth[0;00m
+drwxr-xr-x     7 jle034 classes     4096 Nov  4  2014 [1;100;34m.evolution[0;00m
+-rwx------     1 jle034 classes     4096 Dec  3  2013 [1;100;32m.execooof4HS5o[0;00m
+-rwx------     1 jle034 classes     4096 Dec  3  2013 [1;100;32m.execoooS6cFtY[0;00m
+drwx------     2 jle034 classes     8192 Apr  9 21:06 [1;100;34m.fontconfig[0;00m
+drwx------     4 jle034 classes     4096 May  1 14:51 [1;100;34m.gconf[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:20 [1;100;34m.gconfd[0;00m
+drwx------     3 jle034 classes     4096 Apr 13 19:54 [1;100;34m.gitlearn[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.gnome[0;00m
+drwx------    11 jle034 classes    16384 May  1 10:29 [1;100;34m.gnome2[0;00m
+drwx------     2 jle034 classes     4096 Sep 27  2013 [1;100;34m.gnome2_private[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.gnote[0;00m
+drwx------     2 jle034 classes     4096 Apr 29 23:13 [1;100;34m.gnupg[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     2 jle034 classes     4096 Dec  6  2013 [1;100;34m.gstreamer-0.10[0;00m
+-rwx------     1 jle034 classes      187 Dec  3  2013 [1;100;32m.gtk-bookmarks[0;00m
+-rwx------     1 jle034 classes       97 Sep 27  2013 [1;100;32m.gtkrc-1.2-gnome2[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;100;34m.gvfs[0;00m
+-rwx------     1 jle034 classes      734 Apr  2  2014 [1;32mhelloworld.asm~[0;00m
+-rw-------     1 jle034 classes    27293 May  1 14:51 [1;100;37m.ICEauthority[0;00m
+-rwx------     1 jle034 classes      657 Dec  3  2013 [1;100;32m.imsettings.log[0;00m
+drwx------     3 jle034 classes     4096 Apr 10  2014 [1;100;34m.kde[0;00m
+-rwx------     1 jle034 classes      683 Apr  2  2014 [1;32mlab1.asm~[0;00m
+-rwx------     1 jle034 classes      457 Apr  9  2014 [1;32mlab2_1.asm~[0;00m
+-rwx------     1 jle034 classes      614 Apr  9  2014 [1;32mlab2_2.asm~[0;00m
+-rwx------     1 jle034 classes      563 Apr  9  2014 [1;32mlab2_3.asm~[0;00m
+-rw-r--r--     1 jle034 classes      445 Apr 10  2014 lab2_4.asm~[0;00m
+-rw-r--r--     1 jle034 classes      436 Apr 10  2014 lab2_5.asm~[0;00m
+-rwx------     1 jle034 classes      454 Apr  9  2014 [1;32mlab2.asm~[0;00m
+-rwx------     1 jle034 classes      285 Apr 16  2014 [1;32mlab3_1.asm~[0;00m
+-rw-------     1 jle034 classes       45 Apr 16  2014 lab3.tgz[0;00m
+-rw-------     1 jle034 classes       45 May 17  2014 lab7.tgz[0;00m
+-rw-------     1 jle034 classes       45 May 22  2014 lab8.tgz[0;00m
+drwx------     3 jle034 classes     4096 Dec  3  2013 [1;100;34m.libreoffice[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.local[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.macromedia[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.metacity[0;00m
+drwx------     4 jle034 classes     4096 Sep 27  2013 [1;100;34m.mozilla[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mMusic[0;00m
+drwx------     3 jle034 classes    12288 May  1 10:29 [1;100;34m.nautilus[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.nv[0;00m
+drwx------   178 jle034 classes    20480 May  1 14:51 [1;100;34m.nx[0;00m
+drwxr-xr-x     3 jle034 classes     4096 May 24  2014 [1;100;34m.openoffice.org[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mPictures[0;00m
+drwx------     3 jle034 classes     4096 Apr  6 15:41 [1;100;34m.pki[0;00m
+-rwx------     1 jle034 classes       84 Sep 23  2013 [1;100;32m.procmailrc[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rw-------     1 jle034 classes      965 Sep 19  2008 [1;100;37m.profile[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mPublic[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;100;34m.pulse[0;00m
+-rwx------     1 jle034 classes      256 Oct  1  2013 [1;100;32m.pulse-cookie[0;00m
+drwx------     2 jle034 classes     4096 Nov 14  2014 [1;100;34m.qt[0;00m
+-rw-r--r--     1 jle034 classes    41178 Apr  4 20:39 [1;100;37m.recently-used.xbel[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.redhat[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;34mrshell[0;00m
+drwx------     5 jle034 classes     4096 Apr 27 18:03 [1;34mrshell-1[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 20:14 [1;100;34m.ssh[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mTemplates[0;00m
+-rw-------     1 jle034 classes      359 Mar 30 15:11 TEST[0;00m
+drwx------     4 jle034 classes     4096 Apr 19 11:04 [1;100;34m.Trash[0;00m
+drwx------     9 jle034 classes     4096 Apr  9 21:17 [1;34mucr-cs100[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mVideos[0;00m
+-rwx------     1 jle034 classes     9657 May  1 18:40 [1;100;32m.viminfo[0;00m
+-rw-------     1 jle034 classes       11 Apr  9 22:19 vimrc[0;00m
+-rw-------     1 jle034 classes       79 Apr 14 21:26 [1;100;37m.vimrc[0;00m
+-rw-------     1 jle034 classes     4592 May  1 17:52 [1;100;37m.Xauthority[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes  2121028 Nov 26  2013 [1;100;32m.xsession-errors.old[0;00m
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m f[K# flags and files mixed up
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls -a src bin -al .. -aaal
+..:
+total 3356
+drwx------    49 jle034 classes    16384 May  1 18:40 [1;100;34m.[0;00m
+drwx--x--x  1974 root root   835584 Apr 27 15:56 [1;100;34m..[0;00m
+drwx------     4 jle034 classes     4096 Oct 15  2013 [1;100;34m.adobe[0;00m
+-rwx------     1 jle034 classes        0 Apr  2  2014 [1;32massn01.asm~[0;00m
+-rwx------     1 jle034 classes     1042 Apr  3  2014 [1;32massn1.asm~[0;00m
+-rw-r--r--     1 jle034 classes     2095 Apr 12  2014 assn2.asm~[0;00m
+-rwx------     1 jle034 classes     1128 May  1 18:55 [1;100;32m.bash_history[0;00m
+-rw-------     1 jle034 classes       24 Sep 19  2008 [1;100;37m.bash_logout[0;00m
+-rw-------     1 jle034 classes     1270 Sep 19  2008 [1;100;37m.bashrc[0;00m
+drwx------     3 jle034 classes     4096 Jan  9  2014 [1;100;34m.cache[0;00m
+drwx------     6 jle034 classes     4096 Oct  1  2013 [1;100;34m.config[0;00m
+drwx------     2 jle034 classes     8192 Nov  4  2014 [1;34mCS61[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.dbus[0;00m
+-rwx------     1 jle034 classes       66 May 28  2014 [1;100;32m.DCOPserver_alpha-13.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  2  2014 [1;100;32m.DCOPserver_alpha-15.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  3  2014 [1;100;32m.DCOPserver_alpha-18.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       68 Apr  9  2014 [1;100;32m.DCOPserver_alpha-24.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       64 May  7  2014 [1;100;32m.DCOPserver_alpha-25.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       66 May 21  2014 [1;100;32m.DCOPserver_alpha-30.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       65 Apr 16  2014 [1;100;32m.DCOPserver_alpha-4.cs.ucr.edu__0[0;00m
+-rwx------     1 jle034 classes       70 May  8  2014 [1;100;32m.DCOPserver_foxtrot-37.cs.ucr.edu__0[0;00m
+-rw-------     1 jle034 classes       64 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1003[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  8  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1003[0;00m
+-rw-------     1 jle034 classes       62 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1004[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 29  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1004[0;00m
+-rw-------     1 jle034 classes       62 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1005[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 10  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1005[0;00m
+-rw-------     1 jle034 classes       64 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1006[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 29  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1006[0;00m
+-rw-------     1 jle034 classes       64 May  1  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1007[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  1  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1007[0;00m
+-rw-------     1 jle034 classes       62 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1008[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  8  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1008[0;00m
+-rw-------     1 jle034 classes       64 Apr  3  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1009[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr  3  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1009[0;00m
+-rw-------     1 jle034 classes       64 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1010[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  7  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1010[0;00m
+-rw-------     1 jle034 classes       64 May  8  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1011[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  6  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1011[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1013[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+lrwxrwxrwx     1 jle034 classes       55 Apr 25  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1013[0;00m
+-rw-------     1 jle034 classes       64 May 29  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1014[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 23  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1014[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1015[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 17  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1015[0;00m
+-rw-------     1 jle034 classes       62 May 17  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1016[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  1  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1016[0;00m
+-rw-------     1 jle034 classes       62 May 20  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1017[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 20  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1017[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1018[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1018[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rw-------     1 jle034 classes       64 May  2  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1019[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  2  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1019[0;00m
+-rw-------     1 jle034 classes       64 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1020[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 22  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1020[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1021[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1021[0;00m
+-rw-------     1 jle034 classes       62 May 30  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1022[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 30  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1022[0;00m
+-rw-------     1 jle034 classes       64 Nov 14  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1024[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Nov 14  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1024[0;00m
+-rw-------     1 jle034 classes       64 May 23  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1025[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 23  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1025[0;00m
+-rw-------     1 jle034 classes       64 May 17  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1026[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 17  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1026[0;00m
+-rw-------     1 jle034 classes       64 May  9  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1031[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May  9  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1031[0;00m
+-rw-------     1 jle034 classes       62 May 31  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1032[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 31  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1032[0;00m
+-rw-------     1 jle034 classes       64 Apr 26  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1043[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 26  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1043[0;00m
+-rw-------     1 jle034 classes       64 May 10  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1045[0;00m
+lrwxrwxrwx     1 jle034 classes       55 May 10  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1045[0;00m
+-rw-------     1 jle034 classes       64 Apr 26  2014 [1;100;37m.DCOPserver_well.cs.ucr.edu__1049[0;00m
+lrwxrwxrwx     1 jle034 classes       55 Apr 26  2014 [1;100;32m.DCOPserver_well.cs.ucr.edu_:1049[0;00m
+drwx------     2 jle034 classes     4096 Apr 29 19:07 [1;34mDesktop[0;00m
+-rwx------     1 jle034 classes       27 Nov 19  2013 [1;100;32m.dmrc[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     6 jle034 classes     4096 Jan 16  2014 [1;34mDocuments[0;00m
+drwx------     3 jle034 classes     4096 Apr 23 22:45 [1;34mDownloads[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     7 jle034 classes     4096 Apr 29 18:53 [1;34mEE120B[0;00m
+drwx------     2 jle034 classes     4096 Sep 27  2013 [1;100;34m.eggcups[0;00m
+drwx------     3 jle034 classes     4096 Jan 16  2014 [1;100;34m.emacs.d[0;00m
+-rwx------     1 jle034 classes       16 Sep 27  2013 [1;100;32m.esd_auth[0;00m
+drwxr-xr-x     7 jle034 classes     4096 Nov  4  2014 [1;100;34m.evolution[0;00m
+-rwx------     1 jle034 classes     4096 Dec  3  2013 [1;100;32m.execooof4HS5o[0;00m
+-rwx------     1 jle034 classes     4096 Dec  3  2013 [1;100;32m.execoooS6cFtY[0;00m
+drwx------     2 jle034 classes     8192 Apr  9 21:06 [1;100;34m.fontconfig[0;00m
+drwx------     4 jle034 classes     4096 May  1 14:51 [1;100;34m.gconf[0;00m
+drwx------     2 jle034 classes     4096 May  1 18:20 [1;100;34m.gconfd[0;00m
+drwx------     3 jle034 classes     4096 Apr 13 19:54 [1;100;34m.gitlearn[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.gnome[0;00m
+drwx------    11 jle034 classes    16384 May  1 10:29 [1;100;34m.gnome2[0;00m
+drwx------     2 jle034 classes     4096 Sep 27  2013 [1;100;34m.gnome2_private[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.gnote[0;00m
+drwx------     2 jle034 classes     4096 Apr 29 23:13 [1;100;34m.gnupg[0;00m
+drwx------     2 jle034 classes     4096 Dec  6  2013 [1;100;34m.gstreamer-0.10[0;00m
+-rwx------     1 jle034 classes      187 Dec  3  2013 [1;100;32m.gtk-bookmarks[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rwx------     1 jle034 classes       97 Sep 27  2013 [1;100;32m.gtkrc-1.2-gnome2[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;100;34m.gvfs[0;00m
+-rwx------     1 jle034 classes      734 Apr  2  2014 [1;32mhelloworld.asm~[0;00m
+-rw-------     1 jle034 classes    27293 May  1 14:51 [1;100;37m.ICEauthority[0;00m
+-rwx------     1 jle034 classes      657 Dec  3  2013 [1;100;32m.imsettings.log[0;00m
+drwx------     3 jle034 classes     4096 Apr 10  2014 [1;100;34m.kde[0;00m
+-rwx------     1 jle034 classes      683 Apr  2  2014 [1;32mlab1.asm~[0;00m
+-rwx------     1 jle034 classes      457 Apr  9  2014 [1;32mlab2_1.asm~[0;00m
+-rwx------     1 jle034 classes      614 Apr  9  2014 [1;32mlab2_2.asm~[0;00m
+-rwx------     1 jle034 classes      563 Apr  9  2014 [1;32mlab2_3.asm~[0;00m
+-rw-r--r--     1 jle034 classes      445 Apr 10  2014 lab2_4.asm~[0;00m
+-rw-r--r--     1 jle034 classes      436 Apr 10  2014 lab2_5.asm~[0;00m
+-rwx------     1 jle034 classes      454 Apr  9  2014 [1;32mlab2.asm~[0;00m
+-rwx------     1 jle034 classes      285 Apr 16  2014 [1;32mlab3_1.asm~[0;00m
+-rw-------     1 jle034 classes       45 Apr 16  2014 lab3.tgz[0;00m
+-rw-------     1 jle034 classes       45 May 17  2014 lab7.tgz[0;00m
+-rw-------     1 jle034 classes       45 May 22  2014 lab8.tgz[0;00m
+drwx------     3 jle034 classes     4096 Dec  3  2013 [1;100;34m.libreoffice[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.local[0;00m
+drwx------     3 jle034 classes     4096 Oct  1  2013 [1;100;34m.macromedia[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.metacity[0;00m
+drwx------     4 jle034 classes     4096 Sep 27  2013 [1;100;34m.mozilla[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mMusic[0;00m
+drwx------     3 jle034 classes    12288 May  1 10:29 [1;100;34m.nautilus[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.nv[0;00m
+drwx------   178 jle034 classes    20480 May  1 14:51 [1;100;34m.nx[0;00m
+drwxr-xr-x     3 jle034 classes     4096 May 24  2014 [1;100;34m.openoffice.org[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mPictures[0;00m
+drwx------     3 jle034 classes     4096 Apr  6 15:41 [1;100;34m.pki[0;00m
+-rwx------     1 jle034 classes       84 Sep 23  2013 [1;100;32m.procmailrc[0;00m
+-rw-------     1 jle034 classes      965 Sep 19  2008 [1;100;37m.profile[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mPublic[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;100;34m.pulse[0;00m
+-rwx------     1 jle034 classes      256 Oct  1  2013 [1;100;32m.pulse-cookie[0;00m
+drwx------     2 jle034 classes     4096 Nov 14  2014 [1;100;34m.qt[0;00m
+-rw-r--r--     1 jle034 classes    41178 Apr  4 20:39 [1;100;37m.recently-used.xbel[0;00m
+drwx------     3 jle034 classes     4096 Sep 27  2013 [1;100;34m.redhat[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;34mrshell[0;00m
+drwx------     5 jle034 classes     4096 Apr 27 18:03 [1;34mrshell-1[0;00m
+drwx------     2 jle034 classes     4096 Apr  9 20:14 [1;100;34m.ssh[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mTemplates[0;00m
+-rw-------     1 jle034 classes      359 Mar 30 15:11 TEST[0;00m
+drwx------     4 jle034 classes     4096 Apr 19 11:04 [1;100;34m.Trash[0;00m
+drwx------     9 jle034 classes     4096 Apr  9 21:17 [1;34mucr-cs100[0;00m
+drwx------     2 jle034 classes     4096 Oct  1  2013 [1;34mVideos[0;00m
+-rwx------     1 jle034 classes     9657 May  1 18:40 [1;100;32m.viminfo[0;00m
+-rw-------     1 jle034 classes       11 Apr  9 22:19 vimrc[0;00m
+do_ypcall: clnt_call: RPC: Unable to send; errno = Operation not permitted
+-rw-------     1 jle034 classes       79 Apr 14 21:26 [1;100;37m.vimrc[0;00m
+-rw-------     1 jle034 classes     4592 May  1 17:52 [1;100;37m.Xauthority[0;00m
+-rwx------     1 jle034 classes  2121028 Nov 26  2013 [1;100;32m.xsession-errors.old[0;00m
+
+
+bin:
+total 120
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;100;34m.[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rwx------     1 jle034 classes    62698 May  1 18:38 [1;32mls[0;00m
+-rwx------     1 jle034 classes    48926 May  1 18:38 [1;32mrshell[0;00m
+
+
+src:
+total 40
+drwx------     2 jle034 classes     4096 May  1 18:38 [1;100;34m.[0;00m
+drwx------     6 jle034 classes     4096 May  1 18:40 [1;100;34m..[0;00m
+-rw-------     1 jle034 classes     3077 May  1 18:02 cp.cpp[0;00m
+-rw-------     1 jle034 classes    11676 May  1 18:38 ls.cpp[0;00m
+-rw-------     1 jle034 classes    12901 Apr 24 21:06 main.cpp[0;00m
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # invalid files
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls something
+stat: No such file or directory
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m # homedi[K[K directory
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m bin/ls ~
+[1;32massn01.asm~                          [0;00m  [1;32massn1.asm~                           [0;00m  
+assn2.asm~                           [0;00m  [1;34mCS61                                 [0;00m  
+[1;34mDesktop                              [0;00m  [1;34mDocuments                            [0;00m  
+[1;34mDownloads                            [0;00m  [1;34mEE120B                               [0;00m  
+[1;32mhelloworld.asm~                      [0;00m  [1;32mlab1.asm~                            [0;00m  
+[1;32mlab2_1.asm~                          [0;00m  [1;32mlab2_2.asm~                          [0;00m  
+[1;32mlab2_3.asm~                          [0;00m  lab2_4.asm~                          [0;00m  
+lab2_5.asm~                          [0;00m  [1;32mlab2.asm~                            [0;00m  
+[1;32mlab3_1.asm~                          [0;00m  lab3.tgz                             [0;00m  
+lab7.tgz                             [0;00m  lab8.tgz                             [0;00m  
+[1;34mMusic                                [0;00m  [1;34mPictures                             [0;00m  
+[1;34mPublic                               [0;00m  [1;34mrshell                               [0;00m  
+[1;34mrshell-1                             [0;00m  [1;34mTemplates                            [0;00m  
+TEST                                 [0;00m  [1;34mucr-cs100                            [0;00m  
+[1;34mVideos                               [0;00m  vimrc                                [0;00m  
+
+
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m quit
+bash: quit: command not found
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m eit
+bash: eit: command not found
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (master) [0;36m$[0m exit
+exit
+~
+jle034@hammer $ exit
+exit
+
+Script done on Fri 01 May 2015 07:05:54 PM PDT
