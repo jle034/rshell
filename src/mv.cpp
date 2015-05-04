@@ -20,9 +20,11 @@ int main(int argc, char **argv) {
 	}
 	struct stat fdest;
 	if (-1 == stat(argv[2], &fdest)) {
-		if(-1 == rename(argv[1], argv[2])) {
-			perror("rename");
-		}
+		link(argv[1],argv[2]);
+		unlink(argv[1]);
+		//if(-1 == rename(argv[1], argv[2])) {
+		//	perror("rename");
+		//}
 	}
 	else { // argv[2] exists
 		if(S_ISDIR(fdest.st_mode)) {
