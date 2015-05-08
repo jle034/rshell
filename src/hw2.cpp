@@ -18,6 +18,93 @@
 using namespace std;
 using namespace boost;
 
+void prompt();
+void removeComments(string& s);
+vector<char*> splitSemicolon(string userInput);
+vector<char*> splitSpace(string userInput);
+vector<char*> getCommands(char* charBlurb);
+vector<char> getConnectors(char* blurb);
+bool executeCommand(vector<char*> command);
+void executeBlurb(vector<char*> commands, vector<char> connectors);
+
+int main(int argc, char* argv[]) {
+
+	while(1) {
+
+		// outputs the prompt
+		prompt();
+
+		// gets input and stores in userInput
+		string userInput;
+		getline(cin, userInput);
+
+		// remove comments from userInput (found after "#")
+//		cout << "User Input: " << endl << userInput << endl << endl;
+		removeComments(userInput);
+//		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
+	
+		// parse userInput by semicolons
+		// store in wordVec
+//		cout << "User Input split by semicolons: " << endl;
+		vector<char*> scVec  = splitSemicolon(userInput);
+//		cout << "scVec.size() = " << scVec.size() << endl;
+//		if(scVec.size() != 0) {
+//			for(int i = 0; i < scVec.size(); i++) {
+//				cout << scVec.at(i) << endl;
+//			}
+//			cout << endl;
+//		}	
+
+		// testing olderParseBlurb Function
+//		cout << "Testing olderParseBlurb Function: " << endl;
+		for(unsigned j = 0; j < scVec.size(); j++) {
+//			cout << "Blurb " << j << ": " << endl;
+			vector<char*> commandVec = getCommands(scVec.at(j));
+			vector<char> connectorVec = getConnectors(scVec[j]);
+//			cout << "commandVec.size() = " << commandVec.size() << endl;
+//			cout << "COMMANDS: ";
+//			if(commandVec.size() != 0) {	
+//				for(int i = 0; i < commandVec.size(); i++) {
+//					cout << "<" << commandVec.at(i) << "> ";
+//				}
+//			}
+//			cout << endl;
+//			cout << "CONNECTORS: ";
+//			if(connectorVec.size() != 0) {
+//				for(int i = 0; i < connectorVec.size(); i++) {
+//					cout << connectorVec.at(i) << " ";
+//				}
+//			}
+//			cout << endl;
+			executeBlurb(commandVec, connectorVec);
+		}
+		
+/*	
+		for (int i = 0; i < scVec.size(); i++) {
+			removeSpaces(scVec.at(i));
+			cout << scVec.at(i) << endl;
+		}	
+		cout << endl;
+
+		cout << "User Input split by ORs and ANDs: " << endl;
+		vector<string> orVec = splitOrsAnds(userInput);
+		for(int i = 0; i < orVec.size(); i++) {
+			cout << orVec.at(i) << endl;
+		} 
+		cout << endl;
+
+		cout << "Vector of ANDs and ORs: " << endl;
+		vector<string> temp = parseBlurb(userInput);
+		for(int i = 0; i < temp.size(); i++) {
+			cout << temp.at(i) << endl;
+		}
+		cout << endl;
+*/
+	}
+
+	return 0;
+}
+
 // function prints the prompt to look like this:
 // [userName]@[hostName] $
 // returns nothing
@@ -285,80 +372,3 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 	}
 }
 
-int main(int argc, char* argv[]) {
-
-	while(1) {
-
-		// outputs the prompt
-		prompt();
-
-		// gets input and stores in userInput
-		string userInput;
-		getline(cin, userInput);
-
-		// remove comments from userInput (found after "#")
-//		cout << "User Input: " << endl << userInput << endl << endl;
-		removeComments(userInput);
-//		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
-	
-		// parse userInput by semicolons
-		// store in wordVec
-//		cout << "User Input split by semicolons: " << endl;
-		vector<char*> scVec  = splitSemicolon(userInput);
-//		cout << "scVec.size() = " << scVec.size() << endl;
-//		if(scVec.size() != 0) {
-//			for(int i = 0; i < scVec.size(); i++) {
-//				cout << scVec.at(i) << endl;
-//			}
-//			cout << endl;
-//		}	
-
-		// testing olderParseBlurb Function
-//		cout << "Testing olderParseBlurb Function: " << endl;
-		for(unsigned j = 0; j < scVec.size(); j++) {
-//			cout << "Blurb " << j << ": " << endl;
-			vector<char*> commandVec = getCommands(scVec.at(j));
-			vector<char> connectorVec = getConnectors(scVec[j]);
-//			cout << "commandVec.size() = " << commandVec.size() << endl;
-//			cout << "COMMANDS: ";
-//			if(commandVec.size() != 0) {	
-//				for(int i = 0; i < commandVec.size(); i++) {
-//					cout << "<" << commandVec.at(i) << "> ";
-//				}
-//			}
-//			cout << endl;
-//			cout << "CONNECTORS: ";
-//			if(connectorVec.size() != 0) {
-//				for(int i = 0; i < connectorVec.size(); i++) {
-//					cout << connectorVec.at(i) << " ";
-//				}
-//			}
-//			cout << endl;
-			executeBlurb(commandVec, connectorVec);
-		}
-		
-/*	
-		for (int i = 0; i < scVec.size(); i++) {
-			removeSpaces(scVec.at(i));
-			cout << scVec.at(i) << endl;
-		}	
-		cout << endl;
-
-		cout << "User Input split by ORs and ANDs: " << endl;
-		vector<string> orVec = splitOrsAnds(userInput);
-		for(int i = 0; i < orVec.size(); i++) {
-			cout << orVec.at(i) << endl;
-		} 
-		cout << endl;
-
-		cout << "Vector of ANDs and ORs: " << endl;
-		vector<string> temp = parseBlurb(userInput);
-		for(int i = 0; i < temp.size(); i++) {
-			cout << temp.at(i) << endl;
-		}
-		cout << endl;
-*/
-	}
-
-	return 0;
-}
