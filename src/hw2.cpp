@@ -111,12 +111,12 @@ int main(int argc, char* argv[]) {
 void prompt() {
 	char* userName = getlogin();
 	if(userName == NULL) {
-		perror("getlogin()");
+		perror("getlogin");
 	}
 	char hostName[64];
 	int checkHostName = gethostname(hostName, sizeof(hostName));		
 	if(checkHostName == -1) {
-		perror("gethostname()");
+		perror("gethostname");
 	}
 	cout << userName << "@" << hostName  << " $ ";
 }
@@ -312,7 +312,6 @@ bool executeCommand(vector<char*> command) {
 }
 
 void executeBlurb(vector<char*> commands, vector<char> connectors) {
-	
 
 /*
 	if(commands.size() == 0) {
