@@ -509,7 +509,10 @@ void printEverything(vector<string> fdVec, int aFlag, int lFlag, int RFlag, int 
 		}
 
 		struct winsize w;
-		ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+		int checkioctl = ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+		if(checkioctl == -1) {
+			perror("ioctl");
+		}
 		
 		int numColumns = w.ws_col / (width + 2);
 		if(lFlag) {

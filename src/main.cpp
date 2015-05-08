@@ -1,17 +1,19 @@
 #include <iostream>
 #include <stdio.h>
-// #include <unistd.h>
-// #include <sys/types.h>
+//#include <unistd.h>
+//#include <sys/types.h>
 #include <sys/wait.h>
-// #include <stdlib.h>
-// #include <cstring>
-// #include <string.h>	
-//  #include <errno.h>
-// #include <pwd.h>
-// #include <vector>
+#include <stdlib.h>
+//#include <cstdlib>
+//#include <cstring>
+//#include <string>
+//#include <string.h>	
+//#include <errno.h>
+//#include <pwd.h>
+//#include <vector>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
-// #include <boost/foreach.hpp>
+//#include <boost/foreach.hpp>
 
 using namespace std;
 using namespace boost;
@@ -20,9 +22,15 @@ using namespace boost;
 // [userName]@[hostName] $
 // returns nothing
 void prompt() {
-	string userName = getlogin();
+	char* userName = getlogin();
+	if(userName == NULL) {
+		perror("getlogin()");
+	}
 	char hostName[64];
-	gethostname(hostName, sizeof(hostName));		
+	int checkHostName = gethostname(hostName, sizeof(hostName));		
+	if(checkHostName == -1) {
+		perror("gethostname()");
+	}
 	cout << userName << "@" << hostName  << " $ ";
 }
 
