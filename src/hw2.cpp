@@ -1,19 +1,9 @@
 #include <iostream>
 #include <stdio.h>
-//#include <unistd.h>
-//#include <sys/types.h>
 #include <sys/wait.h>
 #include <stdlib.h>
-//#include <cstdlib>
-//#include <cstring>
-//#include <string>
-//#include <string.h>	
-//#include <errno.h>
-//#include <pwd.h>
-//#include <vector>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
-//#include <boost/foreach.hpp>
 
 using namespace std;
 using namespace boost;
@@ -39,69 +29,18 @@ int main(int argc, char* argv[]) {
 		getline(cin, userInput);
 
 		// remove comments from userInput (found after "#")
-//		cout << "User Input: " << endl << userInput << endl << endl;
 		removeComments(userInput);
-//		cout << "User Input W/O Comments: " << endl << userInput << endl << endl;
 	
 		// parse userInput by semicolons
 		// store in wordVec
-//		cout << "User Input split by semicolons: " << endl;
 		vector<char*> scVec  = splitSemicolon(userInput);
-//		cout << "scVec.size() = " << scVec.size() << endl;
-//		if(scVec.size() != 0) {
-//			for(int i = 0; i < scVec.size(); i++) {
-//				cout << scVec.at(i) << endl;
-//			}
-//			cout << endl;
-//		}	
 
-		// testing olderParseBlurb Function
-//		cout << "Testing olderParseBlurb Function: " << endl;
 		for(unsigned j = 0; j < scVec.size(); j++) {
-//			cout << "Blurb " << j << ": " << endl;
 			vector<char*> commandVec = getCommands(scVec.at(j));
 			vector<char> connectorVec = getConnectors(scVec[j]);
-//			cout << "commandVec.size() = " << commandVec.size() << endl;
-//			cout << "COMMANDS: ";
-//			if(commandVec.size() != 0) {	
-//				for(int i = 0; i < commandVec.size(); i++) {
-//					cout << "<" << commandVec.at(i) << "> ";
-//				}
-//			}
-//			cout << endl;
-//			cout << "CONNECTORS: ";
-//			if(connectorVec.size() != 0) {
-//				for(int i = 0; i < connectorVec.size(); i++) {
-//					cout << connectorVec.at(i) << " ";
-//				}
-//			}
-//			cout << endl;
 			executeBlurb(commandVec, connectorVec);
 		}
-		
-/*	
-		for (int i = 0; i < scVec.size(); i++) {
-			removeSpaces(scVec.at(i));
-			cout << scVec.at(i) << endl;
-		}	
-		cout << endl;
-
-		cout << "User Input split by ORs and ANDs: " << endl;
-		vector<string> orVec = splitOrsAnds(userInput);
-		for(int i = 0; i < orVec.size(); i++) {
-			cout << orVec.at(i) << endl;
-		} 
-		cout << endl;
-
-		cout << "Vector of ANDs and ORs: " << endl;
-		vector<string> temp = parseBlurb(userInput);
-		for(int i = 0; i < temp.size(); i++) {
-			cout << temp.at(i) << endl;
-		}
-		cout << endl;
-*/
 	}
-
 	return 0;
 }
 
@@ -176,7 +115,7 @@ vector<char*> getCommands(char* charBlurb) {
 	char* trueChar = (char*)trueString.c_str();
 
 	// if blurb is empty
-	// returns empty vector
+	// return empty vector
 	if(blurb.size() == 0) {
 		return semicolonVec;
 	}
@@ -196,14 +135,7 @@ vector<char*> getCommands(char* charBlurb) {
 		}
 	}
 
-//	string temp = blurb;
-//	char* charBlurb = (char*)temp.c_str();
-
-//	charTemp = new char[blurb.length() + 1];   //blurb.c_str();
-//	strcpy(charTemp, blurb.c_str());
-//	delete [] blurb;
 	char* charTemp = (char*)blurb.c_str();
-
 	char* token;
 	token = strtok(charTemp, "!*");
 
@@ -216,7 +148,6 @@ vector<char*> getCommands(char* charBlurb) {
 		}
 		token = strtok(NULL, "!*");
 	}
-	//delete[] charTemp;	
 	return semicolonVec;
 }
 
@@ -248,61 +179,37 @@ bool executeCommand(vector<char*> command) {
 	
 	if(command.size() == 1) {
 		string something = command.at(0);
-//		cout << "Something = " << something << endl;
-//		cout << "command.at(0) = " << command.at(0) << endl;	
 		if(something == "exit") {
-//			cout << "FOUND EXIT" << endl;
 			exit(1);
 		}
 		command.at(0) = (char*)something.c_str();
-
-//		cout << "command.at(0) = " << command.at(0) << endl;
 	}
 	
 	int pid = fork();
-
 	// if fork produces an error
 	if(pid == -1) {
-//		cout << "PERROR FORK" << endl;
 		perror("fork");
 		exit(1);
-//		return false;
 	}
 	
 	// if child
 	else if(pid == 0) {
 		char* argv[sizeof(command) + 1];
 
-//		cout << "Parsed Command: in executeCommand BBBBBBBB";
-//		for(int k = 0; k < command.size(); k++) {
-//			cout << "<" << command.at(k) << ">" << " ";
-//		}
-//		cout << endl;
-
 		unsigned i = 0;
 		for(i = 0; i < command.size(); i++) {
 			argv[i] = command[i];
-//			argv[i] = new char[command.size() + 1];	
-//			strcpy(argv[i], command[i]);
 		}
 		argv[i] = 0;
 
-//		cout << "Parsed Command: in executeCommand AAAAAAAA";
-//		for(int j = 0; j < command.size(); j++) {
-//			cout << "<" << command.at(j) << ">" << " ";
-//		}
-//		cout << endl;
-
 		if(execvp(argv[0], argv) == -1) {
-//			cout << "ERROR!!!!!!";
 			perror("execvp");
 		}
 		exit(1);
 	}
 
-	// if parent
+	// else parent
 	else {
-// 		wait(NULL);
 		int status;
 
 		if(waitpid(pid, &status, 0) == -1) {
@@ -318,21 +225,8 @@ bool executeCommand(vector<char*> command) {
 
 void executeBlurb(vector<char*> commands, vector<char> connectors) {
 
-/*
-	if(commands.size() == 0) {
-		string trueString = "true";
-		char* temp = (char*)trueString.c_str();
-		commands.push_back(temp);
-	}
-*/
-
 	if(commands.size() == 1) {
 		vector<char*> parsedCommand = splitSpace(commands.at(0));
-//		cout << "PARSED COMMAND: in executeBlurb ";
-//		for(int i = 0; i < parsedCommand.size(); i++) {
-//			cout << "<" << parsedCommand.at(i) << ">" << " ";
-//		}
-//		cout << endl;
 		executeCommand(parsedCommand);
 	}	
 
@@ -341,33 +235,18 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 		bool previous;
 		int count = 0;
 		vector<char*> parsedCommand = splitSpace(commands.at(0));
-//		cout << "PARSED COMMAND: in executeBlurb ";
-//		cout << "parsedCommand.size() = " << parsedCommand.size();
-//		for(int i = 0; i < parsedCommand.size(); i++) {
-//			cout << "<" << parsedCommand.at(i) << ">" << " ";
-//		}
-//		cout << endl;
-//		cout << "HERE2" << endl;
 		previous = executeCommand(parsedCommand);		
 
 		for(unsigned i = 1; i < commands.size(); i++) {
 			if(connectors.at(count) == '&') {
 				if(previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
-//					cout << "PARSED COMMAND: in executeBlurb ";
-//					for(int i = 0; i < parsedCommand.size(); i++) {
-//						cout << "<" << parsedCommand.at(i) << ">" << " ";
-//					}
 					previous = executeCommand(parsedCommand);		
 				}	
 			}
 			else if(connectors.at(count) == '|') {
 				if(!previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
-//					cout << "PARSED COMMAND: in executeBlurb ";
-//					for(int i = 0; i < parsedCommand.size(); i++) {
-//						cout << "<" << parsedCommand.at(i) << ">" << " ";
-//					}
 					previous = executeCommand(parsedCommand);					
 				}
 			}	
