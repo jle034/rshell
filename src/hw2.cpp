@@ -164,6 +164,7 @@ vector<char*> splitSpace(string userInput) {
 }
 
 // function uses strtok() to parse string blurb
+// returns vector<char*> of all commands separated by connectors && and ||
 vector<char*> getCommands(char* charBlurb) {
 	char* temp = charBlurb;	
 	string blurb(temp);
@@ -181,7 +182,7 @@ vector<char*> getCommands(char* charBlurb) {
 	}
 
 	// changes all instances of "||" into "!"
-	// changes al instances of "&&" into "*"
+	// changes all instances of "&&" into "*"
 	for(unsigned i = 0; i < blurb.size() - 1; i++) {
 		if(blurb.at(i) == '|') {
 			if(blurb.at(i + 1) == '|') {
@@ -198,9 +199,10 @@ vector<char*> getCommands(char* charBlurb) {
 //	string temp = blurb;
 //	char* charBlurb = (char*)temp.c_str();
 
-	char* charTemp = new char[blurb.length() + 1];   //blurb.c_str();
-	strcpy(charTemp, blurb.c_str());
+//	charTemp = new char[blurb.length() + 1];   //blurb.c_str();
+//	strcpy(charTemp, blurb.c_str());
 //	delete [] blurb;
+	char* charTemp = (char*)blurb.c_str();
 
 	char* token;
 	token = strtok(charTemp, "!*");
@@ -214,6 +216,7 @@ vector<char*> getCommands(char* charBlurb) {
 		}
 		token = strtok(NULL, "!*");
 	}
+	//delete[] charTemp;	
 	return semicolonVec;
 }
 
@@ -221,6 +224,7 @@ vector<char*> getCommands(char* charBlurb) {
 // returns vector of ANDs and ORs in order of appearance
 vector<char> getConnectors(char* blurb) {
 	char* temp = blurb;
+
 	string str(temp);
 	vector<char> v;
 	for(unsigned i = 0; i < str.size() - 1; i++) {
@@ -243,15 +247,15 @@ vector<char> getConnectors(char* blurb) {
 bool executeCommand(vector<char*> command) {
 	
 	if(command.size() == 1) {
-		string something(command.at(0));
+		string something = command.at(0);
 //		cout << "Something = " << something << endl;
 //		cout << "command.at(0) = " << command.at(0) << endl;	
 		if(something == "exit") {
 //			cout << "FOUND EXIT" << endl;
 			exit(1);
 		}
-		command.at(0) = new char[something.length() + 1];
-		strcpy(command.at(0), something.c_str());
+		command.at(0) = (char*)something.c_str();
+
 //		cout << "command.at(0) = " << command.at(0) << endl;
 	}
 	
@@ -277,8 +281,9 @@ bool executeCommand(vector<char*> command) {
 
 		unsigned i = 0;
 		for(i = 0; i < command.size(); i++) {
-			argv[i] = new char[command.size() + 1];
-			strcpy(argv[i], command[i]);
+			argv[i] = command[i];
+//			argv[i] = new char[command.size() + 1];	
+//			strcpy(argv[i], command[i]);
 		}
 		argv[i] = 0;
 
