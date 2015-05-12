@@ -8,7 +8,6 @@ Connectors include `&&`, `||`, and `;`.
 	- If a command is followed by `;`, then the next command (if any) is always executed.
 	- If a command is followed by `&&`, then the next command is executed only if the first one succeeds (returning true).
 	- If a command is followed by `||`, then the next command is executed only if the first one does not succeed (returning false).
-	- If a command is empty, it returns false. `rshell` does not output an error. 
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
 ##### Known Bugs
@@ -16,7 +15,8 @@ Connectors include `&&`, `||`, and `;`.
 	- `echo` with quotes will include quotes in output.
 
 ### ls
-`ls` implements a subset of the GNU `ls` command. 
+`ls` implements a subset of the GNU `ls` command: 
+
 1. It can support the -a, -l, and -R optional flags; and the ability to pass in one or many files optional. 
 2. It also displays different types of files in different colors that can be combinable
 	- directories are blue

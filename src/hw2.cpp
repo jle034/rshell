@@ -238,12 +238,16 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 		previous = executeCommand(parsedCommand);		
 
 		for(unsigned i = 1; i < commands.size(); i++) {
+			// if there is an &&, 
+			// execute the current command only if prev returns true
 			if(connectors.at(count) == '&') {
 				if(previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
 					previous = executeCommand(parsedCommand);		
 				}	
 			}
+			// if there is an ||
+			// exectute the current command only if prev returns false
 			else if(connectors.at(count) == '|') {
 				if(!previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
