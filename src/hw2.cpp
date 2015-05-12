@@ -171,7 +171,7 @@ vector<char> getConnectors(char* blurb) {
 	return v;	
 }
 
-// function takes in a command (already parsed by spaces)
+// function takes in a single command (already parsed by spaces)
 // and executes the command using execvp
 // returns true if command executes
 // returns false if command is invalid or does not execute
@@ -247,7 +247,7 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 				}	
 			}
 			// if there is an ||
-			// exectute the current command only if prev returns false
+			// execute the current command only if prev returns false
 			else if(connectors.at(count) == '|') {
 				if(!previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
