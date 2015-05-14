@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <vector>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -10,12 +13,13 @@ using namespace boost;
 
 void prompt();
 void removeComments(string& s);
+bool isIncluded(vector<char*> v, string s);
 vector<char*> splitSemicolon(string userInput);
 vector<char*> splitSpace(string userInput);
 vector<char*> getCommands(char* charBlurb);
-vector<char> getConnectors(char* blurb);
+vector<string> getConnectors(char* blurb);
 bool executeCommand(vector<char*> command);
-void executeBlurb(vector<char*> commands, vector<char> connectors);
+void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 int main(int argc, char* argv[]) {
 
@@ -32,13 +36,24 @@ int main(int argc, char* argv[]) {
 		removeComments(userInput);
 	
 		// parse userInput by semicolons
-		// store in wordVec
+		// store each blurb in scVec
 		vector<char*> scVec  = splitSemicolon(userInput);
 
+		// get the commands and connectors of each blurb
+		// execute each blurb
 		for(unsigned j = 0; j < scVec.size(); j++) {
 			vector<char*> commandVec = getCommands(scVec.at(j));
-			vector<char> connectorVec = getConnectors(scVec[j]);
-			executeBlurb(commandVec, connectorVec);
+			vector<string> connectorVec = getConnectors(scVec.at(j));
+//			executeBlurb(commandVec, connectorVec);
+			cout << "commandVec.size(): " << commandVec.size() << endl;
+			for(unsigned i = 0; i < commandVec.size(); i++) {
+				cout << commandVec.at(i) << " ";
+			}
+			cout << endl;
+			bool something = (isIncluded(commandVec, "ls"));
+			if(something) {
+				cout << "YES" << endl;
+			}
 		}
 	}
 	return 0;
@@ -70,6 +85,27 @@ void removeComments(string& s) {
 	}
 }
 
+// function searches through vector<char*> v
+// returns true if string s is found in v
+// returns false if string s is not found in v
+bool isIncluded(vector<char*> v, string s) {
+	bool included = false;
+	for(unsigned i = 0; i < v.size(); i++) {
+		string temp = string(v.at(i));
+		cout << "v.at(" << i << "): " << v.at(i) << endl;
+		cout << "temp: " << temp << endl;
+//		cout << "s: " << s << endl; 
+//
+//		if(temp == s) {
+//			cout << "HERE" << endl;
+//			included = true;
+//		}
+	}
+	return included;
+}
+
+// function parses string userInput by ";"
+// returns these as a vector<char*> 
 vector<char*> splitSemicolon(string userInput) {
 	string s  = userInput;
 	char* charInput = (char*)s.c_str();
@@ -153,20 +189,35 @@ vector<char*> getCommands(char* charBlurb) {
 
 // function parses string blurb
 // returns vector of ANDs and ORs in order of appearance
-vector<char> getConnectors(char* blurb) {
+vector<string> getConnectors(char* blurb) {
 	char* temp = blurb;
 
 	string str(temp);
-	vector<char> v;
+	vector<string> v;
 	for(unsigned i = 0; i < str.size() - 1; i++) {
 		if((str.at(i) == '&') && (str.at(i + 1) == '&')) {
 			i++;
-			v.push_back('&');
+			v.push_back("&&");
 		}
 		else if((str.at(i) == '|') && (str.at(i + 1) == '|')) {
 			i++;
-			v.push_back('|');
+			v.push_back("||");
 		}
+/*
+		else if((str.at(i) == '|') && !(str.at(i + 1) == '|')) {
+			v.push_back("|");
+		}
+		else if(str.at(i) == '<') {
+			v.push_back("<");
+		}
+		else if((str.at(i) == '>') && !(str.at(i + 1) == '>')) {
+			v.push_back(">");
+		}
+		else if((str.at(i) == '>') && (str.at(i + 1) == '>')) {
+			i++;
+			v.push_back(">>");
+		}
+*/
 	}
 	return v;	
 }
@@ -204,8 +255,9 @@ bool executeCommand(vector<char*> command) {
 
 		if(execvp(argv[0], argv) == -1) {
 			perror("execvp");
+			exit(1);
 		}
-		exit(1);
+		return true;
 	}
 
 	// else parent
@@ -223,7 +275,7 @@ bool executeCommand(vector<char*> command) {
 	}
 }
 
-void executeBlurb(vector<char*> commands, vector<char> connectors) {
+void executeBlurb(vector<char*> commands, vector<string> connectors) {
 
 	if(commands.size() == 1) {
 		vector<char*> parsedCommand = splitSpace(commands.at(0));
@@ -240,7 +292,7 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 		for(unsigned i = 1; i < commands.size(); i++) {
 			// if there is an &&, 
 			// execute the current command only if prev returns true
-			if(connectors.at(count) == '&') {
+			if(connectors.at(count) == "&&") {
 				if(previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
 					previous = executeCommand(parsedCommand);		
@@ -248,7 +300,7 @@ void executeBlurb(vector<char*> commands, vector<char> connectors) {
 			}
 			// if there is an ||
 			// execute the current command only if prev returns false
-			else if(connectors.at(count) == '|') {
+			else if(connectors.at(count) == "||") {
 				if(!previous) {
 					vector<char*> parsedCommand = splitSpace(commands.at(i));
 					previous = executeCommand(parsedCommand);					
