@@ -131,17 +131,18 @@ int findThis(vector<char*> v, string s) {
 	for(unsigned j = 0; j < v.size(); j++) {
 		string something = string(v.at(j));
 		temp.push_back(something);
+		hold.push_back(something);
 	}
-	hold = temp;
 	int loc = -1;
 	for(unsigned i = 0; i < temp.size(); i++) {
 		if(temp.at(i) == s) {
 //			cout << "FOUND IT!!" << endl;
 			if(loc >= 0) {
 				loc = -2;
-				break;
 			}
-			loc = i;
+			else if(loc == -1) {
+				loc = i;
+			}
 		}
 	}
 	for(unsigned k = 0; k < temp.size(); k++) {
@@ -263,6 +264,7 @@ vector<char*> getCommands(char* charBlurb) {
 		}
 		token = strtok(NULL, "!*");
 	}
+	charBlurb = &hold.at(0);
 	return semicolonVec;
 }
 
@@ -334,19 +336,7 @@ bool executeCommand(vector<char*> command) {
 	// if child
 	else if(pid == 0) {
 
-		cout << "command before: ";
-		for(unsigned i = 0; i < command.size(); i++) {
-			cout << "<" << command.at(i) << "> ";
-		}
-		cout << endl;
 
-		int check = findThis(command, "ls");
-		cout << "check: " << check << endl;
-		cout << "command after: ";
-		for(unsigned i = 0; i < command.size(); i++) {
-			cout << "<" << command.at(i) << "> ";
-		}
-		cout << endl;
 /*
 ////////////////////////////////////////////////////////////////////////////////
 		if(findThis(command, ">") == -2) {
@@ -370,7 +360,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 */
-		char* argv[1024];
+		char* argv[sizeof(command) + 1];
 
 		unsigned i = 0;
 		for(i = 0; i < command.size(); i++) {
@@ -403,7 +393,10 @@ bool executeCommand(vector<char*> command) {
 void executeBlurb(vector<char*> commands, vector<string> connectors) {
 
 	if(commands.size() == 1) {
-		vector<char*> parsedCommand = splitSpace(commands.at(0));
+		string temp = string(commands.at(0));
+		string hold = temp;
+		vector<char*> parsedCommand = splitSpace(temp);
+		commands.at(0) = &hold.at(0);
 		executeCommand(parsedCommand);
 	}	
 
@@ -411,7 +404,10 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 		
 		bool previous;
 		int count = 0;
-		vector<char*> parsedCommand = splitSpace(commands.at(0));
+		string temp = string(commands.at(0));
+		string hold = temp;
+		vector<char*> parsedCommand = splitSpace(temp);
+		commands.at(0) = &hold.at(0);
 		previous = executeCommand(parsedCommand);		
 
 		for(unsigned i = 1; i < commands.size(); i++) {
@@ -419,7 +415,10 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 			// execute the current command only if prev returns true
 			if(connectors.at(count) == "&&") {
 				if(previous) {
-					vector<char*> parsedCommand = splitSpace(commands.at(i));
+					string temp = string(commands.at(i));
+					string hold = temp;
+					vector<char*> parsedCommand = splitSpace(temp);
+					commands.at(i) = &hold.at(0);
 					previous = executeCommand(parsedCommand);		
 				}	
 			}
@@ -427,7 +426,10 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 			// execute the current command only if prev returns false
 			else if(connectors.at(count) == "||") {
 				if(!previous) {
-					vector<char*> parsedCommand = splitSpace(commands.at(i));
+					string temp = string(commands.at(i));
+					string hold = temp;
+					vector<char*> parsedCommand = splitSpace(temp);
+					commands.at(i) = &hold.at(0);
 					previous = executeCommand(parsedCommand);					
 				}
 			}	
