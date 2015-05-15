@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <vector>
+#include <fcntl.h>
 #include <boost/tokenizer.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -46,8 +47,8 @@ int main(int argc, char* argv[]) {
 		// execute each blurb
 		for(unsigned j = 0; j < scVec.size(); j++) {
 			vector<char*> commandVec = getCommands(scVec.at(j));
-//			vector<string> connectorVec = getConnectors(scVec.at(j));
-//			executeBlurb(commandVec, connectorVec);
+			vector<string> connectorVec = getConnectors(scVec.at(j));
+			executeBlurb(commandVec, connectorVec);
 
 		}
 	}
@@ -212,7 +213,6 @@ vector<char*> getCommands(char* charBlurb) {
 			i += 2;
 		}
 	}
-	cout << "blurb: " << '<' << blurb << '>' << endl;
 
 	char* charTemp = &blurb.at(0); 
 	char* token;
@@ -299,35 +299,140 @@ bool executeCommand(vector<char*> command) {
 	// if child
 	else if(pid == 0) {
 
+		string inFile;
+		string outFile;
+		vector<char*> newCommand;
 
-/*
-////////////////////////////////////////////////////////////////////////////////
-		if(findThis(command, ">") == -2) {
+		// takes care of commands that have ">" 
+		int foundOut = findThis(command, ">");
+		if(foundOut == -2) {
 			cerr << "Error: Cannot have more than one output redirection" << endl;
 			exit(1);	
 		}	
-		else if(findThis(command, ">") >= 0) {
+		else if(foundOut >= 0) {
 			cout << "FOUND ONE >" << endl;
+			// if ">" is not found at the second to last location
+			// the file name is invalid
+			// either not given or has spaces in it
+			if(foundOut != (int(command.size() - 2))) {
+				cerr << "Error: Invalid file name" << endl;
+				exit(1);
+			}
+			for(unsigned i = 0; i < command.size(); i++) {
+				if(i < unsigned(foundOut)) {
+					newCommand.push_back(command.at(i));
+				}		
+			}	
+			outFile = string(command.at(command.size()-1));
+			string hold = outFile;
+			int fdo = open(outFile.c_str(), O_WRONLY|O_TRUNC);
+			// if fdo == -1, outFile doesn't exist
+			// create outFile
+			if(fdo == -1) {
+				fdo = creat(outFile.c_str(), S_IRUSR|S_IWUSR);
+			}
+			if(fdo == -1) {
+				perror("creat");
+				exit(1);
+			}
+			if(close(1)) {
+				perror("close");
+				exit(1);
+			}
+			if(dup(fdo) == -1) {
+				perror("dup");
+				exit(1);
+			}
 		}
 
-		if(findThis(command, ">>") == -2) {
+		// takes care of commands that have ">>"
+		int foundOutOut = findThis(command, ">>");
+		if(foundOutOut == -2) {
 			cerr << "Error: Cannot have more than one output redirection" << endl;
 			exit(1);
 		}
-		else if(findThis(command, ">>") >= 0) {
+		else if(foundOutOut >= 0) {
 			cout << "FOUND ONE >>" << endl;
-		}
+			// if ">>" is not found at the second to last location
+			// the file name is invalid
+			// either not given or has spaces in it
+			if(foundOutOut != (int(command.size() - 2))) {
+				cerr << "Error: Invalid file name" << endl;
+				exit(1);
+			}
+			for(unsigned i = 0; i < command.size(); i++) {
+				if(i < unsigned(foundOutOut)) {
+					newCommand.push_back(command.at(i));
+				}		
+			}	
+			outFile = string(command.at(command.size()-1));
+			string hold = outFile;
+			int fdo = open(outFile.c_str(), O_WRONLY|O_APPEND);
+			// if fdo == -1, outFile doesn't exist
+			// create outFile
+			if(fdo == -1) {
+				fdo = creat(outFile.c_str(), S_IRUSR|S_IWUSR);
+			}
+			if(fdo == -1) {
+				perror("creat");
+				exit(1);
+			}
+			if(close(1)) {
+				perror("close");
+				exit(1);
+			}
+			if(dup(fdo) == -1) {
+				perror("dup");
+				exit(1);
+			}
+		}		
 
-		if(findThis(command, "<") == -2) {
+		int foundIn = findThis(command, "<");
+		if(foundIn == -2) {
 			cerr << "Error: Cannot have more than one input redirecton" << endl;
 			exit(1);
 		}
-*/
-		char* argv[sizeof(command) + 1];
+		else if(foundIn >= 0) {
+			cout << "FOUND ONE <" << endl;
+			// if "<" is not found at the second to last location
+			// the file name is invalid
+			// either not given or has spaces in it
+			if(foundIn != (int(command.size() - 2))) {
+				cerr << "Error: Invalid file name" << endl;
+				exit(1);
+			}
+			for(unsigned i = 0; i < command.size(); i++) {
+				if(i < unsigned(foundIn)) {
+					newCommand.push_back(command.at(i));
+				}		
+			}	
+			inFile = string(command.at(command.size()-1));
+			string hold = inFile;
+			int fdi = open(inFile.c_str(), O_RDONLY);
+			// if fdi == -1, inFile doesn't exist
+			if(fdi == -1) {
+				perror("open");
+				exit(1);
+			}
+			if(close(0)) {
+				perror("close");
+				exit(1);
+			}
+			if(dup(fdi) == -1) {
+				perror("dup");
+				exit(1);
+			}
+		}
+		
+		if((foundOut == -1) && (foundOutOut == -1) && (foundIn == -1)) {
+			newCommand = command;
+		}
+
+		char* argv[sizeof(newCommand) + 1];
 
 		unsigned i = 0;
-		for(i = 0; i < command.size(); i++) {
-			argv[i] = command[i];
+		for(i = 0; i < newCommand.size(); i++) {
+			argv[i] = newCommand[i];
 		}
 		argv[i] = 0;
 
@@ -336,6 +441,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 		return true;
+		exit(1);
 	}
 
 	// else parent
