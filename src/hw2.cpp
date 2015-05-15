@@ -25,42 +25,6 @@ void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 int main(int argc, char* argv[]) {
 
-/*
-	vector<char*> testVec = splitSemicolon("something;i have no idea;this");
-	char* testingChar = testVec.at(0);
-	string temp = charToString(testingChar);
-	cout << "temp: " << temp << endl;
-	cout << "testingChar: " << testingChar << endl;
-	temp.append("BLAH");
-	cout << "temp: " << temp << endl;
-	cout << "testingChar: " << testingChar << endl;	
-
-//	string temp = string(testVec.at(0));
-//	string another = temp;
-//	cout << "testVec.at(0): " << testVec.at(0) << endl;
-//	temp.append("WEE");
-//	cout << "temp: " << temp << endl;
-//	cout << "testVec.at(0): " << testVec.at(0) << endl;
-//	cout << "another: " << another << endl;
-//	
-//	
-//	testVec.at(0) = &another.at(0);
-//	cout << "testVec.at(0): " << testVec.at(0) << endl;
-
-	vector<char*> testVec = splitSemicolon("g++ main.cpp;;somehtinghere;");
-//	cout << "argc: " << argc << endl;
-	for(unsigned i = 0; i < testVec.size(); i++) {
-		cout << "<" << testVec.at(i) << "> ";
-	}
-	cout << endl;
-	cout << "output: " << findThis(testVec, "ls") << endl;
-	cout << "testVec after: ";
-	for(unsigned i = 0; i < testVec.size(); i++) {
-		cout << "<" << testVec.at(i) << "> ";
-	}
-	cout << endl;
-*/
-
 	while(1) {
 
 
@@ -82,13 +46,8 @@ int main(int argc, char* argv[]) {
 		// execute each blurb
 		for(unsigned j = 0; j < scVec.size(); j++) {
 			vector<char*> commandVec = getCommands(scVec.at(j));
-			vector<string> connectorVec = getConnectors(scVec.at(j));
-//			cout << "commandVec" << j << ": ";
-//			for(unsigned k = 0; k < commandVec.size(); k++) {
-//				cout << '<' << commandVec.at(k) << '>' << ' ';
-//			}
-//			cout << endl;
-			executeBlurb(commandVec, connectorVec);
+//			vector<string> connectorVec = getConnectors(scVec.at(j));
+//			executeBlurb(commandVec, connectorVec);
 
 		}
 	}
@@ -154,8 +113,9 @@ int findThis(vector<char*> v, string s) {
 /*
 string charToString(char* charPointer) {
 	string temp = string(charPointer);
-	string another = temp;
-	return another;
+	string hold = temp;
+	// do stuff here
+	charPointer = &hold.at(0);
 }
 */
 
@@ -209,8 +169,8 @@ vector<char*> getCommands(char* charBlurb) {
 	string repOutOut = " >> ";
 	string repIn = " < ";
 	vector<char*> semicolonVec;
-	string trueString = "true";
-	char* trueChar = (char*)trueString.c_str();
+//	string trueString = "true";
+//	char* trueChar = (char*)trueString.c_str();
 
 	// if blurb is empty
 	// return empty vector
@@ -224,31 +184,35 @@ vector<char*> getCommands(char* charBlurb) {
 		if(blurb.at(i) == '|') {
 			if(blurb.at(i + 1) == '|') {
 				blurb.replace(i, 2, repOr);
+				i += 2;
 			}
 			else if(blurb.at(i + 1) != '|') {
 				blurb.replace(i, 1, repPipe);
+				i += 2;
 			}
 		}
 		else if(blurb.at(i) == '&') {
 			if(blurb.at(i + 1) == '&') {
 				blurb.replace(i, 2, repAnd);
+				i += 2;
 			}
 		}
-/*
 		else if((blurb.at(i) == '>')) {
 			if(blurb.at(i + 1) == '>') {
 				blurb.replace(i, 2, repOutOut);
+				i += 3;
 			}
 			else if(blurb.at(i + 1) != '>') {
 				blurb.replace(i, 1, repOut);
+				i += 2;
 			}
 		}
 		else if(blurb.at(i) == '<') {
 			blurb.replace(i, 1, repIn);
+			i += 2;
 		}
-*/
 	}
-//	cout << "blurb: " << '<' << blurb << '>' << endl;
+	cout << "blurb: " << '<' << blurb << '>' << endl;
 
 	char* charTemp = &blurb.at(0); 
 	char* token;
@@ -258,13 +222,12 @@ vector<char*> getCommands(char* charBlurb) {
 	while(token != NULL) {
 		string str = string(token);
 		semicolonVec.push_back(token);
-		if(str.size() == 0) {
+//		if(str.size() == 0) {
 //			cout << "EMPTY" << endl;
-			semicolonVec.push_back(trueChar);
-		}
+//			semicolonVec.push_back(trueChar);
+//		}
 		token = strtok(NULL, "!*");
 	}
-	charBlurb = &hold.at(0);
 	return semicolonVec;
 }
 
