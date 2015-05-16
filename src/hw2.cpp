@@ -15,6 +15,7 @@ using namespace boost;
 void prompt();
 void removeComments(string& s);
 int findThis(vector<char*> v, string s);
+int findFirst(vector<char*> v, string s);
 //string charToString(char*);
 vector<char*> splitSemicolon(string userInput);
 vector<char*> splitSpace(string userInput);
@@ -109,6 +110,32 @@ int findThis(vector<char*> v, string s) {
 		v.at(k) = &(hold.at(k).at(0));
 	}
 	return loc;
+}
+
+// function searches through vector<char*> v
+// returns first location where string s is found
+// returns -1 if string s is not found in v
+int findFirst(vector<char*> v, string s) {
+	vector<string> temp, hold;
+	for(unsigned j = 0; j < v.size(); j++) {
+		string something = string(v.at(j));
+		temp.push_back(something);
+		hold.push_back(something);
+	}
+	int loc = -1;
+	for(unsigned i = 0; i < temp.size(); i++) {
+		if(temp.at(i) == s) {
+//			cout << "FOUND IT!!" << endl;
+			if(loc == -1) {
+				loc = i;
+			}
+		}
+	}
+	for(unsigned k = 0; k < temp.size(); k++) {
+		v.at(k) = &(hold.at(k).at(0));
+	}
+	return loc;
+
 }
 
 /*
@@ -280,6 +307,8 @@ bool executeCommand(vector<char*> command) {
 	cout << endl;
 */	
 
+	bool success = true;
+
 	if(command.size() == 1) {
 		string something = string(command.at(0));
 		string hold = something;
@@ -288,7 +317,19 @@ bool executeCommand(vector<char*> command) {
 		}
 		command.at(0) = &hold.at(0);
 	}
-	
+
+	int foundPipe = findThis(command, "|");
+	int fd[2];
+	if(foundPipe != -1) {
+		cout << "FOUND ONE OR MORE |" << " at " << findFirst(command, "|") << endl;
+		if(pipe(fd) == -1) {
+			perror("pipe");
+			exit(1);	
+		}
+	}	
+
+	vector<char*> newCommand;
+
 	int pid = fork();
 	// if fork produces an error
 	if(pid == -1) {
@@ -301,7 +342,6 @@ bool executeCommand(vector<char*> command) {
 
 		string inFile;
 		string outFile;
-		vector<char*> newCommand;
 
 		// takes care of commands that have ">" 
 		int foundOut = findThis(command, ">");
@@ -362,6 +402,7 @@ bool executeCommand(vector<char*> command) {
 			}
 			for(unsigned i = 0; i < command.size(); i++) {
 				if(i < unsigned(foundOutOut)) {
+					newCommand.clear();
 					newCommand.push_back(command.at(i));
 				}		
 			}	
@@ -403,6 +444,7 @@ bool executeCommand(vector<char*> command) {
 			}
 			for(unsigned i = 0; i < command.size(); i++) {
 				if(i < unsigned(foundIn)) {
+					newCommand.clear();
 					newCommand.push_back(command.at(i));
 				}		
 			}	
@@ -423,8 +465,68 @@ bool executeCommand(vector<char*> command) {
 				exit(1);
 			}
 		}
+
+/*
+		int foundInInIn = findThis(command, "<<<");
+		if(foundInInIn == -2) {
+			cerr << "Error: Cannot have more than one input redirecton" << endl;
+			exit(1);
+		}
+		else if(foundInInIn >= 0) {
+			cout << "FOUND ONE <<<" << endl;
+			// if "<" is not found at the second to last location
+			// the file name is invalid
+			// either not given or has spaces in it
+			if(foundInInIn != (int(command.size() - 2))) {
+				cerr << "Error: Invalid file name" << endl;
+				exit(1);
+			}
+			for(unsigned i = 0; i < command.size(); i++) {
+				if(i < unsigned(foundInInIn)) {
+					newCommand.push_back(command.at(i));
+				}		
+			}	
+			inFile = string(command.at(command.size()-1));
+			string hold = inFile;
+			int fdi = open(inFile.c_str(), O_RDONLY);
+			// if fdi == -1, inFile doesn't exist
+			if(fdi == -1) {
+				perror("open");
+				exit(1);
+			}
+			if(close(0)) {
+				perror("close");
+				exit(1);
+			}
+			if(dup(fdi) == -1) {
+				perror("dup");
+				exit(1);
+			}
+		}
+*/
+
+		if(foundPipe != -1) {
+			if(dup2(fd[1], 1) == -1) {
+				perror("dup2");
+				exit(1);
+			}
+			if(close(fd[0]) == -1) {
+				perror("close");
+				exit(1);
+			}
+			int pipeLoc = findFirst(command, "|");
+			for(int i = 0; i < pipeLoc; i++) {
+				newCommand.clear();
+				newCommand.push_back(command.at(i));
+			}
+			for(unsigned i = 0; i < newCommand.size(); i++) {
+				command.erase(command.begin());
+			}
+			command.erase(command.begin());
+		}
+			
 		
-		if((foundOut == -1) && (foundOutOut == -1) && (foundIn == -1)) {
+		if((foundOut == -1) && (foundOutOut == -1) && (foundIn == -1) && (foundPipe == -1)) {
 			newCommand = command;
 		}
 
@@ -440,7 +542,6 @@ bool executeCommand(vector<char*> command) {
 			perror("execvp");
 			exit(1);
 		}
-		return true;
 		exit(1);
 	}
 
@@ -453,10 +554,44 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 		if(status == 0) {
-			return true;
+			success = true;
 		}
-		return false;
+		else {
+			success = false;
+		}
 	}
+
+	int temp;
+	if(foundPipe != -1) {
+		temp = dup(0);
+		if(temp == -1) {
+			perror("dup");
+			exit(1);		
+		}
+		if(dup2(fd[0], 0) == -1) {
+			perror("dup2");
+			exit(1);	
+		}
+		if(close(fd[1]) == -1) {
+			perror("close");
+			exit(1);	
+		}
+		executeCommand(command);
+	}
+
+	if(foundPipe != -1) {
+		if(dup2(fd[0], 0) == -1) {
+			perror("dup2");
+			exit(1);
+		}
+		if(dup2(temp, 0) == -1) {
+			perror("dup2");
+			exit(1);
+		}
+	}
+
+	return success;
+	
 }
 
 void executeBlurb(vector<char*> commands, vector<string> connectors) {
