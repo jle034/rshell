@@ -16,7 +16,7 @@ void prompt();
 void removeComments(string& s);
 int findThis(vector<char*> v, string s);
 int findFirst(vector<char*> v, string s);
-//string charToString(char*);
+string vecCharToString(vector<char*> v, unsigned start, unsigned end);
 vector<char*> splitSemicolon(string userInput);
 vector<char*> splitSpace(string userInput);
 vector<char*> getCommands(char* charBlurb);
@@ -27,6 +27,28 @@ void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 int main(int argc, char* argv[]) {
 
+/*
+	vector<char*> temp = splitSemicolon("hi; hello; there; WHAT;");
+	cout << "char* before: ";
+	for(unsigned i = 0;  i < temp.size(); i++) {
+		string first = string(temp.at(i));
+		string hold = first;
+		cout << "<" << string(temp.at(i)) << "> ";
+		temp.at(i) = &hold.at(0);
+	}
+	cout << endl;
+	cout << "string: " << vecCharToString(temp, 0, (temp.size()-1)) << endl;
+
+	cout << "char* after: ";
+	for(unsigned i = 0; i < temp.size(); i++) {
+		string first = string(temp.at(i));
+		string hold = first;
+		cout << "<" << string(temp.at(i)) << "> ";
+		temp.at(i) = &hold.at(0);
+	}
+	cout << endl;
+
+*/
 	while(1) {
 
 
@@ -138,6 +160,28 @@ int findFirst(vector<char*> v, string s) {
 
 }
 
+// function returns a string of all the char* in v from start to end (inclusive)
+string vecCharToString(vector<char*> v, unsigned start, unsigned end) {
+	cout << "v: ";
+	for(unsigned i = 0; i < v.size(); i++) {
+		string first = string(v.at(i));
+		string hold = first;
+		cout << "<" << first << "> ";
+		v.at(i) = &hold.at(0);
+	}
+	cout << endl;
+	string returnThis;
+	for(unsigned i = start; i <= end; i++) {
+			string temp = string(v.at(i));
+			string hold = temp;
+			cout << "HERE: " << temp << endl;
+			returnThis.append(temp);
+			v.at(i) = &hold.at(0);
+	}
+	return returnThis;
+}
+
+
 /*
 string charToString(char* charPointer) {
 	string temp = string(charPointer);
@@ -150,7 +194,8 @@ string charToString(char* charPointer) {
 // function parses string userInput by ";"
 // returns these as a vector<char*> 
 vector<char*> splitSemicolon(string userInput) {
-	string s  = userInput;
+	//char* charInput = &userInput.at(0);
+	string s = userInput;
 	char* charInput = (char*)s.c_str();
 	vector<char*> wordVec;
 
@@ -167,7 +212,8 @@ vector<char*> splitSemicolon(string userInput) {
 // function parses string userInput by " "
 // returns these as a vector<char*>
 vector<char*> splitSpace(string userInput) {
-	string s  = userInput;
+	//char* charInput = &userInput.at(0);
+	string s = userInput;
 	char* charInput = (char*)s.c_str();
 	vector<char*> wordVec;
 
@@ -198,6 +244,7 @@ vector<char*> getCommands(char* charBlurb) {
 	string repOut = " > ";
 	string repOutOut = " >> ";
 	string repIn = " < ";
+	string repInInIn = " <<< ";
 	vector<char*> semicolonVec;
 //	string trueString = "true";
 //	char* trueChar = (char*)trueString.c_str();
@@ -238,8 +285,16 @@ vector<char*> getCommands(char* charBlurb) {
 			}
 		}
 		else if(blurb.at(i) == '<') {
-			blurb.replace(i, 1, repIn);
-			i += 2;
+			if(blurb.at(i + 1) != '<') {
+				blurb.replace(i, 1, repIn);
+				i += 2;
+			}
+			else {
+				if(((i + 2) < blurb.length()) && (blurb.at(i + 2)) == '<') {
+					blurb.replace(i, 3, repInInIn);
+					i += 4;
+				}
+			}
 		}
 	}
 
@@ -327,7 +382,7 @@ bool executeCommand(vector<char*> command) {
 	int pipeLoc = findFirst(command, "|");
 	int fd[2];
 	if(foundPipe != -1) {
-		cout << "FOUND ONE OR MORE |" << " at " << findFirst(command, "|") << endl;
+		//cout << "FOUND ONE OR MORE |" << " at " << findFirst(command, "|") << endl;
 		if(pipe(fd) == -1) {
 			perror("pipe");
 			exit(1);	
@@ -369,7 +424,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);	
 		}	
 		else if(foundOut >= 0) {
-			cout << "FOUND ONE >" << endl;
+			//cout << "FOUND ONE >" << endl;
 			// if ">" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -410,7 +465,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 		else if(foundOutOut >= 0) {
-			cout << "FOUND ONE >>" << endl;
+			//cout << "FOUND ONE >>" << endl;
 			// if ">>" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -450,7 +505,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 		else if(foundIn >= 0) {
-			cout << "FOUND ONE <" << endl;
+			//cout << "FOUND ONE <" << endl;
 			// if "<" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -480,47 +535,25 @@ bool executeCommand(vector<char*> command) {
 			}
 		}
 
-/*
 		int foundInInIn = findThis(command, "<<<");
 		if(foundInInIn == -2) {
 			cerr << "Error: Cannot have more than one input redirecton" << endl;
 			exit(1);
 		}
 		else if(foundInInIn >= 0) {
-			cout << "FOUND ONE <<<" << endl;
-			// if "<" is not found at the second to last location
-			// the file name is invalid
-			// either not given or has spaces in it
-			if(foundInInIn != (int(command.size() - 2))) {
-				cerr << "Error: Invalid file name" << endl;
-				exit(1);
+			//cout << "FOUND ONE <<<" << endl;
+			int inInInLoc = findFirst(command, "<<<");
+			for(unsigned i = (unsigned)(inInInLoc + 1); i < command.size(); i++) {
+				string temp(command.at(i));
+				string hold = temp;
+				cout << temp;
+				command.at(i) = &hold.at(0);
 			}
-			for(unsigned i = 0; i < command.size(); i++) {
-				if(i < unsigned(foundInInIn)) {
-					newCommand.push_back(command.at(i));
-				}		
-			}	
-			inFile = string(command.at(command.size()-1));
-			string hold = inFile;
-			int fdi = open(inFile.c_str(), O_RDONLY);
-			// if fdi == -1, inFile doesn't exist
-			if(fdi == -1) {
-				perror("open");
-				exit(1);
-			}
-			if(close(0)) {
-				perror("close");
-				exit(1);
-			}
-			if(dup(fdi) == -1) {
-				perror("dup");
-				exit(1);
-			}
+			cout << endl;
+			exit(0);
 		}
-*/
 
 		if(findThis(command, "|") != -1) {
-			cout << "INSIDE CHILD" << endl;
 			if(dup2(fd[1], 1) == -1) {
 				perror("dup2");
 				exit(1);
@@ -530,7 +563,6 @@ bool executeCommand(vector<char*> command) {
 				exit(1);
 			}
 			//int pipeLoc = findFirst(command, "|");
-			cout << "pipeLoc: " << pipeLoc << endl;
 			newCommand.clear();
 			for(unsigned i = 0; i < (unsigned)pipeLoc; i++) {
 				newCommand.push_back(command.at(i));
@@ -602,17 +634,10 @@ bool executeCommand(vector<char*> command) {
 		}
 		command.erase(command.begin());
 
-		cout << "command: ";
-		for(unsigned i = 0; i < command.size(); i++) {
-			cout << "<" << command.at(i) << "> ";
-		}
-		cout << endl;
-		
 		executeCommand(command);
 	}
 
 	if(foundPipe != -1) {
-		cout << "HERE" << endl;
 		if(dup2(fd[0], 0) == -1) {
 			perror("dup2");
 			exit(1);
