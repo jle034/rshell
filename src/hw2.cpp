@@ -47,8 +47,8 @@ int main(int argc, char* argv[]) {
 		// get the commands and connectors of each blurb
 		// execute each blurb
 		for(unsigned j = 0; j < scVec.size(); j++) {
-			vector<char*> commandVec = getCommands(scVec.at(j));
 			vector<string> connectorVec = getConnectors(scVec.at(j));
+			vector<char*> commandVec = getCommands(scVec.at(j));
 			executeBlurb(commandVec, connectorVec);
 
 		}
@@ -183,9 +183,11 @@ vector<char*> splitSpace(string userInput) {
 
 // function uses strtok() to parse string blurb by connectors && and ||
 // returns vector<char*> of all commands in the char* charBlurb
+
 vector<char*> getCommands(char* charBlurb) {
 	char* temp = charBlurb;	
-	string blurb(temp);
+	string stringTemp(temp);
+	string blurb = stringTemp;
 	string hold = blurb;
 
 	// replace connectors with these strings
@@ -255,6 +257,7 @@ vector<char*> getCommands(char* charBlurb) {
 //		}
 		token = strtok(NULL, "!*");
 	}
+	charBlurb = &hold.at(0);
 	return semicolonVec;
 }
 
@@ -264,6 +267,7 @@ vector<string> getConnectors(char* blurb) {
 	char* temp = blurb;
 
 	string str(temp);
+	string hold = str;
 	vector<string> v;
 	for(unsigned i = 0; i < str.size() - 1; i++) {
 		if((str.at(i) == '&') && (str.at(i + 1) == '&')) {
@@ -290,7 +294,8 @@ vector<string> getConnectors(char* blurb) {
 		}
 */
 	}
-	return v;	
+	blurb = &hold.at(0);
+	return v;
 }
 
 // function takes in a single command (already parsed by spaces)
@@ -319,6 +324,7 @@ bool executeCommand(vector<char*> command) {
 	}
 
 	int foundPipe = findThis(command, "|");
+	int pipeLoc = findFirst(command, "|");
 	int fd[2];
 	if(foundPipe != -1) {
 		cout << "FOUND ONE OR MORE |" << " at " << findFirst(command, "|") << endl;
@@ -331,6 +337,19 @@ bool executeCommand(vector<char*> command) {
 	vector<char*> newCommand;
 
 	int pid = fork();
+
+/*
+	int foundPipe = findThis(command, "|");
+	int fd[2];
+	if(foundPipe != -1) {
+		cout << "FOUND ONE OR MORE |" << ". First one at " << findFirst(command, "|") << endl;
+		if(pipe(fd) == -1) {
+			perror("pipe");
+			exit(1);	
+		}
+	}
+*/
+
 	// if fork produces an error
 	if(pid == -1) {
 		perror("fork");
@@ -358,10 +377,9 @@ bool executeCommand(vector<char*> command) {
 				cerr << "Error: Invalid file name" << endl;
 				exit(1);
 			}
-			for(unsigned i = 0; i < command.size(); i++) {
-				if(i < unsigned(foundOut)) {
-					newCommand.push_back(command.at(i));
-				}		
+			newCommand.clear();
+			for(unsigned i = 0; i < (unsigned)foundOut; i++) {
+				newCommand.push_back(command.at(i));
 			}	
 			outFile = string(command.at(command.size()-1));
 			string hold = outFile;
@@ -400,11 +418,9 @@ bool executeCommand(vector<char*> command) {
 				cerr << "Error: Invalid file name" << endl;
 				exit(1);
 			}
-			for(unsigned i = 0; i < command.size(); i++) {
-				if(i < unsigned(foundOutOut)) {
-					newCommand.clear();
-					newCommand.push_back(command.at(i));
-				}		
+			newCommand.clear();
+			for(unsigned i = 0; i < (unsigned)foundOutOut; i++) {
+				newCommand.push_back(command.at(i));
 			}	
 			outFile = string(command.at(command.size()-1));
 			string hold = outFile;
@@ -442,11 +458,9 @@ bool executeCommand(vector<char*> command) {
 				cerr << "Error: Invalid file name" << endl;
 				exit(1);
 			}
-			for(unsigned i = 0; i < command.size(); i++) {
-				if(i < unsigned(foundIn)) {
-					newCommand.clear();
-					newCommand.push_back(command.at(i));
-				}		
+			newCommand.clear();
+			for(unsigned i = 0; i < (unsigned)foundIn; i++) {
+				newCommand.push_back(command.at(i));
 			}	
 			inFile = string(command.at(command.size()-1));
 			string hold = inFile;
@@ -505,7 +519,8 @@ bool executeCommand(vector<char*> command) {
 		}
 */
 
-		if(foundPipe != -1) {
+		if(findThis(command, "|") != -1) {
+			cout << "INSIDE CHILD" << endl;
 			if(dup2(fd[1], 1) == -1) {
 				perror("dup2");
 				exit(1);
@@ -514,15 +529,18 @@ bool executeCommand(vector<char*> command) {
 				perror("close");
 				exit(1);
 			}
-			int pipeLoc = findFirst(command, "|");
-			for(int i = 0; i < pipeLoc; i++) {
-				newCommand.clear();
+			//int pipeLoc = findFirst(command, "|");
+			cout << "pipeLoc: " << pipeLoc << endl;
+			newCommand.clear();
+			for(unsigned i = 0; i < (unsigned)pipeLoc; i++) {
 				newCommand.push_back(command.at(i));
 			}
+			/*
 			for(unsigned i = 0; i < newCommand.size(); i++) {
 				command.erase(command.begin());
 			}
 			command.erase(command.begin());
+			*/
 		}
 			
 		
@@ -542,6 +560,8 @@ bool executeCommand(vector<char*> command) {
 			perror("execvp");
 			exit(1);
 		}
+		
+		// gets rid of zombie processes
 		exit(1);
 	}
 
@@ -576,10 +596,23 @@ bool executeCommand(vector<char*> command) {
 			perror("close");
 			exit(1);	
 		}
+
+		for(unsigned i = 0; i < (unsigned)pipeLoc; i++) {
+			command.erase(command.begin());
+		}
+		command.erase(command.begin());
+
+		cout << "command: ";
+		for(unsigned i = 0; i < command.size(); i++) {
+			cout << "<" << command.at(i) << "> ";
+		}
+		cout << endl;
+		
 		executeCommand(command);
 	}
 
 	if(foundPipe != -1) {
+		cout << "HERE" << endl;
 		if(dup2(fd[0], 0) == -1) {
 			perror("dup2");
 			exit(1);
@@ -594,6 +627,9 @@ bool executeCommand(vector<char*> command) {
 	
 }
 
+// function executes a single blurb (blurbs are separated by semicolons)
+// vector<char*> commands is the vector of commands (already parsed by && and ||)
+// vector<string> connectors is the vector of  &&'s and ||'s in the order they are found in the blurb
 void executeBlurb(vector<char*> commands, vector<string> connectors) {
 
 	if(commands.size() == 1) {
