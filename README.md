@@ -1,7 +1,7 @@
 ## rshell
 `rshell` imitates the functionality of a terminal. `rshell` performs the following steps:
 
-hw0
+#### hw0
 
 1. Print the command prompt `userName@hostName $` 
 2. Read in a command on one line. Commands can be separated by connectors.
@@ -16,7 +16,7 @@ Connectors include `&&`, `||`, and `;`.
 	- Commands with more than 2 but less than 7 flags will not execute.
 	- `echo` with quotes will include quotes in output.
 
-hw2
+#### hw2
 
 `rshell` can now perform the following:
 
