@@ -1,4 +1,4 @@
-## rshell
+### rshell
 `rshell` imitates the functionality of a terminal. `rshell` performs the following steps:
 
 ##### hw0
@@ -12,7 +12,7 @@
 	- If a command is followed by `||`, then the next command is executed only if the first one does not succeed (returning false).
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
-#### Known Bugs(hw0)
+##### Known Bugs(hw0)
 
 - Commands with more than 2 but less than 7 flags will not execute.
 - `echo` with quotes will include quotes in output.
@@ -25,13 +25,13 @@ In addition to hw0 functionality, `rshell` can now perform the following:
 2. Output redirection (> and >>)
 3. Pipes (single and chained)
 
-#### Known Bugs(hw2)
+##### Known Bugs(hw2)
 
 - single and double quotes are always included in string inputs	
 - Cannot pipe with input redirection
 
 
-## ls (hw1)
+### ls (hw1)
 `ls` implements a subset of the GNU `ls` command: 
 
 1. It can support the -a, -l, and -R optional flags; and the ability to pass in one or many files optional. 
@@ -40,12 +40,12 @@ In addition to hw0 functionality, `rshell` can now perform the following:
 	- executables are green
 	- hidden files have a gray background
 
-#### Known Bugs(hw1)
+##### Known Bugs(hw1)
 - Files are listed in alphabetical order from left to right, then top to bottom.
 - Columns are all of equal width.	
 - Sometimes outputs an unnecessary endl.
 
-### How To Run rshell
+##### How To Run rshell
 ```
 $ git clone https://github.com/jle034/rshell.git
 $ cd rshell
@@ -54,7 +54,7 @@ $ make
 $ bin/rshell
 ```
 
-### How To Run ls
+##### How To Run ls
 ```
 $ git clone https://github.com/jle034/rshell.git
 $ cd rshell
