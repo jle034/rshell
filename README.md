@@ -1,11 +1,11 @@
 ## rshell
 `rshell` imitates the functionality of a terminal. `rshell` performs the following steps:
 
-#### hw0
+##### hw0
 
 1. Print the command prompt `userName@hostName $` 
 2. Read in a command on one line. Commands can be separated by connectors.
-Connectors include `&&`, `||`, and `;`.
+	- Connectors include `&&`, `||`, and `;`.
 3. Execute the line of commands
 	- If a command is followed by `;`, then the next command (if any) is always executed.
 	- If a command is followed by `&&`, then the next command is executed only if the first one succeeds (returning true).
@@ -13,10 +13,11 @@ Connectors include `&&`, `||`, and `;`.
 	- Anything found after the first found `#` is considered a comment and will be ignored. 
 
 ##### Known Bugs(hw0)
-	- Commands with more than 2 but less than 7 flags will not execute.
-	- `echo` with quotes will include quotes in output.
 
-#### hw2
+- Commands with more than 2 but less than 7 flags will not execute.
+- `echo` with quotes will include quotes in output.
+
+##### hw2
 
 `rshell` can now perform the following:
 
@@ -25,8 +26,10 @@ Connectors include `&&`, `||`, and `;`.
 3. Pipes (single and chained)
 
 ##### Known Bugs(hw2)
-	- single and double quotes are always included in string inputs	
-	- Cannot pipe with input redirection
+
+- single and double quotes are always included in string inputs	
+- Cannot pipe with input redirection
+
 
 ## ls
 `ls` implements a subset of the GNU `ls` command: 
