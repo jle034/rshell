@@ -31,7 +31,7 @@ In addition to hw0 functionality, `rshell` can now perform the following:
 - Cannot pipe with input redirection
 
 
-### ls (hw1)
+### ls
 `ls` implements a subset of the GNU `ls` command: 
 
 1. It can support the -a, -l, and -R optional flags; and the ability to pass in one or many files optional. 
