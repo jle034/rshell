@@ -25,8 +25,8 @@ Connectors include `&&`, `||`, and `;`.
 3. Pipes (single and chained)
 
 ##### Known Bugs(hw2)
+	- single and double quotes are always included in string inputs	
 	- Cannot pipe with input redirection
-	- Cannot pipe with input and output redirection 
 
 ## ls
 `ls` implements a subset of the GNU `ls` command: 
