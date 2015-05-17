@@ -1,0 +1,199 @@
+Script started on Sun 17 May 2015 07:45:26 AM PDT
+~
+jle034@hammer $ cdr[K[K[Kcs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (redirect) [0;36m$[0m bin/rshell
+jle034@hammer.cs.ucr.edu $ l
+execvp: No such file or directory
+jle034@hammer.cs.ucr.edu $ ls
+bin  LICENSE  Makefile	README.md  src	tests
+jle034@hammer.cs.ucr.edu $ # output redirection >, non existant file
+jle034@hammer.cs.ucr.edu $ ls > out
+jle034@hammer.cs.ucr.edu $ cat out
+bin
+LICENSE
+Makefile
+out
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # output redirection >, existant file
+jle034@hammer.cs.ucr.edu $ ls > out
+jle034@hammer.cs.ucr.edu $ cat out
+bin
+LICENSE
+Makefile
+out
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # ouput redirection >>, non existant file
+jle034@hammer.cs.ucr.edu $ ls >> out1
+jle034@hammer.cs.ucr.edu $ cat out1
+bin
+LICENSE
+Makefile
+out
+out1
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # output redirection >>, existant file
+jle034@hammer.cs.ucr.edu $ ls >> out1
+jle034@hammer.cs.ucr.edu $ cat out1
+bin
+LICENSE
+Makefile
+out
+out1
+README.md
+src
+tests
+bin
+LICENSE
+Makefile
+out
+out1
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # output redirection >, no whitespace
+jle034@hammer.cs.ucr.edu $ ls>out2
+jle034@hammer.cs.ucr.edu $ cat out2
+bin
+LICENSE
+Makefile
+out
+out1
+out2
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ redi    # oupt  tput redirection >>, no whitepa  space
+jle034@hammer.cs.ucr.edu $ ls>>out3
+jle034@hammer.cs.ucr.edu $ cat out3
+bin
+LICENSE
+Makefile
+out
+out1
+out2
+out3
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ #in   input redirection <, non existant file
+jle034@hammer.cs.ucr.edu $ cat < somefile
+open: No such file or directory
+jle034@hammer.cs.ucr.edu $ # input redirection <, existant file
+jle034@hammer.cs.ucr.edu $ cat < out3
+bin
+LICENSE
+Makefile
+out
+out1
+out2
+out3
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # input redirection <, no whitespace
+jle034@hammer.cs.ucr.edu $ cat<out3
+bin
+LICENSE
+Makefile
+out
+out1
+out2
+out3
+README.md
+src
+tests
+jle034@hammer.cs.ucr.edu $ # input redirection<  <, with piping
+jle034@hammer.cs.ucr.edu $ cat < out3 | tr a-z A-Z
+Error: Invalid file name
+jle034@hammer.cs.ucr.edu $ # input redirection <<<, with whitespace
+jle034@hammer.cs.ucr.edu $ cat <<< hello
+hello
+jle034@hammer.cs.ucr.edu $ # input redirection <<<, without whitespace
+jle034@hammer.cs.ucr.edu $ cat<<<hello
+hello
+jle034@hammer.cs.ucr.edu $ single      # single pipe
+jle034@hammer.cs.ucr.edu $ ls | grep o
+out
+out1
+out2
+out3
+jle034@hammer.cs.ucr.edu $ # multiple pipes
+jle034@hammer.cs.ucr.edu $ ls .. | tr a-z A-Z | grep A | head
+ASSN01.ASM~
+ASSN1.ASM~
+ASSN2.ASM~
+DOWNLOADS
+HELLOWORLD.ASM~
+LAB1.ASM~
+LAB2_1.ASM~
+LAB2_2.ASM~
+LAB2_3.ASM~
+LAB2_4.ASM~
+jle034@hammer.cs.ucr.edu $ p # pipes without whitespace
+jle034@hammer.cs.ucr.edu $ ls ..|tr a-z A-Z|grep A|head
+ASSN01.ASM~
+ASSN1.ASM~
+ASSN2.ASM~
+DOWNLOADS
+HELLOWORLD.ASM~
+LAB1.ASM~
+LAB2_1.ASM~
+LAB2_2.ASM~
+LAB2_3.ASM~
+LAB2_4.ASM~
+jle034@hammer.cs.ucr.edu $ #p  piping withou   output redirection >
+jle034@hammer.cs.ucr.edu $ ls | grep o | > out4
+jle034@hammer.cs.ucr.edu $ cat out4
+out
+out1
+out2
+out3
+out4
+jle034@hammer.cs.ucr.edu $ piping      # piping with output redirection >>
+jle034@hammer.cs.ucr.edu $ ls | grep s >> out4
+jle034@hammer.cs.ucr.edu $ cat out4
+out
+out1
+out2
+out3
+out4
+src
+tests
+jle034@hammer.cs.ucr.edu $ # piping with output and input redirection
+jle034@hammer.cs.ucr.edu $ cat < out | tr a-z A-Z \   | tee out5 | grep 0 > out6
+execvp: No such file or directory
+jle034@hammer.cs.ucr.edu $ exit
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (redirect) [0;36m$[0m exit
+exit
+~
+jle034@hammer $ exit
+exit
+
+Script done on Sun 17 May 2015 07:53:30 AM PDT
