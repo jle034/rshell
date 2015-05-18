@@ -28,13 +28,15 @@ int main(int argc, char** argv)
 	//if input file doesn't exist, give error message
 	if(stat(input_file,&buf)!=0)
 	{
-		cerr << "File does not exist\n";
+		perror("stat");
+		//cerr << "File does not exist\n";
 		exit(1);
 	}
 	//if output file already exists, give error message
 	if(stat(output_file, &buf)==0)
 	{
-		cerr << "Output file should not already exist\n";
+		perror("stat");
+		//cerr << "Output file should not already exist\n";
 		exit(1);
 	}
 	//if input file is directory, give error
