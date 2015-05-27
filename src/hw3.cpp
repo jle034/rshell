@@ -6,11 +6,9 @@
 #include <string.h>
 #include <vector>
 #include <fcntl.h>
-#include <boost/tokenizer.hpp>
-#include <boost/algorithm/string.hpp>
+#include <signal.h>
 
 using namespace std;
-using namespace boost;
 
 void prompt();
 void removeComments(string& s);
@@ -27,28 +25,6 @@ void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 int main(int argc, char* argv[]) {
 
-/*
-	vector<char*> temp = splitSemicolon("hi; hello; there; WHAT;");
-	cout << "char* before: ";
-	for(unsigned i = 0;  i < temp.size(); i++) {
-		string first = string(temp.at(i));
-		string hold = first;
-		cout << "<" << string(temp.at(i)) << "> ";
-		temp.at(i) = &hold.at(0);
-	}
-	cout << endl;
-	cout << "string: " << vecCharToString(temp, 0, (temp.size()-1)) << endl;
-
-	cout << "char* after: ";
-	for(unsigned i = 0; i < temp.size(); i++) {
-		string first = string(temp.at(i));
-		string hold = first;
-		cout << "<" << string(temp.at(i)) << "> ";
-		temp.at(i) = &hold.at(0);
-	}
-	cout << endl;
-
-*/
 	while(1) {
 
 
@@ -72,10 +48,8 @@ int main(int argc, char* argv[]) {
 			vector<string> connectorVec = getConnectors(scVec.at(j));
 			vector<char*> commandVec = getCommands(scVec.at(j));
 			executeBlurb(commandVec, connectorVec);
-
 		}
 	}
-
 	return 0;
 }
 
@@ -119,7 +93,6 @@ int findThis(vector<char*> v, string s) {
 	int loc = -1;
 	for(unsigned i = 0; i < temp.size(); i++) {
 		if(temp.at(i) == s) {
-//			cout << "FOUND IT!!" << endl;
 			if(loc >= 0) {
 				loc = -2;
 			}
@@ -147,7 +120,6 @@ int findFirst(vector<char*> v, string s) {
 	int loc = -1;
 	for(unsigned i = 0; i < temp.size(); i++) {
 		if(temp.at(i) == s) {
-//			cout << "FOUND IT!!" << endl;
 			if(loc == -1) {
 				loc = i;
 			}
@@ -180,16 +152,6 @@ string vecCharToString(vector<char*> v, unsigned start, unsigned end) {
 	}
 	return returnThis;
 }
-
-
-/*
-string charToString(char* charPointer) {
-	string temp = string(charPointer);
-	string hold = temp;
-	// do stuff here
-	charPointer = &hold.at(0);
-}
-*/
 
 // function parses string userInput by ";"
 // returns these as a vector<char*> 
@@ -229,7 +191,6 @@ vector<char*> splitSpace(string userInput) {
 
 // function uses strtok() to parse string blurb by connectors && and ||
 // returns vector<char*> of all commands in the char* charBlurb
-
 vector<char*> getCommands(char* charBlurb) {
 	char* temp = charBlurb;	
 	string stringTemp(temp);
@@ -246,8 +207,6 @@ vector<char*> getCommands(char* charBlurb) {
 	string repIn = " < ";
 	string repInInIn = " <<< ";
 	vector<char*> semicolonVec;
-//	string trueString = "true";
-//	char* trueChar = (char*)trueString.c_str();
 
 	// if blurb is empty
 	// return empty vector
@@ -255,8 +214,8 @@ vector<char*> getCommands(char* charBlurb) {
 		return semicolonVec;
 	}
 
-	// changes all instances of "||" into "!"
-	// changes all instances of "&&" into "*"
+	// replaces all instances of "||" with "!"
+	// replaces all instances of "&&" with "*"
 	for(unsigned i = 0; i < blurb.size() - 1; i++) {
 		if(blurb.at(i) == '|') {
 			if(blurb.at(i + 1) == '|') {
@@ -301,15 +260,10 @@ vector<char*> getCommands(char* charBlurb) {
 	char* charTemp = &blurb.at(0); 
 	char* token;
 	token = strtok(charTemp, "!*");
-//	cout << "token: " << token << endl;
 
 	while(token != NULL) {
 		string str = string(token);
 		semicolonVec.push_back(token);
-//		if(str.size() == 0) {
-//			cout << "EMPTY" << endl;
-//			semicolonVec.push_back(trueChar);
-//		}
 		token = strtok(NULL, "!*");
 	}
 	charBlurb = &hold.at(0);
@@ -333,21 +287,6 @@ vector<string> getConnectors(char* blurb) {
 			i++;
 			v.push_back("||");
 		}
-/*
-		else if((str.at(i) == '|') && !(str.at(i + 1) == '|')) {
-			v.push_back("|");
-		}
-		else if(str.at(i) == '<') {
-			v.push_back("<");
-		}
-		else if((str.at(i) == '>') && !(str.at(i + 1) == '>')) {
-			v.push_back(">");
-		}
-		else if((str.at(i) == '>') && (str.at(i + 1) == '>')) {
-			i++;
-			v.push_back(">>");
-		}
-*/
 	}
 	blurb = &hold.at(0);
 	return v;
@@ -358,14 +297,6 @@ vector<string> getConnectors(char* blurb) {
 // returns true if command executes
 // returns false if command is invalid or does not execute
 bool executeCommand(vector<char*> command) {
-
-/*
-	cout << "command parsed by spaces: ";
-	for(unsigned i = 0; i < command.size(); i ++) {
-		cout << "<" << command.at(i) << "> ";
-	}
-	cout << endl;
-*/	
 
 	bool success = true;
 
@@ -382,7 +313,6 @@ bool executeCommand(vector<char*> command) {
 	int pipeLoc = findFirst(command, "|");
 	int fd[2];
 	if(foundPipe != -1) {
-		//cout << "FOUND ONE OR MORE |" << " at " << findFirst(command, "|") << endl;
 		if(pipe(fd) == -1) {
 			perror("pipe");
 			exit(1);	
@@ -392,18 +322,6 @@ bool executeCommand(vector<char*> command) {
 	vector<char*> newCommand;
 
 	int pid = fork();
-
-/*
-	int foundPipe = findThis(command, "|");
-	int fd[2];
-	if(foundPipe != -1) {
-		cout << "FOUND ONE OR MORE |" << ". First one at " << findFirst(command, "|") << endl;
-		if(pipe(fd) == -1) {
-			perror("pipe");
-			exit(1);	
-		}
-	}
-*/
 
 	// if fork produces an error
 	if(pid == -1) {
@@ -424,7 +342,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);	
 		}	
 		else if(foundOut >= 0) {
-			//cout << "FOUND ONE >" << endl;
+
 			// if ">" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -432,6 +350,7 @@ bool executeCommand(vector<char*> command) {
 				cerr << "Error: Invalid file name" << endl;
 				exit(1);
 			}
+
 			newCommand.clear();
 			for(unsigned i = 0; i < (unsigned)foundOut; i++) {
 				newCommand.push_back(command.at(i));
@@ -439,6 +358,7 @@ bool executeCommand(vector<char*> command) {
 			outFile = string(command.at(command.size()-1));
 			string hold = outFile;
 			int fdo = open(outFile.c_str(), O_WRONLY|O_TRUNC);
+
 			// if fdo == -1, outFile doesn't exist
 			// create outFile
 			if(fdo == -1) {
@@ -465,7 +385,7 @@ bool executeCommand(vector<char*> command) {
 			exit(1);
 		}
 		else if(foundOutOut >= 0) {
-			//cout << "FOUND ONE >>" << endl;
+		
 			// if ">>" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -473,6 +393,7 @@ bool executeCommand(vector<char*> command) {
 				cerr << "Error: Invalid file name" << endl;
 				exit(1);
 			}
+
 			newCommand.clear();
 			for(unsigned i = 0; i < (unsigned)foundOutOut; i++) {
 				newCommand.push_back(command.at(i));
@@ -480,6 +401,7 @@ bool executeCommand(vector<char*> command) {
 			outFile = string(command.at(command.size()-1));
 			string hold = outFile;
 			int fdo = open(outFile.c_str(), O_WRONLY|O_APPEND);
+
 			// if fdo == -1, outFile doesn't exist
 			// create outFile
 			if(fdo == -1) {
@@ -499,13 +421,14 @@ bool executeCommand(vector<char*> command) {
 			}
 		}		
 
+		// takes care of commands that have "<" 
 		int foundIn = findThis(command, "<");
 		if(foundIn == -2) {
 			cerr << "Error: Cannot have more than one input redirecton" << endl;
 			exit(1);
 		}
 		else if(foundIn >= 0) {
-			//cout << "FOUND ONE <" << endl;
+
 			// if "<" is not found at the second to last location
 			// the file name is invalid
 			// either not given or has spaces in it
@@ -520,6 +443,7 @@ bool executeCommand(vector<char*> command) {
 			inFile = string(command.at(command.size()-1));
 			string hold = inFile;
 			int fdi = open(inFile.c_str(), O_RDONLY);
+
 			// if fdi == -1, inFile doesn't exist
 			if(fdi == -1) {
 				perror("open");
@@ -535,6 +459,7 @@ bool executeCommand(vector<char*> command) {
 			}
 		}
 
+		// takes care of commands that have "<<<" 
 		int foundInInIn = findThis(command, "<<<");
 		if(foundInInIn == -2) {
 			cerr << "Error: Cannot have more than one input redirecton" << endl;
@@ -562,17 +487,11 @@ bool executeCommand(vector<char*> command) {
 				perror("close");
 				exit(1);
 			}
-			//int pipeLoc = findFirst(command, "|");
+
 			newCommand.clear();
 			for(unsigned i = 0; i < (unsigned)pipeLoc; i++) {
 				newCommand.push_back(command.at(i));
 			}
-			/*
-			for(unsigned i = 0; i < newCommand.size(); i++) {
-				command.erase(command.begin());
-			}
-			command.erase(command.begin());
-			*/
 		}
 			
 		
@@ -605,9 +524,17 @@ bool executeCommand(vector<char*> command) {
 			perror("waitpid");
 			exit(1);
 		}
+
+		// if status is 0
+		// then child process successfully executed
+		// store a true in bool success for return
 		if(status == 0) {
 			success = true;
 		}
+
+		// if status is not a 0
+		// then child process did not successfully execute
+		// store a false in bool success for return
 		else {
 			success = false;
 		}
@@ -657,6 +584,8 @@ bool executeCommand(vector<char*> command) {
 // vector<string> connectors is the vector of  &&'s and ||'s in the order they are found in the blurb
 void executeBlurb(vector<char*> commands, vector<string> connectors) {
 
+	// if blurb only has a single command
+	// execute the command
 	if(commands.size() == 1) {
 		string temp = string(commands.at(0));
 		string hold = temp;
@@ -665,6 +594,8 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 		executeCommand(parsedCommand);
 	}	
 
+	// if blurb has more than one command
+	// check && or || logic before executing the commands
 	else if(commands.size() > 1) {
 		
 		bool previous;
