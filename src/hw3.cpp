@@ -10,6 +10,7 @@
 
 using namespace std;
 
+//void interruptHandle(int signum, siginfo_t* info, void *ptr);
 void prompt();
 void removeComments(string& s);
 int findThis(vector<char*> v, string s);
@@ -20,13 +21,33 @@ vector<char*> splitSpace(string userInput);
 vector<char*> getCommands(char* charBlurb);
 vector<string> getConnectors(char* blurb);
 bool executeCommand(vector<char*> command);
+bool executecd(vector<char*> parsedCommand); 
 void executeBlurb(vector<char*> commands, vector<string> connectors);
 
+//struct sigaction interrupt;
+//int interruptFlag = 0;
 
 int main(int argc, char* argv[]) {
+	
+/*
+	interrupt.sa_sigaction = interruptHandle;
+	interrupt.sa_flags = SA_SIGINFO;
+
+	if(sigaction(SIGINT, &interrupt, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
+*/
 
 	while(1) {
-
+		
+/*
+		if(interruptFlag) {
+			cout << endl << "C";	
+			interruptFlag = 0;
+			sleep(1);
+		}
+*/
 
 		// outputs the prompt
 		prompt();
@@ -52,6 +73,12 @@ int main(int argc, char* argv[]) {
 	}
 	return 0;
 }
+
+/*
+void interruptHandle(int signum, siginfo_t* info, void *ptr) {
+	interruptFlag = 1;
+}
+*/
 
 // function prints the prompt to look like this:
 // [userName]@[hostName] $
@@ -494,7 +521,6 @@ bool executeCommand(vector<char*> command) {
 			}
 		}
 			
-		
 		if((foundOut == -1) && (foundOutOut == -1) && (foundIn == -1) && (foundPipe == -1)) {
 			newCommand = command;
 		}
@@ -579,6 +605,11 @@ bool executeCommand(vector<char*> command) {
 	
 }
 
+bool executecd(vector<char*> parsedCommand) {
+	bool success = true;
+	return success;
+}
+
 // function executes a single blurb (blurbs are separated by semicolons)
 // vector<char*> commands is the vector of commands (already parsed by && and ||)
 // vector<string> connectors is the vector of  &&'s and ||'s in the order they are found in the blurb
@@ -590,6 +621,9 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 		string temp = string(commands.at(0));
 		string hold = temp;
 		vector<char*> parsedCommand = splitSpace(temp);
+		if(string(parsedCommand.at(0)) == "cd") {
+			executecd(parsedCommand);
+		}
 		commands.at(0) = &hold.at(0);
 		executeCommand(parsedCommand);
 	}	
