@@ -44,10 +44,10 @@ int main(int argc, char* argv[]) {
 	string holdpwd = strpwd;
 	string holdhome = strhome;
 
-	if(holdpwd.find(strhome) != string::npos) {
-		holdpwd.replace(0, strhome.length(), "~");
-	}
-	pwd = &holdpwd.at(0);
+	//if(holdpwd.find(strhome) != string::npos) {
+	//	holdpwd.replace(0, strhome.length(), "~");
+	//}
+	//pwd = &holdpwd.at(0);
 
 	cout << "PWD: " << strpwd << endl;
 	cout << "HOME: " << strhome << endl;
