@@ -11,6 +11,7 @@
 using namespace std;
 
 //void interruptHandle(int signum, siginfo_t* info, void *ptr);
+void cdPath (vector<char*> command);
 void prompt();
 void removeComments(string& s);
 int findThis(vector<char*> v, string s);
@@ -26,9 +27,23 @@ void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 //struct sigaction interrupt;
 //int interruptFlag = 0;
+char* pwd;
+char* home;
 
 int main(int argc, char* argv[]) {
-	
+
+	pwd = getenv("PWD");
+	home = getenv("HOME");
+	cout << "PWD: " << pwd << endl;
+	cout << "HOME: " << home << endl;
+
+	string temp = string(pwd);
+	temp.replace(0, string(home).size(), "~");
+	pwd = &temp.at(0);
+	cout << "PWD: " << pwd << endl;
+	cout << "HOME: " << home << endl;
+
+
 /*
 	interrupt.sa_sigaction = interruptHandle;
 	interrupt.sa_flags = SA_SIGINFO;
@@ -74,6 +89,13 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
+// vector command should already be checked for "cd" at command.at(0)
+// function changes working directory to the appropriate directory
+// cd <PATH> uses the first directory if multiple are found
+void cdPath (vector<char*> command) {
+	
+}
+
 /*
 void interruptHandle(int signum, siginfo_t* info, void *ptr) {
 	interruptFlag = 1;
@@ -93,7 +115,7 @@ void prompt() {
 	if(checkHostName == -1) {
 		perror("gethostname");
 	}
-	cout << userName << "@" << hostName  << " $ ";
+	cout << userName << "@" << hostName << ":" << pwd << " $ ";
 }
 
 // function removes comments in string& s
