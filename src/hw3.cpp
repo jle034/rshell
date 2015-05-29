@@ -1,4 +1,5 @@
 #include <iostream>
+#include <errno.h>
 #include <stdio.h>
 #include <sys/wait.h>
 #include <stdlib.h>
@@ -13,8 +14,11 @@ using namespace  boost;
 using namespace std;
 
 void interruptHandle(int signum, siginfo_t* info, void *ptr);
+void stopHandle(int signum, siginfo_t* info, void *ptr);
+void contHandle(int signum, siginfo_t* info, void *ptr);
 void cdPath(vector<char*> command);
 void cdPrev();
+char* getCurrPWD();
 void prompt();
 void removeComments(string& s);
 int findThis(vector<char*> v, string s);
@@ -29,7 +33,13 @@ void executecd(vector<char*> parsedCommand);
 void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 int interruptFlag;
+int stopFlag;
+int contFlag;
+
 struct sigaction interrupt;
+struct sigaction stop;
+struct sigaction cont;
+
 char* pwd;
 char* prevpwd;
 char* home;
@@ -67,12 +77,26 @@ int main(int argc, char* argv[]) {
 	interrupt.sa_sigaction = interruptHandle;
 	interrupt.sa_flags = SA_SIGINFO;
 
+	stop.sa_sigaction = stopHandle;
+	stop.sa_flags = SA_SIGINFO;
+
+	cont.sa_sigaction = contHandle;
+	cont.sa_flags = SA_SIGINFO;
+
 	if(sigaction(SIGINT, &interrupt, NULL) == -1) {
 		perror("sigaction");
 		exit(1);
 	}
 
-	//cin.clear();
+	if(sigaction(SIGTSTP, &stop, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
+
+	if(sigaction(SIGCONT, &cont, NULL) == -1) {
+		perror("sigaction");
+		exit(1);
+	}
 
 	while(1) {
 
@@ -83,6 +107,19 @@ int main(int argc, char* argv[]) {
 				kill(pid, SIGINT);
 			}
 			interruptFlag = 0;
+			cout << endl;
+		}
+		if(stopFlag) {
+			if(pid == 0) {
+				kill(pid, SIGTSTP);
+			}
+			stopFlag = 0;
+			cout << endl;
+		}
+		if(contFlag) {
+			kill(pid, SIGCONT);
+			contFlag = 0;
+			cout << endl;
 		}
 
 		// outputs the prompt
@@ -127,9 +164,14 @@ void cdPath (vector<char*> command) {
 	}
 	path = &holdPath.at(0);
 
-	prevpwd = pwd;
-	pwd = path;
-
+	char currPath[FILENAME_MAX];
+	if(!getcwd(currPath, sizeof(currPath))) {
+		perror("getcwd");
+	}
+	else {
+		prevpwd = currPath;
+		pwd = path;
+	}
 	// change current working directory to holdPath
 	// if chdir returns 0, perror
 	if(chdir(path) == -1) {
@@ -193,20 +235,43 @@ void cdPath (vector<char*> command) {
 void cdPrev() {
 	
 	cout << "pwd: " << pwd << endl;
-	if(chdir(prevpwd) == -1) {
+	char currPath[FILENAME_MAX];
+	if(!getcwd(currPath, sizeof(currPath))) {
+		perror("getcwd");
+	}
+	else {
+		pwd = prevpwd;
+		prevpwd = currPath;
+	}
+
+		
+	if(chdir(pwd) == -1) {
 		cout << "OH NO" << endl;
 		perror("chdir");
 	}
-
-	char* holdThis = prevpwd;
-	prevpwd = pwd;
-	pwd = holdThis;
-
 }
 
 void interruptHandle(int signum, siginfo_t* info, void *ptr) {
 	interruptFlag = 1;
 }
+
+void stopHandle(int signum, siginfo_t* info, void *ptr) {
+	stopFlag = 1;
+}
+
+void contHandle(int signum, siginfo_t* info, void *ptr) {
+	contFlag = 1;
+}
+
+/*
+char* getCurrPWD() {
+	char currPath[FILENAME_MAX];
+	if(!getcwd(currPath, sizeof(currPath))) {
+		perror("getcwd");
+	}
+	return currPath;
+}
+*/
 
 // function prints the prompt to look like this:
 // [userName]@[hostName] $
@@ -222,8 +287,6 @@ void prompt() {
 
 	unsigned i = 0;
 	unsigned j = 0;
-
-	cout << "home.length: " << string(home).length() << endl;	
 
 	for(i = 0; i < string(home).length(); i++) {
 		if(currPath[i] == string(home).at(i)) {
@@ -704,7 +767,27 @@ bool executeCommand(vector<char*> command) {
 
 	// else parent
 	else {
+
 		int status;
+		
+		do {
+			pid = wait(&status);
+		}
+		while(pid == -1 && errno == EINTR);
+		if(pid == -1) {
+			perror("wait");
+			exit(1);
+		}
+		else {
+			if(status == 0) {
+				success = true;
+			}
+			else {
+				success = false;	
+			}
+		}
+
+/*
 
 		if(waitpid(pid, &status, 0) == -1) {
 			perror("waitpid");
@@ -724,6 +807,7 @@ bool executeCommand(vector<char*> command) {
 		else {
 			success = false;
 		}
+*/
 	}
 
 	int temp;
