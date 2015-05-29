@@ -72,11 +72,15 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
+	//cin.clear();
+
 	while(1) {
+
+		cin.clear();
 
 		if(interruptFlag) {
 			if(pid == 0) {
-			//	kill(pid, SIGINT);
+				kill(pid, SIGINT);
 			}
 			interruptFlag = 0;
 		}
