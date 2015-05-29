@@ -22,7 +22,7 @@ vector<char*> splitSpace(string userInput);
 vector<char*> getCommands(char* charBlurb);
 vector<string> getConnectors(char* blurb);
 bool executeCommand(vector<char*> command);
-bool executecd(vector<char*> parsedCommand); 
+void executecd(vector<char*> parsedCommand); 
 void executeBlurb(vector<char*> commands, vector<string> connectors);
 
 //struct sigaction interrupt;
@@ -34,14 +34,30 @@ int main(int argc, char* argv[]) {
 
 	pwd = getenv("PWD");
 	home = getenv("HOME");
+
+	string strpwd = string(pwd);
+	string strhome = string(home);
+
+	if(strpwd.find(strhome) != string::npos) {
+		strpwd.replace(0, strhome.length(), "~");
+	}
+	pwd = &strpwd.at(0);
+
 	cout << "PWD: " << pwd << endl;
 	cout << "HOME: " << home << endl;
 
+/*
 	string temp = string(pwd);
 	temp.replace(0, string(home).size(), "~");
 	pwd = &temp.at(0);
+
 	cout << "PWD: " << pwd << endl;
 	cout << "HOME: " << home << endl;
+*/
+
+	if(strcmp(pwd, home)) {
+		cout << "YAY" << endl;
+	}
 
 
 /*
@@ -93,7 +109,36 @@ int main(int argc, char* argv[]) {
 // function changes working directory to the appropriate directory
 // cd <PATH> uses the first directory if multiple are found
 void cdPath (vector<char*> command) {
-	
+	char* path = command.at(1);
+	string strPath = string(path);
+	string strHome = string(home);
+
+	cout << "HERE" << endl;
+
+	if(strPath.at(0) == '~') {
+		strPath.replace(0, 1, home);
+	}
+	if(chdir(path) != 0) {
+		perror("chdir");
+		exit(1);
+	}
+	else {
+		if(strPath.find(strHome) != string::npos) {
+			strPath.replace(0, strHome.length(), "~");
+		}
+		if(strPath.find(string(pwd)) == string::npos) {
+			strPath.insert(0, string(pwd) + "/");
+		}
+		cout << "strPath: " << strPath << endl;
+		path = &strPath.at(0);
+		pwd = path;
+	}
+	/*
+	if((strPath.at(0) == '~') || strcmp(path, home)) {
+		chdir(path);
+		pwd = path;
+	}	
+	*/	
 }
 
 /*
@@ -627,9 +672,15 @@ bool executeCommand(vector<char*> command) {
 	
 }
 
-bool executecd(vector<char*> parsedCommand) {
-	bool success = true;
-	return success;
+// already confirmed that parsedCommand.at(0) == "cd"
+void executecd(vector<char*> parsedCommand) {
+	if(parsedCommand.size() == 1) {
+		chdir(home);
+		pwd = home;
+	}
+	else {
+		cdPath(parsedCommand);
+	}
 }
 
 // function executes a single blurb (blurbs are separated by semicolons)
@@ -642,12 +693,16 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 	if(commands.size() == 1) {
 		string temp = string(commands.at(0));
 		string hold = temp;
+		cout << "blurb: " << hold << endl;
 		vector<char*> parsedCommand = splitSpace(temp);
 		if(string(parsedCommand.at(0)) == "cd") {
+			cout << "EVEN BETTER" << endl;
 			executecd(parsedCommand);
 		}
+		else {
+			executeCommand(parsedCommand);
+		}
 		commands.at(0) = &hold.at(0);
-		executeCommand(parsedCommand);
 	}	
 
 	// if blurb has more than one command
@@ -661,6 +716,7 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 		vector<char*> parsedCommand = splitSpace(temp);
 		commands.at(0) = &hold.at(0);
 		previous = executeCommand(parsedCommand);		
+
 
 		for(unsigned i = 1; i < commands.size(); i++) {
 			// if there is an &&, 
