@@ -37,14 +37,16 @@ int main(int argc, char* argv[]) {
 
 	string strpwd = string(pwd);
 	string strhome = string(home);
+	string holdpwd = strpwd;
+	string holdhome = strhome;
 
-	if(strpwd.find(strhome) != string::npos) {
-		strpwd.replace(0, strhome.length(), "~");
+	if(holdpwd.find(strhome) != string::npos) {
+		holdpwd.replace(0, strhome.length(), "~");
 	}
-	pwd = &strpwd.at(0);
+	pwd = &holdpwd.at(0);
 
-	cout << "PWD: " << pwd << endl;
-	cout << "HOME: " << home << endl;
+	cout << "PWD: " << strpwd << endl;
+	cout << "HOME: " << strhome << endl;
 
 /*
 	string temp = string(pwd);
@@ -55,9 +57,6 @@ int main(int argc, char* argv[]) {
 	cout << "HOME: " << home << endl;
 */
 
-	if(strcmp(pwd, home)) {
-		cout << "YAY" << endl;
-	}
 
 
 /*
@@ -99,7 +98,9 @@ int main(int argc, char* argv[]) {
 		for(unsigned j = 0; j < scVec.size(); j++) {
 			vector<string> connectorVec = getConnectors(scVec.at(j));
 			vector<char*> commandVec = getCommands(scVec.at(j));
+			cout << "string(pwd) before calling executeBlurb: " << string(pwd) << endl;
 			executeBlurb(commandVec, connectorVec);
+			cout << "string(pwd) after calling executeBlurb: " << string(pwd) << endl;
 		}
 	}
 	return 0;
@@ -109,30 +110,53 @@ int main(int argc, char* argv[]) {
 // function changes working directory to the appropriate directory
 // cd <PATH> uses the first directory if multiple are found
 void cdPath (vector<char*> command) {
+	cout << "string(pwd) at beginning of inside of cdPath: " << string(pwd) << endl;
 	char* path = command.at(1);
 	string strPath = string(path);
-	string strHome = string(home);
+	string holdPath = strPath;
+	string strpwd = string(pwd);
+	string holdpwd = strpwd;
+	string strhome = string(home);
 
 	cout << "HERE" << endl;
 
-	if(strPath.at(0) == '~') {
-		strPath.replace(0, 1, home);
+	// if user uses '~' to represent the home directory
+	// replace '~' with the actual char* home to use chdir
+	if(holdPath.at(0) == '~') {
+		holdPath.replace(0, 1, home);
+		path = &holdPath.at(0);
 	}
+	
+	// change directory to path
+	// if chdir returns 0, perror
 	if(chdir(path) != 0) {
 		perror("chdir");
 		exit(1);
 	}
+	// else chdir does not return 0 (succesful)
 	else {
-		if(strPath.find(strHome) != string::npos) {
-			strPath.replace(0, strHome.length(), "~");
+		// if holdPath starts with home directory
+		// replace it with a '~' for output
+		if(holdPath.find(strhome) != string::npos) {
+			holdPath.replace(0, strhome.length(), "~");
+			//path = &holdPath.at(0);
 		}
-		if(strPath.find(string(pwd)) == string::npos) {
-			strPath.insert(0, string(pwd) + "/");
+		
+		// if holdPath does not have 
+		else if(holdPath.find(string(pwd)) == string::npos) {
+			holdPath.insert(0, string(pwd) + "/");
+			//path = &holdPath.at(0);
 		}
-		cout << "strPath: " << strPath << endl;
-		path = &strPath.at(0);
-		pwd = path;
+		cout << "holdPath: " << holdPath << endl;
+		//path = &holdPath.at(0);
+		//pwd = path;
 	}
+
+	cout << "holdPath outside: " << holdPath << endl;
+	path = &holdPath.at(0);
+	cout << "string(path): " << string(path) << endl;
+	pwd = path;
+	cout << "string(pwd) at end of inside of cdPath: " << string(pwd) << endl;
 	/*
 	if((strPath.at(0) == '~') || strcmp(path, home)) {
 		chdir(path);
@@ -151,7 +175,11 @@ void interruptHandle(int signum, siginfo_t* info, void *ptr) {
 // [userName]@[hostName] $
 // returns nothing
 void prompt() {
+	cout << "str(pwd) at beginning of inside of prompt: " << string(pwd) << endl;
 	char* userName = getlogin();
+	string strpwd = string(pwd);
+	string holdpwd = strpwd;
+
 	if(userName == NULL) {
 		perror("getlogin");
 	}
@@ -160,7 +188,8 @@ void prompt() {
 	if(checkHostName == -1) {
 		perror("gethostname");
 	}
-	cout << userName << "@" << hostName << ":" << pwd << " $ ";
+	cout << userName << "@" << hostName << ":" << holdpwd << " $ ";
+	pwd = &holdpwd.at(0);
 }
 
 // function removes comments in string& s
@@ -676,17 +705,21 @@ bool executeCommand(vector<char*> command) {
 void executecd(vector<char*> parsedCommand) {
 	if(parsedCommand.size() == 1) {
 		chdir(home);
-		pwd = home;
+		string temp = "~";
+		pwd = &temp.at(0);
 	}
 	else {
 		cdPath(parsedCommand);
 	}
+	cout << "string(pwd) at end of inside of executecd: " << string(pwd) << endl;
 }
 
 // function executes a single blurb (blurbs are separated by semicolons)
 // vector<char*> commands is the vector of commands (already parsed by && and ||)
 // vector<string> connectors is the vector of  &&'s and ||'s in the order they are found in the blurb
 void executeBlurb(vector<char*> commands, vector<string> connectors) {
+
+	cout << "string(pwd) at beginning of inside of execute Blurb: " << string(pwd) << endl;
 
 	// if blurb only has a single command
 	// execute the command
@@ -702,7 +735,9 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 		else {
 			executeCommand(parsedCommand);
 		}
+		cout << "string(pwd) at end if statement in executeBlurb: " << string(pwd) << endl;
 		commands.at(0) = &hold.at(0);
+		cout << "string(pwd) at end if statement in executeBlurb: " << string(pwd) << endl;
 	}	
 
 	// if blurb has more than one command
@@ -744,5 +779,7 @@ void executeBlurb(vector<char*> commands, vector<string> connectors) {
 			count++;
 		}
 	}
+	cout << "string(pwd) at end of inside of executeBlurb: " << string(pwd) << endl;
+
 }
 
