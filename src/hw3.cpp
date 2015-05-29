@@ -12,7 +12,7 @@
 using namespace  boost;
 using namespace std;
 
-//void interruptHandle(int signum, siginfo_t* info, void *ptr);
+void interruptHandle(int signum, siginfo_t* info, void *ptr);
 void cdPath(vector<char*> command);
 void cdPrev();
 void prompt();
@@ -28,29 +28,30 @@ bool executeCommand(vector<char*> command);
 void executecd(vector<char*> parsedCommand); 
 void executeBlurb(vector<char*> commands, vector<string> connectors);
 
-//struct sigaction interrupt;
-//int interruptFlag = 0;
+int interruptFlag;
+struct sigaction interrupt;
 char* pwd;
 char* prevpwd;
 char* home;
+int pid;
 
 int main(int argc, char* argv[]) {
 
 	pwd = getenv("PWD");
 	home = getenv("HOME");
 
-	string strpwd = string(pwd);
-	string strhome = string(home);
-	string holdpwd = strpwd;
-	string holdhome = strhome;
+	//string strpwd = string(pwd);
+	//string strhome = string(home);
+	//string holdpwd = strpwd;
+	//string holdhome = strhome;
 
 	//if(holdpwd.find(strhome) != string::npos) {
 	//	holdpwd.replace(0, strhome.length(), "~");
 	//}
 	//pwd = &holdpwd.at(0);
 
-	cout << "PWD: " << strpwd << endl;
-	cout << "HOME: " << strhome << endl;
+	//cout << "PWD: " << strpwd << endl;
+	//cout << "HOME: " << strhome << endl;
 
 /*
 	string temp = string(pwd);
@@ -63,7 +64,6 @@ int main(int argc, char* argv[]) {
 
 
 
-/*
 	interrupt.sa_sigaction = interruptHandle;
 	interrupt.sa_flags = SA_SIGINFO;
 
@@ -71,17 +71,15 @@ int main(int argc, char* argv[]) {
 		perror("sigaction");
 		exit(1);
 	}
-*/
 
 	while(1) {
-		
-/*
+
 		if(interruptFlag) {
-			cout << endl << "C";	
+			if(pid == 0) {
+			//	kill(pid, SIGINT);
+			}
 			interruptFlag = 0;
-			sleep(1);
 		}
-*/
 
 		// outputs the prompt
 		prompt();
@@ -112,7 +110,7 @@ int main(int argc, char* argv[]) {
 // function changes working directory to the appropriate directory
 // cd <PATH> uses the first directory if multiple are found
 void cdPath (vector<char*> command) {
-
+	
 	char* path = command.at(1);
 	string strPath = string(path);
 	string holdPath = strPath;
@@ -125,13 +123,14 @@ void cdPath (vector<char*> command) {
 	}
 	path = &holdPath.at(0);
 
+	prevpwd = pwd;
+	pwd = path;
+
 	// change current working directory to holdPath
 	// if chdir returns 0, perror
 	if(chdir(path) == -1) {
 		perror("chdir");
 	}
-	prevpwd = pwd;
-	pwd = path;
 
 
 
@@ -188,21 +187,22 @@ void cdPath (vector<char*> command) {
 } 
 
 void cdPrev() {
-	cout << "prevpwd: " << prevpwd << endl;
+	
+	cout << "pwd: " << pwd << endl;
 	if(chdir(prevpwd) == -1) {
 		cout << "OH NO" << endl;
 		perror("chdir");
 	}
+
 	char* holdThis = prevpwd;
 	prevpwd = pwd;
 	pwd = holdThis;
+
 }
 
-/*
 void interruptHandle(int signum, siginfo_t* info, void *ptr) {
 	interruptFlag = 1;
 }
-*/
 
 // function prints the prompt to look like this:
 // [userName]@[hostName] $
@@ -212,6 +212,31 @@ void prompt() {
 	char currPath[FILENAME_MAX];
 	if(!getcwd(currPath, sizeof(currPath))) {
 		perror("getcwd");
+	}
+	
+	string fixedPath;
+
+	unsigned i = 0;
+	unsigned j = 0;
+
+	cout << "home.length: " << string(home).length() << endl;	
+
+	for(i = 0; i < string(home).length(); i++) {
+		if(currPath[i] == string(home).at(i)) {
+			j++;
+		}
+		else {
+			j = 0;
+			break;
+		}
+	}
+	
+	if(j != 0) {
+		fixedPath += "~";
+	}
+	
+	for(j = string(home).length(); currPath[j] != '\0'; j++) {
+		fixedPath += currPath[j];
 	}
 
 	char* userName = getlogin();
@@ -224,7 +249,7 @@ void prompt() {
 	if(checkHostName == -1) {
 		perror("gethostname");
 	}
-	cout << userName << "@" << hostName << ":" << currPath << " $ ";
+	cout << userName << "@" << hostName << ":" << fixedPath << " $ "; // before: currPath instead of fixedPath
 }
 
 // function removes comments in string& s
@@ -479,7 +504,7 @@ bool executeCommand(vector<char*> command) {
 
 	vector<char*> newCommand;
 
-	int pid = fork();
+	 pid = fork();
 
 	// if fork produces an error
 	if(pid == -1) {
@@ -741,10 +766,10 @@ void executecd(vector<char*> parsedCommand) {
 	string dash = "-";
 	//char* dash = &strDash.at(0);
 	if(parsedCommand.size() == 1) {
-		chdir(home);
-		//string temp = "~";
 		prevpwd = pwd;
 		pwd = home;
+		chdir(home);
+		//string temp = "~";
 
 	//pwd = &temp.at(0);
 	}
