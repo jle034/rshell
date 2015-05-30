@@ -65,7 +65,7 @@ This kills the job, and control is returned to `rshell`.
 ```
 $ git clone https://github.com/jle034/rshell.git
 $ cd rshell
-$ git checkout hw2
+$ git checkout hw3
 $ make
 $ bin/rshell
 ```
