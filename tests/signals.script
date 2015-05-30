@@ -1,0 +1,1359 @@
+Script started on Fri 29 May 2015 10:24:08 PM PDT
+~
+jle034@hammer $ cs100
+[0;91m
+===============================================================================
+|                                                                             |
+| You have enabled settings specific for cs100.  Everything you do is being   |
+| recorded to measure your progress in the class.                             |
+|                                                                             |
+| Important commands for the class:                                           |
+|   * calcgrade.sh          displays a detailed breakdown of your grade       |
+|   * checksyscalls.sh      is your cpp file doing proper error checking?     |
+|   * typespeed             practice typing unix commands                     |
+|                                                                             |
+| Important commands for general C++ programming:                             |
+|   * make                  don't call g++ manually; let make do the work!    |
+|   * gdb                   the GNU debugger                                  |
+|   * valgrind              get rid of your memory leaks                      |
+|   * cppcheck              static analysis tool                              |
+|   * man                   find help about any syscall / terminal command    |
+|                                                                             |
+===============================================================================
+[0m
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~[0;95m [0;36m$[0m cd rshell
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (signals) [0;36m$[0m bin/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ # cd <path> using "."
+jle034@hammer.cs.ucr.edu:~/rshell $ cd .
+jle034@hammer.cs.ucr.edu:~/rshell $ pwd
+/class/classes/jle034/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ # cd <path> using "~"
+jle034@hammer.cs.ucr.edu:~/rshell $ cd ~
+jle034@hammer.cs.ucr.edu:~ $ pwd
+/class/classes/jle034
+jle034@hammer.cs.ucr.edu:~ $ # cd <path> into one directory
+jle034@hammer.cs.ucr.edu:~ $ cd rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ pwd
+/class/classes/jle034/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ # cd <path> using ".."
+jle034@hammer.cs.ucr.edu:~/rshell $ cd ..
+jle034@hammer.cs.ucr.edu:~ $ pwd
+/class/classes/jle034
+jle034@hammer.cs.ucr.edu:~ $ # cd <path> through two directories
+jle034@hammer.cs.ucr.edu:~ $ cd rshell/src
+jle034@hammer.cs.ucr.edu:~/rshell/src $ pwd
+/class/classes/jle034/rshell/src
+jle034@hammer.cs.ucr.edu:~/rshell/src $ # cd <path> using "../.."
+jle034@hammer.cs.ucr.edu:~/rshell/src $ cd ../..
+jle034@hammer.cs.ucr.edu:~ $ pwd
+/class/classes/jle034
+jle034@hammer.cs.ucr.edu:~ $ c # cd <path> using full path
+jle034@hammer.cs.ucr.edu:~ $ cd /class/classes/jle034/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ pwd
+/class/classes/jle034/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ # cd alone
+jle034@hammer.cs.ucr.edu:~/rshell $ cd
+jle034@hammer.cs.ucr.edu:~ $ pwd
+/class/classes/jle034
+jle034@hammer.cs.ucr.edu:~ $ # cd <path> beginning with "~"
+jle034@hammer.cs.ucr.edu:~ $ cd ~/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ pwd
+/class/classes/jle034/rshell
+jle034@hammer.cs.ucr.edu:~/rshell $ c # cd <path> <path       1> p <path2>
+jle034@hammer.cs.ucr.edu:~/rshell $ cd tests src
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ pwd
+/class/classes/jle034/rshell/tests
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ # cd as a parameter to something else
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ echo cd
+cd
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ pwd
+/class/classes/jle034/rshell/tests
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ # using ls -aR a  s a long process to test ^C
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ ls /class/classes/jle034 -aR
+/class/classes/jle034:
+.				      .DCOPserver_well.cs.ucr.edu_:1049
+..				      Desktop
+.adobe				      .dmrc
+assn01.asm~			      Documents
+assn1.asm~			      Downloads
+assn2.asm~			      EE120B
+.bash_history			      .eggcups
+.bash_logout			      .emacs.d
+.bashrc				      .esd_auth
+.cache				      .evolution
+.config				      .execooof4HS5o
+CS61				      .execoooS6cFtY
+.dbus				      .fontconfig
+.DCOPserver_alpha-13.cs.ucr.edu__0    .gconf
+.DCOPserver_alpha-15.cs.ucr.edu__0    .gconfd
+.DCOPserver_alpha-18.cs.ucr.edu__0    .gitlearn
+.DCOPserver_alpha-24.cs.ucr.edu__0    .gnome
+.DCOPserver_alpha-25.cs.ucr.edu__0    .gnome2
+.DCOPserver_alpha-30.cs.ucr.edu__0    .gnome2_private
+.DCOPserver_alpha-4.cs.ucr.edu__0     .gnote
+.DCOPserver_foxtrot-37.cs.ucr.edu__0  .gnupg
+.DCOPserver_well.cs.ucr.edu__1003     .gstreamer-0.10
+.DCOPserver_well.cs.ucr.edu_:1003     .gtk-bookmarks
+.DCOPserver_well.cs.ucr.edu__1004     .gtkrc-1.2-gnome2
+.DCOPserver_well.cs.ucr.edu_:1004     .gvfs
+.DCOPserver_well.cs.ucr.edu__1005     helloworld.asm~
+.DCOPserver_well.cs.ucr.edu_:1005     .ICEauthority
+.DCOPserver_well.cs.ucr.edu__1006     .imsettings.log
+.DCOPserver_well.cs.ucr.edu_:1006     .kde
+.DCOPserver_well.cs.ucr.edu__1007     lab1.asm~
+.DCOPserver_well.cs.ucr.edu_:1007     lab2_1.asm~
+.DCOPserver_well.cs.ucr.edu__1008     lab2_2.asm~
+.DCOPserver_well.cs.ucr.edu_:1008     lab2_3.asm~
+.DCOPserver_well.cs.ucr.edu__1009     lab2_4.asm~
+.DCOPserver_well.cs.ucr.edu_:1009     lab2_5.asm~
+.DCOPserver_well.cs.ucr.edu__1010     lab2.asm~
+.DCOPserver_well.cs.ucr.edu_:1010     lab3_1.asm~
+.DCOPserver_well.cs.ucr.edu__1011     lab3.tgz
+.DCOPserver_well.cs.ucr.edu_:1011     lab7.tgz
+.DCOPserver_well.cs.ucr.edu__1013     lab8.tgz
+.DCOPserver_well.cs.ucr.edu_:1013     .lesshst
+.DCOPserver_well.cs.ucr.edu__1014     .libreoffice
+.DCOPserver_well.cs.ucr.edu_:1014     .local
+.DCOPserver_well.cs.ucr.edu__1015     .macromedia
+.DCOPserver_well.cs.ucr.edu_:1015     .metacity
+.DCOPserver_well.cs.ucr.edu__1016     .mozilla
+.DCOPserver_well.cs.ucr.edu_:1016     Music
+.DCOPserver_well.cs.ucr.edu__1017     .nautilus
+.DCOPserver_well.cs.ucr.edu_:1017     .nv
+.DCOPserver_well.cs.ucr.edu__1018     .nx
+.DCOPserver_well.cs.ucr.edu_:1018     .openoffice.org
+.DCOPserver_well.cs.ucr.edu__1019     Pictures
+.DCOPserver_well.cs.ucr.edu_:1019     .pki
+.DCOPserver_well.cs.ucr.edu__1020     .procmailrc
+.DCOPserver_well.cs.ucr.edu_:1020     .profile
+.DCOPserver_well.cs.ucr.edu__1021     Public
+.DCOPserver_well.cs.ucr.edu_:1021     .pulse
+.DCOPserver_well.cs.ucr.edu__1022     .pulse-cookie
+.DCOPserver_well.cs.ucr.edu_:1022     .qt
+.DCOPserver_well.cs.ucr.edu__1024     .redhat
+.DCOPserver_well.cs.ucr.edu_:1024     rshell
+.DCOPserver_well.cs.ucr.edu__1025     .ssh
+.DCOPserver_well.cs.ucr.edu_:1025     Templates
+.DCOPserver_well.cs.ucr.edu__1026     TEST
+.DCOPserver_well.cs.ucr.edu_:1026     .Trash
+.DCOPserver_well.cs.ucr.edu__1031     ucr-cs100
+.DCOPserver_well.cs.ucr.edu_:1031     Videos
+.DCOPserver_well.cs.ucr.edu__1032     .vim
+.DCOPserver_well.cs.ucr.edu_:1032     .viminfo
+.DCOPserver_well.cs.ucr.edu__1043     vimrc
+.DCOPserver_well.cs.ucr.edu_:1043     .vimrc
+.DCOPserver_well.cs.ucr.edu__1045     .Xauthority
+.DCOPserver_well.cs.ucr.edu_:1045     .xsession-errors.old
+.DCOPserver_well.cs.ucr.edu__1049
+
+/class/classes/jle034/.adobe:
+.  ..  Acrobat	Flash_Player
+
+/class/classes/jle034/.adobe/Acrobat:
+.  ..  9.0
+
+/class/classes/jle034/.adobe/Acrobat/9.0:
+.		    Cache   Forms	 SharedDataEvents  TMDocs.sav
+..		    Cert    JavaScripts  Synchronizer	   TMGrpPrm.sav
+AdobeCMapFnt09.lst  Collab  Preferences  Temp		   UserCache.bin
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Cache:
+.  ..  cookies.txt  Search  UnixFnt09.lst
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Cache/Search:
+.  ..
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Cert:
+.  ..
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Collab:
+.  ..  Temp
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Collab/Temp:
+.  ..
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Forms:
+.  ..
+
+/class/classes/jle034/.adobe/Acrobat/9.0/JavaScripts:
+.  ..  glob.js	glob.settings.js
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Preferences:
+.  ..  mozilla	reader_prefs
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Preferences/mozilla:
+.  ..  prefs.js
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Synchronizer:
+.  ..  sync_prefs
+
+/class/classes/jle034/.adobe/Acrobat/9.0/Temp:
+.  ..
+
+/class/classes/jle034/.adobe/Flash_Player:
+.  ..  AssetCache
+
+/class/classes/jle034/.adobe/Flash_Player/AssetCache:
+.  ..  T2Q68RFS
+
+/class/classes/jle034/.adobe/Flash_Player/AssetCache/T2Q68RFS:
+.  ..
+
+/class/classes/jle034/.cache:
+.  ..  mozilla
+
+/class/classes/jle034/.cache/mozilla:
+.  ..  firefox
+
+/class/classes/jle034/.cache/mozilla/firefox:
+.  ..  txwjtx7k.Default User
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User:
+.   cache2	   directoryLinks.json	startupCache
+..  _CACHE_CLEAN_  safebrowsing		thumbnails
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/cache2:
+.  ..  doomed  entries
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/cache2/doomed:
+.  ..
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/cache2/entries:
+.  ..
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/safebrowsing:
+.			   test-malware-simple.sbstore
+..			   test-phish-simple.cache
+test-malware-simple.cache  test-phish-simple.pset
+test-malware-simple.pset   test-phish-simple.sbstore
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/startupCache:
+.  ..  startupCache.8.little
+
+/class/classes/jle034/.cache/mozilla/firefox/txwjtx7k.Default User/thumbnails:
+.				      75a5611c21c4d3b7ba0a7d0ccbf4dbd3.png
+..				      8aa62e796a14a36c51c84497d502d402.png
+340a0687df95174f3e775c3e9911e20d.png  eb16f11f21f5f806dcebf9dff34b79c9.png
+47ed9c7969b79176209a18f2cce91437.png
+
+/class/classes/jle034/.config:
+.   geany		gnome-session  ibus	       user-dirs.locale
+..  gnome-disk-utility	gtk-2.0        user-dirs.dirs
+
+/class/classes/jle034/.config/geany:
+.  ..  filedefs  geany.conf  keybindings.conf  tags  templates
+
+/class/classes/jle034/.config/geany/filedefs:
+.  ..  filetypes.README
+
+/class/classes/jle034/.config/geany/tags:
+.  ..
+
+/class/classes/jle034/.config/geany/templates:
+.  ..  files  templates.README
+
+/class/classes/jle034/.config/geany/templates/files:
+.  ..
+
+/class/classes/jle034/.config/gnome-disk-utility:
+.  ..  ata-smart-ignore
+
+/class/classes/jle034/.config/gnome-disk-utility/ata-smart-ignore:
+.  ..
+
+/class/classes/jle034/.config/gnome-session:
+.  ..  saved-session
+
+/class/classes/jle034/.config/gnome-session/saved-session:
+.  ..
+
+/class/classes/jle034/.config/gtk-2.0:
+.  ..  gtkfilechooser  gtkfilechooser.ini
+
+/class/classes/jle034/.config/ibus:
+.  ..  bus
+
+/class/classes/jle034/.config/ibus/bus:
+.  ..
+
+/class/classes/jle034/CS61:
+.		 assn8.asm~	 lab3_4.asm~   lab5_3.asm    lab7.tgz
+..		 assn8_back.asm  lab3.tgz      lab5_3.asm~   lab8_1.asm
+assn1.asm	 helloworld.asm  lab4_1.asm    lab5_4.asm    lab8_1.asm~
+assn2.asm	 lab1.asm	 lab4_1.asm~   lab5_4.asm~   lab8_2.asm
+assn3.asm	 lab1.tgz	 lab4_1.asm~~  lab5.tgz      lab8_2.asm~
+assn3.asm~	 lab2_1.asm	 lab4_2.asm    lab6_1.asm    lab8.tgz
+assn4.asm	 lab2_2.asm	 lab4_2.asm~   lab6_1.asm~   lab9_1.asm
+assn4.asm~	 lab2_3.asm	 lab4_3.asm    lab6_2.asm    lab9_1.asm~
+assn4_back.asm	 lab2_4.asm	 lab4_3.asm~   lab6_2.asm~   lab9_2.asm
+assn5.asm	 lab2_5.asm	 lab4_4.asm    lab6_3.asm    lab9_2.asm~
+assn5.asm~	 lab2.tgz	 lab4_4.asm~   lab6_3.asm~   lab9_3.asm
+assn5_back.asm	 lab3_1.asm	 lab4_5.asm    lab6_3b.asm   lab9_3.asm~
+assn5_back.asm~  lab3_1.asm~	 lab4_5.asm~   lab6_3b.asm~  lab9.tgz
+assn6.asm	 lab3_2.asm	 lab4.tgz      lab6.tgz      NOTES 04_16_14
+assn6.asm~	 lab3_2.asm~	 lab5_1.asm    lab7_1.asm    NOTES 04_16_14~
+assn7.asm	 lab3_3.asm	 lab5_1.asm~   lab7_1.asm~   TEST~
+assn7.asm~	 lab3_3.asm~	 lab5_2.asm    lab7_2.asm    TEST.asm
+assn8.asm	 lab3_4.asm	 lab5_2.asm~   lab7_2.asm~   TEST.asm~
+
+/class/classes/jle034/.dbus:
+.  ..  session-bus
+
+/class/classes/jle034/.dbus/session-bus:
+.				    4761c93d856b9e32126566530000001b-0
+..				    481247eedc43777c253ed70300000020-0
+218d4048a01e5a748b4f4d2700000022-0  b126f59ab7bc9d2d85eb5a6200000035-0
+3e7e54082a8c8b751cd19df70000001f-0  cc526544ce9d8a56fe0fe1300000001f-0
+4083fac7f47db6c59816f96c0000001f-0  d9f274534aabc180a67437860000001f-0
+40dd4bdeeb8f10c04a6798ac00000020-0  fdc4f4c8dcb791f651c7fa4700000022-0
+
+/class/classes/jle034/Desktop:
+.  ..
+
+/class/classes/jle034/Documents:
+.   cs010_assignments_	cs012_assignments  header.txt  README.md
+..  cs010_practice_	cs012_practice	   hello.cpp
+
+/class/classes/jle034/Documents/cs010_assignments_:
+.	      assignment01  assignment04  assignment07	assignment10
+..	      assignment02  assignment05  assignment08
+assignment00  assignment03  assignment06  assignment09
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment00:
+.  ..  hello_world.cpp
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment01:
+.  ..  .assignment  hello.cpp  hello.out
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment02:
+.  ..  .assignment  madlibs.cpp  madlibs.out
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment03:
+.  ..  .assignment  isbn.cpp  isbn,out	isbn.out
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment04:
+.  ..  .assignment
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment05:
+.  ..  .assignment
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment06:
+.  ..  .assignment  pig.cpp
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment07:
+.  ..  .assignment  hangman.cpp
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment08:
+.  ..  .assignment  textadventure.cpp  textadventure_picture.txt
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment09:
+.  ..  .assignment  tictactoe.cpp
+
+/class/classes/jle034/Documents/cs010_assignments_/assignment10:
+.   .assignment   grid_rightonly_nowalls.txt  perc_functions.o	perc.out
+..  grid_all.txt  grid_rightonly.txt	      percolate.cpp
+
+/class/classes/jle034/Documents/cs010_practice_:
+.  ..  code_lab  labs  README.md
+
+/class/classes/jle034/Documents/cs010_practice_/code_lab:
+.  ..  .code_lab
+
+/class/classes/jle034/Documents/cs010_practice_/labs:
+.   lab00  lab02  lab04  lab06	lab08  lab10
+..  lab01  lab03  lab05  lab07	lab09
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab00:
+.  ..  hello_world.cpp
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab01:
+.  ..  .lab  lab1.cpp  lab1.out
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab02:
+.  ..  .lab  lab2_ex1.cpp  lab2_ex2.cpp  lab2_ex3.cpp
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab03:
+.  ..  .lab  lab3.cpp
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab04:
+.  ..  .lab  lab4.cpp
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab05:
+.  ..  .lab  lab5.cpp
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab06:
+.  ..  .lab
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab07:
+.  ..  .lab
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab08:
+.  ..  .lab
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab09:
+.  ..  .lab
+
+/class/classes/jle034/Documents/cs010_practice_/labs/lab10:
+.  ..  .lab
+
+/class/classes/jle034/Documents/cs012_assignments:
+.  ..  assignment01
+
+/class/classes/jle034/Documents/cs012_assignments/assignment01:
+.  ..  part1  part2  part3  part4
+
+/class/classes/jle034/Documents/cs012_assignments/assignment01/part1:
+.  ..  main.cpp
+
+/class/classes/jle034/Documents/cs012_assignments/assignment01/part2:
+.  ..  main.cpp
+
+/class/classes/jle034/Documents/cs012_assignments/assignment01/part3:
+.  ..  main.cpp
+
+/class/classes/jle034/Documents/cs012_assignments/assignment01/part4:
+.  ..  main.cpp
+
+/class/classes/jle034/Documents/cs012_practice:
+.  ..
+
+/class/classes/jle034/Downloads:
+.		       cs012_practice.zip  isbn(1).cpp	lab5(2).cpp    pig.cpp
+..		       folderview_files    isbn.cpp	lab5.cpp       quiz
+all_problems.ps        folderview.html	   lab10	lab6.cpp       quiz.cpp
+cs010_assignments.zip  handle_signals.cpp  lab2.tgz	main.cpp
+cs010_practice_.zip    hangman.cpp	   lab5(1).cpp	percolate.cpp
+
+/class/classes/jle034/Downloads/folderview_files:
+.
+..
+3280234408-folderlandingpage.css
+724997970-doclist_folderlandingpage.js
+css.css
+google_logo_41.png
+icon_11_document_list.png
+viewer_002.png
+viewer_003.png
+viewer.png
+zS9UOs04e-V1T0iEZOaLsPK315ERO6R2r-MOKMn9zSt7YoInw8CBiRiUX2zH.png
+
+/class/classes/jle034/EE120B:
+.   includes  lab2  lab4  lab6	lab_button.hex	lab_leds.hex
+..  lab1      lab3  lab5  lab7	lab_chip.hex
+
+/class/classes/jle034/EE120B/includes:
+.  ..  bit.h  io.c  io.h  PMW.c  timer.h
+
+/class/classes/jle034/EE120B/lab1:
+.   jle034_lab1_part1.c  jle034_lab1_part3.c
+..  jle034_lab1_part2.c  jle034_lab1.tgz
+
+/class/classes/jle034/EE120B/lab2:
+.   jle034_lab2_part1.c  jle034_lab2_part3.c  jle034_lab2_part5.c
+..  jle034_lab2_part2.c  jle034_lab2_part4.c  jle034_lab2.tgz
+
+/class/classes/jle034/EE120B/lab3:
+.			 jle034_lab3_part1_ex5.c  lab3_part1_ex3.hex
+..			 jle034_lab3_part2_ex1.c  lab3_part1_ex4.hex
+jle034_lab3_part1_ex1.c  jle034_lab3_part2_ex2.c  lab3_part1_ex5.hex
+jle034_lab3_part1_ex2.c  jle034_lab3.tgz	  lab3_part2_ex1.hex
+jle034_lab3_part1_ex3.c  lab3_part1_ex1.hex	  lab3_part2_ex2.hex
+jle034_lab3_part1_ex4.c  lab3_part1_ex2.hex
+
+/class/classes/jle034/EE120B/lab4:
+.		   jle034_lab4_ex2.c  lab4_ex2.hex
+..		   jle034_lab4.tgz    lab4_hello_world.c
+jle034_lab4_ex1.c  lab4_ex1.hex       lab4_hello_world.hex
+
+/class/classes/jle034/EE120B/lab5:
+.		   jle034_lab5_ex3.c  lab5_ex1.hex  lab5_ex5.hex
+..		   jle034_lab5_ex4.c  lab5_ex2.hex
+jle034_lab5_ex1.c  jle034_lab5_ex5.c  lab5_ex3.hex
+jle034_lab5_ex2.c  jle034_lab5.tgz    lab5_ex4.hex
+
+/class/classes/jle034/EE120B/lab6:
+.		 lab6_adc_p2.c	  lab6_adc_p4.hex  lab6_pwm_p3.c
+..		 lab6_adc_p2.hex  lab6_pwm_p1.c    lab6_pwm_p3.hex
+jle034_lab6.tgz  lab6_adc_p3.c	  lab6_pwm_p1.hex
+lab6_adc_p1.c	 lab6_adc_p3.hex  lab6_pwm_p2.c
+lab6_adc_p1.hex  lab6_adc_p4.c	  lab6_pwm_p2.hex
+
+/class/classes/jle034/EE120B/lab7:
+.   lab7_ex1.c	  lab7_ex2.c	lab7_ex3.c    lab7_keypad.c
+..  lab7_ex1.hex  lab7_ex2.hex	lab7_ex3.hex  lab7_keypad.hex
+
+/class/classes/jle034/.eggcups:
+.  ..
+
+/class/classes/jle034/.emacs.d:
+.  ..  auto-save-list
+
+/class/classes/jle034/.emacs.d/auto-save-list:
+.   .saves-18107-hammer.cs.ucr.edu~  .saves-20509-well.cs.ucr.edu~
+..  .saves-18420-hammer.cs.ucr.edu~  .saves-4149-hammer.cs.ucr.edu~
+
+/class/classes/jle034/.evolution:
+.   cache     camel-cert.db   cert8.db	mail   secmod.db
+..  calendar  categories.xml  key3.db	memos  tasks
+
+/class/classes/jle034/.evolution/cache:
+.  ..
+
+/class/classes/jle034/.evolution/calendar:
+.  ..  config  local
+
+/class/classes/jle034/.evolution/calendar/config:
+.  ..
+
+/class/classes/jle034/.evolution/calendar/local:
+.  ..  system
+
+/class/classes/jle034/.evolution/calendar/local/system:
+.  ..  calendar.ics
+
+/class/classes/jle034/.evolution/mail:
+.  ..  local
+
+/class/classes/jle034/.evolution/mail/local:
+.			Inbox		       Outbox.ibex.index
+..			Inbox.cmeta	       Outbox.ibex.index.data
+Drafts			Inbox.ibex.index       Sent
+Drafts.cmeta		Inbox.ibex.index.data  Sent.cmeta
+Drafts.ibex.index	Outbox		       Sent.ibex.index
+Drafts.ibex.index.data	Outbox.cmeta	       Sent.ibex.index.data
+
+/class/classes/jle034/.evolution/memos:
+.  ..  config  local
+
+/class/classes/jle034/.evolution/memos/config:
+.  ..
+
+/class/classes/jle034/.evolution/memos/local:
+.  ..  system
+
+/class/classes/jle034/.evolution/memos/local/system:
+.  ..  journal.ics
+
+/class/classes/jle034/.evolution/tasks:
+.  ..  config  local
+
+/class/classes/jle034/.evolution/tasks/config:
+.  ..
+
+/class/classes/jle034/.evolution/tasks/local:
+.  ..  system
+
+/class/classes/jle034/.evolution/tasks/local/system:
+.  ..  tasks.ics
+
+/class/classes/jle034/.fontconfig:
+.
+..
+0251a5afa6ac727a1e32b7d4d4aa7cf0-le32d4.cache-3
+0251a5afa6ac727a1e32b7d4d4aa7cf0-x86-64.cache-2
+0251a5afa6ac727a1e32b7d4d4aa7cf0-x86.cache-2
+0b1bcc92b4d25cc154d77dafe3bceaa0-le32d4.cache-3
+1248881498ac025e45c3042f6afe9284-le32d4.cache-3
+12b26b760a24f8b4feb03ad48a333a72-le32d4.cache-3
+177aa5f8e4784b879645141d1d73ae7a-x86-64.cache-2
+177aa5f8e4784b879645141d1d73ae7a-x86.cache-2
+1d5a8b15f030e6b8267206989ece8643-x86-64.cache-2
+211368abcb0ff835c229ff05c9ec01dc-le32d4.cache-3
+2881ed3fd21ca306ddad6f9b0dd3189f-le32d4.cache-3
+2e1514a9fdd499050989183bb65136db-le32d4.cache-3
+3830d5c3ddfd5cd38a049b759396e72e-le32d4.cache-3
+3830d5c3ddfd5cd38a049b759396e72e-x86.cache-2
+3c3fb04d32a5211b073874b125d29701-le32d4.cache-3
+3f821257dd33660ba7bbb45c32deb84c-le32d4.cache-3
+46d51d90fe9d963f6f4186edb936a931-le32d4.cache-3
+47f48679023f44a4d1e44699a69464f6-le32d4.cache-3
+49aab29dc58e529ef78a6d0aaa3ba41d-x86-64.cache-2
+49aab29dc58e529ef78a6d0aaa3ba41d-x86.cache-2
+5c755b2f27115486aa6359c84dd3cbda-le32d4.cache-3
+6cfc7d49b27ba7d3eb71ab86e04def2c-le32d4.cache-3
+6fcb01a03a016cc71057b587cdea6709-le32d4.cache-3
+73a61b34dd8ca4d8a159807604ab432f-x86-64.cache-2
+73a61b34dd8ca4d8a159807604ab432f-x86.cache-2
+74717c444f6fd72454fa9c9c0ee01ca7-le32d4.cache-3
+7bc9be840852330f6318f25fbc083f28-x86-64.cache-2
+7bc9be840852330f6318f25fbc083f28-x86.cache-2
+7ddba6133ef499da58de5e8c586d3b75-x86-64.cache-2
+7ddba6133ef499da58de5e8c586d3b75-x86.cache-2
+81a173283b451552b599cfaafd6236bd-le32d4.cache-3
+830f035fa84a65ce80e050178dbb630d-le32d4.cache-3
+860639f272b8b4b3094f9e399e41bccd-le32d4.cache-3
+87f5e051180a7a75f16eb6fe7dbd3749-le32d4.cache-3
+87f5e051180a7a75f16eb6fe7dbd3749-le64.cache-3
+87f5e051180a7a75f16eb6fe7dbd3749-x86-64.cache-2
+87f5e051180a7a75f16eb6fe7dbd3749-x86.cache-2
+900402270e15d763a6e008bb2d4c7686-le32d4.cache-3
+928306c3ad40271d946e41014a49fc28-le32d4.cache-3
+991510d2da7f7b2bf8468002aae90060-le32d4.cache-3
+a3ef620b97f3ad86e0ccce6d4afaa4cc-x86-64.cache-2
+a3ef620b97f3ad86e0ccce6d4afaa4cc-x86.cache-2
+ac68f755438cc3dc5a526084839fc7ca-le32d4.cache-3
+b4d0b56f766d89640448751fcd18ec1e-le32d4.cache-3
+b67b32625a2bb51b023d3814a918f351-le32d4.cache-3
+b67b32625a2bb51b023d3814a918f351-x86-64.cache-2
+b67b32625a2bb51b023d3814a918f351-x86.cache-2
+b79f3aaa7d385a141ab53ec885cc22a8-le32d4.cache-3
+b79f3aaa7d385a141ab53ec885cc22a8-x86-64.cache-2
+b79f3aaa7d385a141ab53ec885cc22a8-x86.cache-2
+b887eea8f1b96e1d899b44ed6681fc27-le32d4.cache-3
+b966c23d19cce9e9a98d55765cf2a0c7-le32d4.cache-3
+beeeeb3dfe132a8a0633a017c99ce0c0-le32d4.cache-3
+beeeeb3dfe132a8a0633a017c99ce0c0-x86-64.cache-2
+beeeeb3dfe132a8a0633a017c99ce0c0-x86.cache-2
+c46020d7221988a13df853d2b46304fc-le32d4.cache-3
+d3379abda271c4acd2ad0c01f565d0b0-le32d4.cache-3
+df893b4576ad6107f9397134092c4059-le32d4.cache-3
+e166eff51bb88345c461ae8d1ca7510a-x86-64.cache-2
+e166eff51bb88345c461ae8d1ca7510a-x86.cache-2
+e19de935dec46bbf3ed114ee4965548a-x86-64.cache-2
+e19de935dec46bbf3ed114ee4965548a-x86.cache-2
+e3ead4b767b8819993a6fa3ae306afa9-x86-64.cache-2
+e3ead4b767b8819993a6fa3ae306afa9-x86.cache-2
+e61abf8156cc476151baa07d67337cae-le32d4.cache-3
+
+/class/classes/jle034/.gconf:
+.  ..  apps  desktop
+
+/class/classes/jle034/.gconf/apps:
+.   brasero    file-roller  gedit-2	       gnome-settings  gnote	 panel
+..  evolution  %gconf.xml   gnome-search-tool  gnome-terminal  nautilus  yelp
+
+/class/classes/jle034/.gconf/apps/brasero:
+.  ..  config  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/brasero/config:
+.  ..  %gconf.xml  priority
+
+/class/classes/jle034/.gconf/apps/brasero/config/priority:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution:
+.  ..  addressbook  calendar  %gconf.xml  mail	memos  tasks
+
+/class/classes/jle034/.gconf/apps/evolution/addressbook:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/calendar:
+.  ..  display	%gconf.xml  memos  tasks
+
+/class/classes/jle034/.gconf/apps/evolution/calendar/display:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/calendar/memos:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/calendar/tasks:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/mail:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/memos:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/evolution/tasks:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/file-roller:
+.  ..  dialogs	%gconf.xml  general  listing  ui
+
+/class/classes/jle034/.gconf/apps/file-roller/dialogs:
+.  ..  extract	%gconf.xml
+
+/class/classes/jle034/.gconf/apps/file-roller/dialogs/extract:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/file-roller/general:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/file-roller/listing:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/file-roller/ui:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2:
+.  ..  %gconf.xml  preferences
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences:
+.  ..  editor  %gconf.xml  ui
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor:
+.   bracket_matching  current_line  %gconf.xml	  right_margin
+..  colors	      font	    line_numbers
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/bracket_matching:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/colors:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/current_line:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/font:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/line_numbers:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/editor/right_margin:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/ui:
+.  ..  %gconf.xml  open_save  side_pane  statusbar
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/ui/open_save:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/ui/side_pane:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gedit-2/preferences/ui/statusbar:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-search-tool:
+.  ..  %gconf.xml  select
+
+/class/classes/jle034/.gconf/apps/gnome-search-tool/select:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-settings:
+.  ..  %gconf.xml  gedit  gnome-panel  gnome-search-tool
+
+/class/classes/jle034/.gconf/apps/gnome-settings/gedit:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-settings/gnome-panel:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-settings/gnome-search-tool:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-terminal:
+.  ..  %gconf.xml  profiles
+
+/class/classes/jle034/.gconf/apps/gnome-terminal/profiles:
+.  ..  Default	%gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnome-terminal/profiles/Default:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/gnote:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus:
+.  ..  desktop-metadata  %gconf.xml  list_view
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata:
+.  ..  computer  directory  %gconf.xml	home  KHADONALDTU@46@volume  trash
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata/computer:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata/directory:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata/home:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata/KHADONALDTU@46@volume:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus/desktop-metadata/trash:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/nautilus/list_view:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/panel:
+.  ..  applets	%gconf.xml  general  toplevels
+
+/class/classes/jle034/.gconf/apps/panel/applets:
+.  ..  clock  %gconf.xml  window_list  workspace_switcher
+
+/class/classes/jle034/.gconf/apps/panel/applets/clock:
+.  ..  %gconf.xml  prefs
+
+/class/classes/jle034/.gconf/apps/panel/applets/clock/prefs:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/panel/applets/window_list:
+.  ..  %gconf.xml  prefs
+
+/class/classes/jle034/.gconf/apps/panel/applets/window_list/prefs:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/panel/applets/workspace_switcher:
+.  ..  %gconf.xml  prefs
+
+/class/classes/jle034/.gconf/apps/panel/applets/workspace_switcher/prefs:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/panel/general:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/panel/toplevels:
+.  ..  %gconf.xml  top_panel
+
+/class/classes/jle034/.gconf/apps/panel/toplevels/top_panel:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/apps/yelp:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop:
+.  ..  %gconf.xml  gnome
+
+/class/classes/jle034/.gconf/desktop/gnome:
+.  ..  accessibility  %gconf.xml  interface  peripherals
+
+/class/classes/jle034/.gconf/desktop/gnome/accessibility:
+.  ..  %gconf.xml  keyboard
+
+/class/classes/jle034/.gconf/desktop/gnome/accessibility/keyboard:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/interface:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals:
+.  ..  %gconf.xml  keyboard
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard:
+.			    host-foxtrot-32.cs.ucr.edu
+..			    host-foxtrot-35.cs.ucr.edu
+%gconf.xml		    host-foxtrot-37.cs.ucr.edu
+host-alpha-13.cs.ucr.edu    host-kilo-5.cs.ucr.edu
+host-alpha-15.cs.ucr.edu    host-sierra-20@46@cs@46@ucr@46@edu
+host-alpha-18.cs.ucr.edu    host-sierra-23@46@cs@46@ucr@46@edu
+host-alpha-19.cs.ucr.edu    host-sierra-26@46@cs@46@ucr@46@edu
+host-alpha-24.cs.ucr.edu    host-sierra-28@46@cs@46@ucr@46@edu
+host-alpha-25.cs.ucr.edu    host-sierra-31@46@cs@46@ucr@46@edu
+host-alpha-30.cs.ucr.edu    host-sierra-32@46@cs@46@ucr@46@edu
+host-alpha-39.cs.ucr.edu    host-sierra-34@46@cs@46@ucr@46@edu
+host-alpha-4.cs.ucr.edu     host-sierra-4@46@cs@46@ucr@46@edu
+host-alpha-7.cs.ucr.edu     host-sierra-9@46@cs@46@ucr@46@edu
+host-foxtrot-10.cs.ucr.edu  host-tango-3.cs.ucr.edu
+host-foxtrot-11.cs.ucr.edu  host-tango-41.cs.ucr.edu
+host-foxtrot-19.cs.ucr.edu  host-tango-9.cs.ucr.edu
+host-foxtrot-1.cs.ucr.edu   host-well.cs.ucr.edu
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-13.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-13.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-15.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-15.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-18.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-18.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-19.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-19.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-24.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-24.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-25.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-25.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-30.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-30.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-39.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-39.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-4.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-4.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-7.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-alpha-7.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-10.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-10.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-11.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-11.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-19.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-19.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-1.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-1.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-32.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-32.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-35.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-35.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-37.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-foxtrot-37.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-kilo-5.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-kilo-5.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-20@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-20@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-23@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-23@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-26@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-26@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-28@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-28@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-31@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-31@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-32@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-32@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-34@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-34@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-4@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-4@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-9@46@cs@46@ucr@46@edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-sierra-9@46@cs@46@ucr@46@edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-3.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-3.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-41.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-41.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-9.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-tango-9.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-well.cs.ucr.edu:
+.  ..  0  %gconf.xml
+
+/class/classes/jle034/.gconf/desktop/gnome/peripherals/keyboard/host-well.cs.ucr.edu/0:
+.  ..  %gconf.xml
+
+/class/classes/jle034/.gconfd:
+.  ..  saved_state
+
+/class/classes/jle034/.gitlearn:
+.  ..  ucr-cs100
+
+/class/classes/jle034/.gitlearn/ucr-cs100:
+.  ..  ucr-cs100-jle034
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034:
+.   4		 cheatsheets  .gitignore  .gitmodules  people	  textbook
+..  assignments  .git	      gitlearn	  LICENSE      README.md  videos
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/4:
+.  ..  grade
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments:
+.  ..  ec  hw  lab  linux  quiz
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/ec:
+.  ..  ec-bounty  ec-online  ec-reading  ec-vim
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/ec/ec-bounty:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/ec/ec-online:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/ec/ec-reading:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/ec/ec-vim:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw:
+.  ..  hw0-rshell  hw1-ls  hw2-piping  hw3-signals  hw4-contributing
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw/hw0-rshell:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw/hw1-ls:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw/hw2-piping:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw/hw3-signals:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/hw/hw4-contributing:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab:
+.   lab0-vim  lab2-fork  lab4-cstring  lab6-signal  lab8-spam
+..  lab1-git  lab3-gdb	 lab5-cp       lab7-rm	    README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab0-vim:
+.  ..  grade  README.md  terminal.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab1-git:
+.  ..  Advanced.md  Enrolling.md  grade  images  README.md  using-git.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab1-git/images:
+.	3.png  9.png		  pull_request.png    vimdiff-save.png
+..	4.png  collaborators.png  settings.png	      vimdiff-squashed.png
+10.png	5.png  fast-forward0.png  summary.png	      watch.png
+11.png	6.png  fast-forward1.png  vimdiff-base.png
+1.png	7.png  fork.png		  vimdiff-local.png
+2.png	8.png  issues.png	  vimdiff-remote.png
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab2-fork:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab3-gdb:
+.  ..  ex1  ex2  ex3  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab3-gdb/ex1:
+.  ..  ex1.cpp	README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab3-gdb/ex2:
+.  ..  ex2.cpp	README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab3-gdb/ex3:
+.  ..  hbhairy-utils.tar.xz  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab4-cstring:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab5-cp:
+.  ..  grade  README.md  Timer.h
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab6-signal:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab7-rm:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/lab/lab8-spam:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/linux:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz:
+.  ..  quiz0  quiz1  quiz2  quiz3  quiz4  quiz5  quiz6
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz0:
+.  ..  grade  unixhistory.tex
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz1:
+.  ..  grade  quiz1-gitunix.tex
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz2:
+.  ..  grade  README.md
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz3:
+.  ..  grade  sizeof.tex
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz4:
+.  ..  bitwise.tex  grade
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz5:
+.  ..  grade  regex.tex
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/assignments/quiz/quiz6:
+.  ..  abet.docx
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/cheatsheets:
+.		    gdb-cheatsheet.md	    syscall-cheatsheet.tex
+..		    git-cheatsheet.md	    vim-cheatsheet.pdf
+bash-cheatsheet.md  syscall-cheatsheet.pdf  vim-cheatsheet.tex
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git:
+.   branches  description  HEAD   index  logs	  ORIG_HEAD    refs
+..  config    FETCH_HEAD   hooks  info	 objects  packed-refs
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/branches:
+.  ..
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/hooks:
+.		       post-update.sample	  pre-push.sample
+..		       pre-applypatch.sample	  pre-rebase.sample
+applypatch-msg.sample  pre-commit.sample	  update.sample
+commit-msg.sample      prepare-commit-msg.sample
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/info:
+.  ..  exclude
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/logs:
+.  ..  HEAD  refs
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/logs/refs:
+.  ..  heads  remotes
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/logs/refs/heads:
+.  ..  2015spring  grades
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/logs/refs/remotes:
+.  ..  origin
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/logs/refs/remotes/origin:
+.  ..  2015spring  grades  HEAD
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects:
+.   0d	1a  25	33  43	5e  66	79  87	98  a4	b3  be	d4  e6	f7
+..  10	1e  28	34  4e	60  68	80  88	9a  ae	b7  bf	d5  e9	fd
+01  16	20  2b	36  53	63  6d	81  8b	9e  af	b9  c8	da  eb	info
+04  17	22  2c	37  55	64  75	83  8c	a1  b0	bc  cb	dd  ee	pack
+05  18	24  31	3e  5d	65  77	85  90	a3  b2	bd  ce	e2  ef
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/01:
+.  ..  cd7f92233eaadbcd91615fd71d1a94769a7684
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/04:
+.  ..  b2f235b8cdcf648e31dd2d51264ddc839f5723
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/05:
+.  ..  a6e3d6d313421d685e51d6ca573c84e63ba0d5
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/0d:
+.  ..  e9775ec1f18c82ba2c23dc9b009a0a348ae64e
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/10:
+.  ..  753519e0186c4892e9da9dd034247a5ae9ee19
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/16:
+.   2664e5b4eb528e0bfdaaa8c44e5bcddd272f79
+..  91d841a3c4887a3703cc91fd420533235a7a2a
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/17:
+.  ..  7e1c925fecd533e91b4a3a18023e6069e2df3b
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/18:
+.  ..  bb4f7506a4ec702555026f0405bc718e8a50b6
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/1a:
+.  ..  b48b9dcc7fb820dc4c159bb0bcafc2b85a65a3
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/1e:
+.  ..  0618259958b1f26cc2f5e98281770abb63557a
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/20:
+.  ..  4c7c0a757ad2f0e8a53e5af10e7a4f8738895f
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/22:
+.  ..  b061583f8c9fdc9dedb6f72db3826f91236b22
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/24:
+.   a39ece3e52e077f906c6baf40782d81dadbab2
+..  e93455da05f0f536f0e657680065a99eff101e
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/25:
+.   55f141141501bf6cd832635afa94aae345a919
+..  ef2325eceda8e066c5fc1e85443db40d675b1e
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/28:
+.  ..  e21d8c35e2b34bedf82aafb6a22f103ce52a42
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/2b:
+.  ..  00b43e00d42ae0bd8138b4eb21deca222510b7
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/2c:
+.  ..  2a4fdafd14293c2d3b072bee7fde0927c35aaa
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/31:
+.  ..  453d15a14bc67abb41167e437000b1e9112c18
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/33:
+.  ..  176538b341a0ed34f284cc13177ea5bf3e40c5
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/34:
+.  ..  fb87606ad0861b5060cf1c9caca3bf875b330a
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/36:
+.  ..  a91615c874591ca2c416e9b5d4e8d73a8d3752
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/37:
+.   bb3ac736c662300e9acdd76e6ea0476e37464b
+..  d366a65bea36c5a7091cb32af5e1016da2e46e
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/3e:
+.  ..  5ae13b5530aeb1a55134698910d165b6869143
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/43:
+.  ..  5fbb452350110747e96c194a4ef84d072b6c8c
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/4e:
+.   23c91e30349b592174703ffe5eb9ff8ebbbad0
+..  caddafda65285b270059133c3695bc43371666
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/53:
+.					a5e5e30c5417d7fec1fb6ada1587a695281174
+..					c2f24d601369b17c8efdb3a12f5d459672e933
+a1ae6ceac705a22e605f153bebaa5772af20d5
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/55:
+.					3cae50aa2d3f577a20ed74be1cdac8e80e0622
+..					5ec7a10d818a9727ceb457cbd66212fd88c86b
+1c120600819a5647f3be931fa90d420b5e11d1
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/5d:
+.   ad21fb67d0c613d30621eff9fcc0b13968be33
+..  dbb37a21a87d0b766209e6c2aec271f938095e
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/5e:
+.  ..  46ed31c6bc37158a96a38deaa2546e922080a1
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/60:
+.  ..  0303967685404c3291ad04f0f4be262cc63106
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/63:
+.  ..  efd8c0f978b0fda10d19d7782c2cd74f6cb971
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/64:
+.  ..  57ed75733ee9c726bcb42a11952995ea79ef6a
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/65:
+.  ..  70a189db3409be9fcf1b989d59cafc8a723d6a
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/66:
+.  ..  f685b583af32c3c559ac31069527e649f7986f
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/68:
+.  ..  754dd3d324d97d8788a089a5cb6b3ba3ac250f
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/6d:
+.   06bde2d37b69c1c7910d2bda48c2ac544bdf73
+..  a1437029b39dd87dafe3e8643fe7ea6630bd5f
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/75:
+.  ..  2706b0a4dddd5519853a21b39ee5ce57abbf25
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/77:
+.   31146de51281a394f09c9f790a90c1e5f45b3e
+..  44d11af615846a2d232f3844c9fb5212d8e0da
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/79:
+.   2243c6727ead92fc00d4e8fd9d1c85aae2f205
+..  2dfd4d32e3e19d9ab2072f408234e96ab630dc
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/80:
+.   514b4cabfa61b7d293291b0f0ba66c29819081
+..  eb294ba1a446e1a562510843d06d1e84ec6778
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/81:
+.   9132b1ff3407530a8c12a2470daeb33f21292b
+..  a3e12b4d6db0bb67f374961221c72498451272
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/83:
+.  ..  888700df365c31507acf5d7a7a0fb7f202ce4c
+
+/class/classes/jle034/.gitlearn/ucr-cs100/ucr-cs100-jle034/.git/objects/85:
+.  ..  ef6779c6fe1ae3e72ae25fc708b89dba9e2c35
+^C
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ # ps to check if ls was stopped
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ ps
+  PID TTY          TIME CMD
+35491 pts/56   00:00:00 bash
+35541 pts/56   00:00:00 rshell
+37035 pts/56   00:00:00 ps
+jle034@hammer.cs.ucr.edu:~/rshell/tests $ exit
+[s%%%%%%%%%%[u[0;32mjle034[0;36m@[0;32mcs100[0;36m:[0;32m~/rshell[0;95m (signals) [0;36m$[0m exit
+exit
+~
+jle034@hammer $ exit
+exit
+
+Script done on Fri 29 May 2015 10:28:01 PM PDT
