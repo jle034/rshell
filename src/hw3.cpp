@@ -103,15 +103,16 @@ int main(int argc, char* argv[]) {
 		cin.clear();
 
 		if(interruptFlag) {
-				kill(pid, SIGINT);
+			if(kill(pid, SIGINT) == -1) {
+				perror("kill");
+			}
 			interruptFlag = 0;
 			cout << endl;
 		}
 		if(stopFlag) {
 			cout << "CAUGHT" << endl;
-			if(pid == 0) {
-				kill(pid, SIGSTOP);
-				cout << "HERE" << endl;
+			if(kill(pid, SIGSTOP) == -1) {
+				perror("kill");
 			}
 			stopFlag = 0;
 			cout << endl;
@@ -119,7 +120,9 @@ int main(int argc, char* argv[]) {
 			exit(0);
 		}
 		if(contFlag) {
-			kill(pid, SIGCONT);
+			if(kill(pid, SIGCONT) == -1) {
+				perror("kill");
+			}
 			contFlag = 0;
 			cout << endl;
 		}
@@ -834,7 +837,9 @@ void executecd(vector<char*> parsedCommand) {
 	if(parsedCommand.size() == 1) {
 		prevpwd = pwd;
 		pwd = home;
-		chdir(home);
+		if(chdir(home) == -1) {
+			perror("chdir");
+		}
 		//string temp = "~";
 
 	//pwd = &temp.at(0);
