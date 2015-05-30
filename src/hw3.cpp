@@ -103,9 +103,7 @@ int main(int argc, char* argv[]) {
 		cin.clear();
 
 		if(interruptFlag) {
-			if(pid == 0) {
 				kill(pid, SIGINT);
-			}
 			interruptFlag = 0;
 			cout << endl;
 		}
@@ -286,7 +284,7 @@ void prompt() {
 	if(checkHostName == -1) {
 		perror("gethostname");
 	}
-	cout << "***" << userName << "@" << hostName << ":" << fixedPath << " $ "; // before: currPath instead of fixedPath
+	cout << userName << "@" << hostName << ":" << fixedPath << " $ "; // before: currPath instead of fixedPath
 }
 
 // function removes comments in string& s
