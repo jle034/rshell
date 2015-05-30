@@ -30,6 +30,22 @@ In addition to hw0 functionality, `rshell` can now perform the following:
 - single and double quotes are always included in string inputs	
 - Cannot pipe with input redirection
 
+##### hw3
+
+In addition to hw0 and hw2 funcionality, `rshell` can now perform the following:
+
+1. prompt also displays the current working directory
+	- the home folder is replaced with a `~` for readability
+2. `cd <PATH>` which will change the current working directory to <PATH>
+3. `cd` which will change the current working directory to the home directory
+4. `cd -` prints an error if OLDPID is not set
+4. `^C` does not exist `rshell`.
+The current foreground job receives the `SIGINT` signal instead.
+This kills the job, and control is returned to `rshell`.
+
+##### Known Bugs(hw3)
+
+- `cd -` does not change the current working directory
 
 ### ls
 `ls` implements a subset of the GNU `ls` command: 
