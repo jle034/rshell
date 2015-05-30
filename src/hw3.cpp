@@ -110,11 +110,15 @@ int main(int argc, char* argv[]) {
 			cout << endl;
 		}
 		if(stopFlag) {
+			cout << "CAUGHT" << endl;
 			if(pid == 0) {
-				kill(pid, SIGTSTP);
+				kill(pid, SIGSTOP);
+				cout << "HERE" << endl;
 			}
 			stopFlag = 0;
 			cout << endl;
+			sleep(1);
+			exit(0);
 		}
 		if(contFlag) {
 			kill(pid, SIGCONT);
@@ -151,11 +155,17 @@ int main(int argc, char* argv[]) {
 // function changes working directory to the appropriate directory
 // cd <PATH> uses the first directory if multiple are found
 void cdPath (vector<char*> command) {
+
+	//cout << "prevpwd: " << string(prevpwd) << endl;
+	//cout << "pwd: " << string(pwd) << endl;
+	
+	prevpwd = pwd;
 	
 	char* path = command.at(1);
 	string strPath = string(path);
 	string holdPath = strPath;
 	string strHome = string(home);
+
 
 	// if user uses '~' to represent the home directory
 	// replace '~' with the actual string home to use chdir
@@ -164,91 +174,51 @@ void cdPath (vector<char*> command) {
 	}
 	path = &holdPath.at(0);
 
-	char currPath[FILENAME_MAX];
-	if(!getcwd(currPath, sizeof(currPath))) {
-		perror("getcwd");
-	}
-	else {
-		prevpwd = currPath;
-		pwd = path;
-	}
 	// change current working directory to holdPath
 	// if chdir returns 0, perror
 	if(chdir(path) == -1) {
 		perror("chdir");
 	}
 
-
-
-	
-/*
-	cout << "string(pwd) at beginning of inside of cdPath: " << string(pwd) << endl;
-	char* path = command.at(1);
-	string strPath = string(path);
-	string holdPath = strPath;
-	string strpwd = string(pwd);
-	string holdpwd = strpwd;
-	string strhome = string(home);
-
-	cout << "HERE" << endl;
-
-	// if user uses '~' to represent the home directory
-	// replace '~' with the actual char* home to use chdir
-	if(holdPath.at(0) == '~') {
-		holdPath.replace(0, 1, home);
-		path = &holdPath.at(0);
-	}
-	
-	// change directory to path
-	// if chdir returns 0, perror
-	if(chdir(path) != 0) {
-		perror("chdir");
-		exit(1);
-	}
-	// else chdir does not return 0 (succesful)
-	else {
-		// if holdPath starts with home directory
-		// replace it with a '~' for output
-		if(holdPath.find(strhome) != string::npos) {
-			holdPath.replace(0, strhome.length(), "~");
-			//path = &holdPath.at(0);
-		}
-		
-		// if holdPath does not have 
-		else if(holdPath.find(string(pwd)) == string::npos) {
-			holdPath.insert(0, string(pwd) + "/");
-			//path = &holdPath.at(0);
-		}
-		cout << "holdPath: " << holdPath << endl;
-		//path = &holdPath.at(0);
-		//pwd = path;
-	}
-
-	cout << "holdPath outside: " << holdPath << endl;
-	path = &holdPath.at(0);
-	cout << "string(path): " << string(path) << endl;
-	pwd = path;
-	cout << "string(pwd) at end of inside of cdPath: " << string(pwd) << endl;
-*/
-} 
-
-void cdPrev() {
-	
-	cout << "pwd: " << pwd << endl;
-	char currPath[FILENAME_MAX];
-	if(!getcwd(currPath, sizeof(currPath))) {
+	char newPath[FILENAME_MAX];
+	if(!getcwd(newPath, sizeof(newPath))) {
 		perror("getcwd");
 	}
 	else {
-		pwd = prevpwd;
-		prevpwd = currPath;
+		pwd = newPath;	
 	}
 
-		
-	if(chdir(pwd) == -1) {
-		cout << "OH NO" << endl;
+} 
+
+void cdPrev() {
+
+	if(prevpwd == NULL) {
+		cerr << "Error: OLDPWD not set" << endl;
+		return;
+	}
+
+	
+	string strprevpwd = string(prevpwd);
+	string hold = strprevpwd;
+	char* holdprevpwd = &strprevpwd.at(0);
+
+	prevpwd = pwd;
+
+	if(chdir(holdprevpwd) == -1) {
 		perror("chdir");
 	}
+
+/*
+	char newPath[FILENAME_MAX];
+	if(!getcwd(newPath, sizeof(newPath))) {
+		perror("getcwd");
+	}
+	else {
+		pwd = newPath;
+	}	
+*/
+	pwd = holdprevpwd;
+
 }
 
 void interruptHandle(int signum, siginfo_t* info, void *ptr) {
@@ -316,7 +286,7 @@ void prompt() {
 	if(checkHostName == -1) {
 		perror("gethostname");
 	}
-	cout << userName << "@" << hostName << ":" << fixedPath << " $ "; // before: currPath instead of fixedPath
+	cout << "***" << userName << "@" << hostName << ":" << fixedPath << " $ "; // before: currPath instead of fixedPath
 }
 
 // function removes comments in string& s
@@ -851,7 +821,17 @@ bool executeCommand(vector<char*> command) {
 
 // already confirmed that parsedCommand.at(0) == "cd"
 void executecd(vector<char*> parsedCommand) {
+	
+	char resetpwd[FILENAME_MAX];
+	if(!getcwd(resetpwd, sizeof(resetpwd))) {
+		perror("getcwd");
+	}
+	else {
+		pwd = resetpwd;
+	}
+
 	string dash = "-";
+
 	//char* dash = &strDash.at(0);
 	if(parsedCommand.size() == 1) {
 		prevpwd = pwd;
@@ -862,13 +842,9 @@ void executecd(vector<char*> parsedCommand) {
 	//pwd = &temp.at(0);
 	}
 	else if(string(parsedCommand.at(1)) == dash) {
-		cout << "HERE" << endl;
-		cout << "parsedCommand.at(1): " << parsedCommand.at(1) << endl;
 		cdPrev();
 	}
 	else {
-		cout << "parsedCommand.at(1): " << "<" << string(parsedCommand.at(1)) << ">" << endl;
-		cout << "go to cdPath" << endl;
 		cdPath(parsedCommand);
 	}
 }
