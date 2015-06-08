@@ -1,23 +1,28 @@
 #!/bin/bash
 
-echo "Recipient: "
-echo $1
-sleep 2
-read recipient
+echo Subject: 
+sleep 1
+read subject
 
-echo "Sender: "
-sleep 2
-read sender
+echo Message:
+sleep 1
 
-echo "Message: "
-sleep 2
-read message
-
-"open mail.cs.ucr.edu 25" >> cmd.sh
-"helo whitehouse.gov" >> cmd.sh
-"mail from: $sender" >> cmd.sh
-"rcpt to: $recipient" >> cmd.sh
-data
-Subject: THIS IS SPAM!
-message
-
+body=$(cat)
+(
+echo open mail.cs.ucr.edu 25
+sleep 1
+echo helo mail.cs.ucr.edu
+sleep 1
+echo mail from: $1
+sleep 1
+echo rcpt to: $2
+sleep 1
+echo data
+sleep 1
+echo Subject: "$subject"
+sleep 1
+echo "$body"
+sleep 1
+echo .
+sleep 1
+) | telnet
