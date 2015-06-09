@@ -4,6 +4,7 @@
 
 Grep is a useful search tool.
 
+It searches any inputted FILEs for line that contain a match to a given pattern.
 If no files are specified or the file name `-` is given, it searches standard input.
 Grep prints the matching lines to standard output by default, but you can use its built-in options to display additional information.
 We will be talking about some of the commonly used options in more detail later.
