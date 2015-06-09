@@ -1,84 +1,39 @@
 ##Grep
 
- 
-
 ####What is grep?
-
- 
 
 Grep is a useful search tool.
 
- 
-
-It searches any inputted FILEs for lines that containing a match to a given PATTERN.
-
 If no files are specified or the file name `-` is given, it searches standard input.
-
 Grep prints the matching lines to standard output by default, but you can use its built-in options to display additional information.
-
 We will be talking about some of the commonly used options in more detail later.
-
- 
 
 ####How to use grep
 
- 
-
 It’s pretty easy, really! Grep uses the following format:
 
- 
-
 ```
-
 grep ‘pattern’ filename
-
 ```
 
 For example, if you want to search through your source code and examine the instances where you used “cout” in your code, you could simply use a `find` command (such as ‘/’ in vim) within your code.
-
 This method, however, leaves a lot of room for mistakes.
-
 It is very easy to accidentally overlook something when you are monotonously searching through every instance of the word “cout” looking for the exact one you want to find.
-
 By using the grep command, you could have every matching line printed out to standard out for you to look through and analyze all together.
-
- 
 
 Let’s try to do the above mentioned using the grep command on main.cpp
 
- 
-
 ```
-
 grep cout main.cpp
-
 ```
-
- 
 
 This would output the following:
 
- 
-
 ```
-
-                                         cout << “Hello, I am a child!” << endl;
-
-                                         cout << “Hello, I am a parent!” << endl;
-
-                    cout << endl;
-
+		cout << “Hello, I am a child!” << endl;
+		cout << “Hello, I am a parent!” << endl;
+	cout << endl;
 ```
-
- 
-
- 
-
- 
-
- 
-
- 
 
  
 
@@ -95,16 +50,10 @@ history | grep “g++”
 ```
 
 In this line of commands, we are using the history command piped to a grep command.
-
 This line will search through your history and print any lines that contain “g++” to standard output.
-
 This will be helpful for times when you go back and search for a specific error or warning that was found when you previously used the g++ command.
 
- 
-
-This line of commands could output something like this:
-
- 
+This line of commands could output something like this depending on your history:
 
 ```
 
