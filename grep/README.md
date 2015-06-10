@@ -22,6 +22,8 @@ $ grep ‘pattern’ filename
 
 ###When to use grep
 
+####Searching through a file
+
 Let’s say you want to search through your code and examine the instances where you used `cout`.
 You could simply use a `find` command (such as `/` in vim), but this method takes a bit more effort on your part.
 It’s easy to accidentally overlook something when you are manually searching through every instance of the word `cout`.
@@ -47,6 +49,8 @@ This would output the following to standard output:
 This might not seem like much of an improvement from using the ‘find’ command within your code, but imagine searching for a pattern that is matched over twenty times.
 Even with a `find` command, that is a lot of code to manually look through. 
 
+####Searching through multiple files
+
 The grep command is not limited to only one file.
 You could search through multiple files and even directories using the same format we have been using.
 Let’s say you want to search for the instances where you used “cout” in both ex1.cpp and ex2.cpp.
@@ -60,17 +64,19 @@ $ grep ‘cout’ examples/main.cpp examples/ex1.cpp
 You could also save yourself some trouble by searching through the directory instead of typing out each individual file:
 
 ```
-$ grep ‘cout’ examples
+$ grep -r ‘cout’ examples
 ```
 
 Both of the above mentioned command lines will search through the same files and print this:
 
 ```
-ex1.cpp:                cout << "Hello, I am a child!" << endl;
-ex1.cpp:                cout << "Hello, I am a parent!" << endl;
-ex1.cpp:        cout << endl;
-ex2.cpp:        cout << "goodbye world" << endl;
+examples/ex1.cpp:               cout << "Hello, I am a child!" << endl;
+examples/ex1.cpp:               cout << "Hello, I am a parent!" << endl;
+examples/ex1.cpp:       cout << endl;
+examples/ex2.cpp:        cout << "goodbye world" << endl;
 ``` 
+
+####Searching through other forms of text
 
 Now that you know how to use grep to search through files, you can also use it to search through any other form of text. 
 
