@@ -5,7 +5,7 @@ In this tutorial, we will be talking about what the grep command is, how to use 
 ###What is grep?
 
 Grep is a useful search command. 
-It searches any inputted FILEs for lines that contain a match to a given PATTERN.
+It searches any inputted file(s) for lines that contain a match to a given pattern.
 
 If no files are specified or the file name `-` is given, it searches standard input.
 By default, grep prints the matching lines to standard output.
@@ -57,10 +57,10 @@ Let’s say you want to search for the instances where you used “cout” in bo
 You would type in the following command to search through multiple files:
 
 ``` 
-$ grep ‘cout’ examples/main.cpp examples/ex1.cpp
+$ grep ‘cout’ examples/ex1.cpp examples/ex2.cpp
 ```
 
-You could also save yourself some trouble by searching through the directory instead of typing out each individual file.
+You could also save yourself some trouble by recursively searching through the directory instead of typing out each individual file.
 We will be talking about grep options in a bit more detail later, but here is just an introduction to one of the many options.
 You can recursively search through a directory by including the ‘-r’ option as follows:
 
@@ -101,9 +101,6 @@ Your output could look different depending on your history, but the above comman
 184     history | grep 'g++'
 ```
 
-The grep command is not limited to only coding uses. 
-It can be extended to any situation where you would need to search through a lot of text.
-
 ###Including options
 
 We have already briefly mentioned the ‘-r’ flag that allows ‘grep’ to recursively search through directories.
@@ -115,7 +112,7 @@ $ grep [options] ‘pattern’ filename
 ```
 
 A good example would be the ‘-c’ flag. 
-We previously talked about using the grep command to output lines that contain matches to your pattern.
+We have been talking about using the grep command to output matching lines.
 What if you only cared about how many times a matching line was found?
 
 Easy. 
@@ -144,7 +141,7 @@ Or
 $ grep –c –r ‘cout’ examples
 ```
 
-Both of these command lines will produce the same output:
+Both of these command lines will search through the example directory and count the number of matching lines. You will get this:
 
 ```
 examples/ex1.cpp:3
@@ -152,7 +149,7 @@ examples/ex2.cpp:1
 ```
 
 These are only two of grep’s many options.
-You can browse through a complete list of these by visiting the grep man page.
+You can browse through a complete list of these by visiting the [grep](http://linux.die.net/man/1/grep) man page.
 
 ###Using regular expressions
 
@@ -160,11 +157,11 @@ Another neat way to expand your uses of the grep command is with the use of regu
 Regular expressions are special patterns of letters and symbols that represent a search pattern.
 
 Let’s say you want to search for blank lines in your code. 
-Maybe you just want to know how many lines of your code really have no purpose.
+Maybe you just want to know how many lines of your code are not being used.
 How do you search for a blank line using grep?
 
 The caret symbol `^` is a regular expression that matches at the beginning of a string or line, and the dollar sign `$` is a regular expression that matches at the end.
-Putting these two regular expressions, we have a pattern that represents a blank line.
+Putting these two regular expressions together, we have a pattern that represents a blank line.
  
 Let’s search for blank lines in our examples/ex1.cpp file:
 
@@ -181,7 +178,7 @@ Using this command line, you should get this:
 
 ```
 
-But wait a minute, that’s a bit silly to be print blank lines.
+But wait a minute, that’s a bit silly to be printing blank lines.
 That doesn’t mean anything to us.
 What we want to know is exactly how many of these lines we have in our code.
 
@@ -198,11 +195,12 @@ This command line will output this:
 ```
 
 Whoa. 
-Grep flags AND regular expressions. 
-You can use any combination of grep’s options and regular expressions to narrow down your search to exactly what you are looking for.
+Grep flags AND regular expressions?
 That’s right.
+You can use any combination of grep’s options and regular expressions to narrow down your search to exactly what you are looking for.
 Think of the endless possibilities!
 
-Visit the regex tutorial for a more detailed explanation of how to use regular expressions to accommodate your searches.
+Visit this [regex](https://github.com/mikeizbicki/ucr-cs100/tree/2015spring/textbook/tools/bash/regex) tutorial for a more detailed explanation of how to use regular expressions to accommodate your grep searches.
 
-### In conclusion
+The grep command can be useful in your coding endeavors and any other everyday situation.
+Happy searching! :]
