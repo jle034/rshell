@@ -104,7 +104,7 @@ Your output could look different depending on your history, but the above comman
 The grep command is not limited to only coding uses. 
 It can be extended to any situation where you would need to search through a lot of text.
 
-###Useful options
+###Including options
 
 We have already briefly mentioned the ‘-r’ flag that allows ‘grep’ to recursively search through directories.
 Grep has many other options to choose from as well. 
@@ -141,7 +141,7 @@ $ grep –cr ‘cout’ examples
 ```
 Or
 ```
-$ grep –c –r ‘cout’ exampels
+$ grep –c –r ‘cout’ examples
 ```
 
 Both of these command lines will produce the same output:
@@ -151,64 +151,58 @@ examples/ex1.cpp:3
 examples/ex2.cpp:1
 ```
 
+These are only two of grep’s many options.
+You can browse through a complete list of these by visiting the grep man page.
 
+###Using regular expressions
 
-#### Repitition Operators
+Another neat way to expand your uses of the grep command is with the use of regular expressions (often abbreviated as regex).
+Regular expressions are special patterns of letters and symbols that represent a search pattern.
 
-Let’s say you have a large group of people who have 
+Let’s say you want to search for blank lines in your code. 
+Maybe you just want to know how many lines of your code really have no purpose.
+How do you search for a blank line using grep?
 
-	?	The preceding item is optional and matched at most once.
-	* 	The preceding item will be matched zero or more times.
-	+	The preceding item will be matched one or more times.
-	{n}	The preceding item is matched exactly n times.
-	{n, }	The preceding item is matched n or more times.
-	{n,m}	The preceding item is matched at least n times, but not more than m times.
-
-As mentioned, grep’s flags are optional. 
-You can include anything between zero and all of the flags if you want to.
-Grep can search through one or more input files, separated by spaces. 
-The input file names are technically optional as well. 
-If no input file names are included, grep uses standard input as the input. 
-This is pretty useless for programming and such, but it is an easy way to learn how the grep command works.
-
-Let’s look at some examples, shall we?
+The caret symbol `^` is a regular expression that matches at the beginning of a string or line, and the dollar sign `$` is a regular expression that matches at the end.
+Putting these two regular expressions, we have a pattern that represents a blank line.
+ 
+Let’s search for blank lines in our examples/ex1.cpp file:
 
 ```
-$ grep execvp file1
-$ grep “execvp” file1
-$ grep “execvp other stuff” file1
-$ grep “hello world” file1 file2
+$ grep ‘^$’ examples/ex1.cpp
 ```
 
-It is important to remember that grep separates a command by spaces. 
-If you want to search for a single word, the quotes are optional. 
-Lines 1 and 2 will output the same thing. 
-If you want to search for a pattern that has more than one word, you must include double or single quotes around it, as shown in line 3.
-
-######Now what happens if I don’t include a file name?
-
-Let’s look at some examples.
+Using this command line, you should get this:
 
 ```
-$ grep “hello world”
-> hi
-> hello there
-> hello world
-hello world
-> Hello world my name is Jennifer
-> hello world my name is Jennifer
-hello world my name is Jennifer
+
+
+
+
 ```
-If you use the grep command without including an input file, it will wait and check for the pattern in standard input. 
-In the example above, the arrow indicates the user input and everything else is standard output. 
-On line 4, you can see that grep simply echoes the user input if it has a match to the pattern being searched for. 
-It is important to note that grep is case-sensitive. 
-This is why line 6 is not echoed.
 
-####What are some commonly used flags?
+But wait a minute, that’s a bit silly to be print blank lines.
+That doesn’t mean anything to us.
+What we want to know is exactly how many of these lines we have in our code.
 
-####What are some features of grep? (flags, using ‘.’, etc. will be mentioned here)
+We can update our search command to this:
 
-####When would I use grep?
+```
+$ grep –c ‘^$’ examples/ex1.cpp
+```
 
+This command line will output this:
 
+```
+4
+```
+
+Whoa. 
+Grep flags AND regular expressions. 
+You can use any combination of grep’s options and regular expressions to narrow down your search to exactly what you are looking for.
+That’s right.
+Think of the endless possibilities!
+
+Visit the regex tutorial for a more detailed explanation of how to use regular expressions to accommodate your searches.
+
+### In conclusion
