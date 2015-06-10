@@ -44,8 +44,9 @@ This would output the following to standard output:
 	cout << endl;
 ```
 
-This might not seem like much of an improvement from using the ‘find’ command within your code, but imagine searching for a pattern that is matched over twenty times.
+This might not seem like much of an upgrade from using the ‘find’ command within your code, but imagine searching for a pattern that is matched over twenty times.
 Even with a `find` command, that is a lot of code to manually look through. 
+Grep makes it a bit easier by isolating the important text from everything else.
 
 ###Searching through multiple files
 
@@ -60,6 +61,7 @@ $ grep ‘cout’ examples/main.cpp examples/ex1.cpp
 ```
 
 You could also save yourself some trouble by searching through the directory instead of typing out each individual file.
+We will be talking about grep options in a bit more detail later, but here is just an introduction to one of the many options.
 You can recursively search through a directory by including the ‘-r’ option as follows:
 
 ```
@@ -102,7 +104,7 @@ Your output could look different depending on your history, but the above comman
 The grep command is not limited to only coding uses. 
 It can be extended to any situation where you would need to search through a lot of text.
 
-####Useful options
+###Useful options
 
 We have already briefly mentioned the ‘-r’ flag that allows ‘grep’ to recursively search through directories.
 Grep has many other options to choose from as well. 
@@ -113,7 +115,7 @@ $ grep [options] ‘pattern’ filename
 ```
 
 A good example would be the ‘-c’ flag. 
-We previously talked about using the grep command to output the lines that contained matches to your pattern.
+We previously talked about using the grep command to output lines that contain matches to your pattern.
 What if you only cared about how many times a matching line was found?
 
 Easy. 
@@ -129,7 +131,25 @@ You should get this:
 ```
 3
 ```
+You could also use multiple options at once.
+Let’s say you want to recursively search through a directory and count how many lines contain a match to your pattern.
+You could use both the ‘-c’ and ‘-r’ flags together.
+You can add flags to a command in two different ways as follows:
 
+```
+$ grep –cr ‘cout’ examples
+```
+Or
+```
+$ grep –c –r ‘cout’ exampels
+```
+
+Both of these command lines will produce the same output:
+
+```
+examples/ex1.cpp:3
+examples/ex2.cpp:1
+```
 
 
 
