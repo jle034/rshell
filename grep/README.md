@@ -20,9 +20,7 @@ It’s pretty easy, really! Grep uses the following format:
 $ grep ‘pattern’ filename
 ```
 
-###When to use grep
-
-####Searching through a file
+###Searching through a file
 
 Let’s say you want to search through your code and examine the instances where you used `cout`.
 You could simply use a `find` command (such as `/` in vim), but this method takes a bit more effort on your part.
@@ -49,7 +47,7 @@ This would output the following to standard output:
 This might not seem like much of an improvement from using the ‘find’ command within your code, but imagine searching for a pattern that is matched over twenty times.
 Even with a `find` command, that is a lot of code to manually look through. 
 
-####Searching through multiple files
+###Searching through multiple files
 
 The grep command is not limited to only one file.
 You could search through multiple files and even directories using the same format we have been using.
@@ -61,7 +59,8 @@ You would type in the following command to search through multiple files:
 $ grep ‘cout’ examples/main.cpp examples/ex1.cpp
 ```
 
-You could also save yourself some trouble by searching through the directory instead of typing out each individual file:
+You could also save yourself some trouble by searching through the directory instead of typing out each individual file.
+You can recursively search through a directory by including the ‘-r’ option as follows:
 
 ```
 $ grep -r ‘cout’ examples
@@ -70,37 +69,73 @@ $ grep -r ‘cout’ examples
 Both of the above mentioned command lines will search through the same files and print this:
 
 ```
-examples/ex1.cpp:               cout << "Hello, I am a child!" << endl;
-examples/ex1.cpp:               cout << "Hello, I am a parent!" << endl;
-examples/ex1.cpp:       cout << endl;
-examples/ex2.cpp:        cout << "goodbye world" << endl;
+examples/ex1.cpp:		 cout << "Hello, I am a child!" << endl;
+examples/ex1.cpp:		cout << "Hello, I am a parent!" << endl;
+examples/ex1.cpp:	cout << endl;
+examples/ex2.cpp:	cout << "goodbye world" << endl;
 ``` 
 
-####Searching through other forms of text
+###Searching through other texts
 
 Now that you know how to use grep to search through files, you can also use it to search through any other form of text. 
+Let’s say you want to search through your history and find all the previous uses of `g++`.
 
 
-
-It can be used with other commands to search anything you would like. 
-You could also search multiple files for the same pattern and have this printed to standard output all together.
-Let’s talk about another instance where you would want to use grep.
-Let’s say you want to search through your history and look for the times where you used “g++”.
-
-```
-$ history | grep “g++”
-``` 
-
-In this line of commands, we are using the history command piped to a grep command. 
 If you don’t already know how the pipe command works, you can read about it HERE.
-This line will search through your history and print any lines that contain “g++” to standard output. 
-
-Depending on your history, this line of commands could output something like this:
+You could pipe the history command over to your grep search as follows:
 
 ```
+$ history | grep ‘g++’
 ```
+
+Your output could look different depending on your history, but the above command line could display something like this:
+
+```
+169     g++ main.cpp
+172     echo g++
+175     g++ -Wall -Werror -ansi -pedantic main.cpp
+177     g++ main2.cpp
+183     g++ -Wall -Werror -ansi -pedantic main2.cpp
+184     history | grep 'g++'
+```
+
+The grep command is not limited to only coding uses. 
+It can be extended to any situation where you would need to search through a lot of text.
+
+####Useful options
+
+We have already briefly mentioned the ‘-r’ flag that allows ‘grep’ to recursively search through directories.
+Grep has many other options to choose from as well. 
+To include options in your command, just follow this format:
+
+```
+$ grep [options] ‘pattern’ filename
+```
+
+A good example would be the ‘-c’ flag. 
+We previously talked about using the grep command to output the lines that contained matches to your pattern.
+What if you only cared about how many times a matching line was found?
+
+Easy. 
+Just include the `-c` flag as follows:
+
+```
+$ grep –c ‘cout’ examples/ex1.cpp
+```
+
+This command line will search through ex1.cpp and count how many lines contain the pattern ‘cout’.
+You should get this:
+
+```
+3
+```
+
+
+
 
 #### Repitition Operators
+
+Let’s say you have a large group of people who have 
 
 	?	The preceding item is optional and matched at most once.
 	* 	The preceding item will be matched zero or more times.
