@@ -1,12 +1,11 @@
 #Grep
 
-`grep` is a useful search command. 
-It searches any inputted file(s) for lines that match a given pattern.
-By default, `grep` prints the matching lines to standard output.
+`grep` is a bash command that searches any inputted file(s) for lines that match a given pattern.
+By default, it prints the matching lines to standard output.
 You can also use it with any of its options and/or other bash commands to display additional information.
 We will be going into more detail about this later.
 
-In general,  is actually pretty easy to use!
+In general, `grep` is actually pretty easy to use!
 Just follow this format:
 
 ```
@@ -35,7 +34,7 @@ This would output the following to standard output:
 	cout << endl;
 ```
 
-This might not seem like much of an upgrade from using the ‘find’ command within your code, but imagine searching for a pattern that is matched over twenty times.
+This might not seem like much of an upgrade from using the `find` command within your code, but imagine searching for a pattern that is matched over twenty times.
 Even with a `find` command, that is a lot of code to manually look through. 
 `grep` makes it a bit easier by isolating the important text from everything else.
 
@@ -52,7 +51,7 @@ For example:
 $ grep ‘cout’ examples/ex1.cpp examples/ex2.cpp
 ```
 
-You can also recursively search through a directory by including the ‘-r’ option as follows:
+You can also recursively search through a directory by including the `-r` option as follows:
 
 ```
 $ grep -r ‘cout’ examples
@@ -75,7 +74,7 @@ This is a quick and easy way to practice using the `grep` command.
 
 One special use of the `grep` command is with `git log`, which shows your commit logs.
 Let’s say you are able to fix a crucial bug in your code one day.
-You commit, celebrate, and continue working on your code.
+You commit, celebrate, and continue coding.
 After spending days on this project, you realize that your code is completely wrong and want to go back to an old commit.
 Perhaps you want to go back to that ‘bug-fixed’ commit.
 How are you going to search through over hundreds of commits?
@@ -129,18 +128,18 @@ The command will output something like this, depending on your history:
 175     g++ -Wall -Werror -ansi -pedantic main.cpp
 177     g++ main2.cpp
 183     g++ -Wall -Werror -ansi -pedantic main2.cpp
-184     history | grep 'g++'
-190     
+184     echo g++ main.cpp
+190     history | grep 'g++'
 ```
 
 ###Using regular expressions
 
 Another neat way to expand your uses of the `grep` command is with the use of [regex] (https://github.com/mikeizbicki/ucr-cs100/tree/2015spring/textbook/tools/bash/regex), short for regular expressions.
-Regular expressions are special patterns of letters and symbols that represent a search pattern.
+Regular expressions are special combinations of letters and symbols that represent a search pattern.
 
-In the previous example, we searched through your history for any uses of ‘g++’.
-That search, however, also included lines where ‘g++’ was used as an argument.
-Luckily, we can use regular expressions to match only lines that begin with a line number and the ‘g++’ command:
+In the previous example, we searched through your history for any uses of `g++`.
+That search, however, also included lines where `g++` was used as an argument.
+Luckily, we can use regular expressions to match only lines that begin with a line number and the `g++` command:
 
 
 
@@ -184,7 +183,7 @@ This command line will output this:
 
 ###Including options
 
-We have already briefly mentioned the ‘-r’ flag that allows `grep` to recursively search through directories.
+We have already briefly mentioned the `-r` flag that allows `grep` to recursively search through directories.
 `grep` has many other options to choose from as well. 
 To include options in your command, just follow this format:
 
@@ -192,7 +191,7 @@ To include options in your command, just follow this format:
 $ grep [options] ‘pattern’ filename
 ```
 
-A good example would be the ‘-c’ flag. 
+A good example would be the `-c` flag. 
 We have been talking about using the `grep` command to output matching lines.
 What if you only cared about how many times a matching line was found?
 
@@ -203,7 +202,7 @@ Just include the `-c` flag as follows:
 $ grep –c ‘cout’ examples/ex1.cpp
 ```
 
-This command line will search through ex1.cpp and count how many lines contain the pattern ‘cout’.
+This command line will search through ex1.cpp and count how many lines contain the pattern `cout`.
 You should get this:
 
 ```
@@ -211,7 +210,7 @@ You should get this:
 ```
 You could also use multiple options at once.
 Let’s say you want to recursively search through a directory and count how many lines contain a match to your pattern.
-You could use both the ‘-c’ and ‘-r’ flags together.
+You could use both the `-c` and `-r` flags together.
 You can add flags to a command in two different ways as follows:
 
 ```
