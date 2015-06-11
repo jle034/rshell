@@ -125,7 +125,7 @@ The command will output something like this, depending on your history:
 172     echo g++
 173     g++ main.cpp 2> errors
 175     g++ -Wall -Werror -ansi -pedantic main.cpp
-177     g++ main2.cpp
+177     cp main.cpp main2.cpp; g++ main2.cpp
 183     g++ -Wall -Werror -ansi -pedantic main2.cpp
 184     echo g++ main.cpp
 190     history | grep 'g++'
@@ -150,13 +150,11 @@ The command will output something like this, depending on your history:
 169     g++ main.cpp
 173     g++ main.cpp 2> errors
 175     g++ -Wall -Werror -ansi -pedantic main.cpp
-177     g++ main2.cpp
 183     g++ -Wall -Werror -ansi -pedantic main2.cpp
 ```
 
-There are some flaws in this logic, but this should be a bit closer to what we had in mind.
-
-
+This should be a bit closer to what we had in mind, but there is still a flaw in this logic.
+See if you can find it and solve it.
 
 ###Including options
 
@@ -205,7 +203,7 @@ examples/ex1.cpp:3
 examples/ex2.cpp:1
 ```
 
-These are only two of `grep`’s many options.
+Again, these are only two of `grep`’s many options.
 For an official description of `grep` and all of its features, visit the [grep](http://linux.die.net/man/1/grep) man page.
 
 Happy searching! :]
