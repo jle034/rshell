@@ -2,10 +2,9 @@
 
 `grep` is a bash command that searches any inputted file(s) for lines that match a given pattern.
 By default, it prints the matching lines to standard output.
-You can also use it with any of its options and/or other bash commands to display additional information.
-We will be going into more detail about this later.
+You can also use it with any of its options and/or other bash commands to display additional information, but we will be going into more detail about this later.
 
-In general, `grep` is actually pretty easy to use!
+In general, `grep` is pretty easy to use!
 Just follow this format:
 
 ```
@@ -68,14 +67,14 @@ examples/ex2.cpp:	cout << "goodbye world" << endl;
 
 ###Searching through other texts
 
-Now that you know how to use `grep` to search through files, you can also use it to search through any other form of text. 
+Now that you know how to use `grep` to search through files, you can practice using it to search through other forms of text.
 Note that if no files are specified or the file name `-` is given, `grep` waits for and searches standard input.
 This is a quick and easy way to practice using the `grep` command. 
 
 One special use of the `grep` command is with `git log`, which shows your commit logs.
 Let’s say you are able to fix a crucial bug in your code one day.
 You commit, celebrate, and continue coding.
-After spending days on this project, you realize that your code is completely wrong and want to go back to an old commit.
+After spending days on this project, you realize that your code has gone completely wrong, and you want to go back to an old commit.
 Perhaps you want to go back to that ‘bug-fixed’ commit.
 How are you going to search through over hundreds of commits?
 
@@ -141,51 +140,29 @@ In the previous example, we searched through your history for any uses of `g++`.
 That search, however, also included lines where `g++` was used as an argument.
 Luckily, we can use regular expressions to match only lines that begin with a line number and the `g++` command:
 
-
-
-Let’s say you want to search for blank lines in your code. 
-Maybe you just want to know how many lines of your code are not being used.
-How do you search for a blank line using `grep`?
-
-The caret symbol `^` is a regular expression that matches at the beginning of a string or line, and the dollar sign `$` is a regular expression that matches at the end.
-Putting these two regular expressions together, we have a pattern that represents a blank line.
- 
-Let’s search for blank lines in our examples/ex1.cpp file:
-
 ```
-$ grep ‘^$’ examples/ex1.cpp
+$ history | grep ‘^ *[0-9]* *g++’
 ```
 
-Using this command line, you should get this:
+The command will output something like this, depending on your history:
 
 ```
-
-
-
-
+169     g++ main.cpp
+173     g++ main.cpp 2> errors
+175     g++ -Wall -Werror -ansi -pedantic main.cpp
+177     g++ main2.cpp
+183     g++ -Wall -Werror -ansi -pedantic main2.cpp
 ```
 
-But wait a minute, that’s a bit silly to be printing blank lines.
-That doesn’t mean anything to us.
-What we want to know is exactly how many of these lines we have in our code.
+There are some flaws in this logic, but this should be a bit closer to what we had in mind.
 
-We can update our search command to this:
 
-```
-$ grep –c ‘^$’ examples/ex1.cpp
-```
-
-This command line will output this:
-
-```
-4
-```
 
 ###Including options
 
-We have already briefly mentioned the `-r` flag that allows `grep` to recursively search through directories.
+Earlier, we briefly mentioned the `-r` flag that allows `grep` to recursively search through directories.
 `grep` has many other options to choose from as well. 
-To include options in your command, just follow this format:
+To include these flags in your command, just follow this format:
 
 ```
 $ grep [options] ‘pattern’ filename
@@ -221,7 +198,7 @@ or
 $ grep –c –r ‘cout’ examples
 ```
 
-Both of these command lines will search through the example directory and count the number of matching lines. You will get this:
+Both of these command lines will search through the same files and output this:
 
 ```
 examples/ex1.cpp:3
@@ -229,14 +206,6 @@ examples/ex2.cpp:1
 ```
 
 These are only two of `grep`’s many options.
-You can browse through a complete list of these by visiting the [`grep`](http://linux.die.net/man/1/grep) man page.
-
-
-Whoa. 
-`grep` flags AND regular expressions?
-That’s right.
-You can use any combination of `grep`’s options, regular expressions, and other bash commands to narrow down your search to exactly what you are looking for.
-Think of the endless possibilities!
+For an official description of `grep` and all of its features, visit the [grep](http://linux.die.net/man/1/grep) man page.
 
 Happy searching! :]
-
